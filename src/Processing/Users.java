@@ -6,22 +6,9 @@ import Model.Store;
 
 public class Users {
 
-	private HashMap<String, User> logins = new HashMap<String, User>();
-	private CarRental rental;
+	private static HashMap<String, User> logins = RentalLoader.usersInformation();
 	
-	public Users() {
-		
-		loadUsers();
-		
-	}
-	
-	private void loadUsers() {
-		
-		// TODO: Use RentalLoader to get all users with their respective information
-		
-	}
-	
-	public User registerNewUser(String username, String password, Store workplace, int access) {
+	public static User registerNewUser(String username, String password, Store workplace, int access) {
 		
 		User created = new User(username, password, workplace, access);
 		logins.put(username, created);
@@ -29,7 +16,7 @@ public class Users {
 		
 	}
 	
-	public User loadUser(String username, String password) {
+	public static User loadUser(String username, String password) {
 		
 		User possibility = logins.get(username);
 		if (possibility.getPassword().equals(password)) return possibility;
@@ -37,10 +24,16 @@ public class Users {
 		
 	}
 	
-	public String[] getUsernames() {
+	public static String[] getUsernames() {
 		
 		return (String[]) logins.keySet().toArray();
 		
+	}
+
+	public static HashMap<String, User> getUsers() {
+
+		return logins;
+
 	}
 	
 }

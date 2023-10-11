@@ -14,7 +14,6 @@ public class View {
 	
 	View(int access, Store workplace, String login) {
 		
-		this.rental = new CarRental();
 		this.access = access;
 		this.workplace = workplace;
 		this.login = login;
@@ -29,7 +28,7 @@ public class View {
 		switch (access) {
 		
 			case 0:
-				System.out.println("1. Cambiar información personal");
+				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				selection = scan.nextByte();
 				switch (selection) {
@@ -40,6 +39,8 @@ public class View {
 				}
 		
 		}
+
+		scan.close();
 		
 	}
 

@@ -9,8 +9,7 @@ import Processing.User;
 
 public class UserSelection {
 	
-	static Users users = new Users();
-	static Scanner scan = new Scanner(System.in);
+	private static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		
@@ -39,7 +38,7 @@ public class UserSelection {
 		String username = scan.nextLine();
 		System.out.print("Ingrese su contraseña: ");
 		String password = scan.nextLine();
-		User current = users.loadUser(username, password);
+		User current = Users.loadUser(username, password);
 		if (current.equals(null)) System.out.println("Ingreso incorrecto!");
 		else initializeView(current);
 		
@@ -49,7 +48,7 @@ public class UserSelection {
 		
 		boolean user = true;
 		String username = "";
-		List<String> usernames = Arrays.asList(users.getUsernames());
+		List<String> usernames = Arrays.asList(Users.getUsernames());
 		while (user) {
 			System.out.print("Ingrese un nombre de usuario: ");
 			username = scan.nextLine();
@@ -59,7 +58,7 @@ public class UserSelection {
 		
 		System.out.print("Ingrese una contraseña para su cuenta: ");
 		String password = scan.nextLine();
-		User current = users.registerNewUser(username, password, null, (char) 0);
+		User current = Users.registerNewUser(username, password, null, (char) 0);
 		initializeView(current);
 		
 	}
