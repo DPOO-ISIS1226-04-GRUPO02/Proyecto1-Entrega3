@@ -8,6 +8,7 @@ import Model.Car;
 import Model.Store;
 import Model.Client;
 import Model.Insurance;
+import Model.Licence;
 
 
 public class CarRental {
@@ -22,13 +23,14 @@ public class CarRental {
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
-		String login) {
+		String login, int licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
 
 		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, cardNumber, cardExpiration, 
 			cardCode, cardOwner, cardAddress, login);
-		// TODO: Add Licence to person before adding
+		person.setLicence(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
+		// TODO: Verify that the licence, nor the card have yet expired
 		clients.put(login, person);
-		RentalWriter.addClient(person);
+		// RentalWriter.addClient(person);
 
 	}
 
