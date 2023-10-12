@@ -10,7 +10,7 @@ import Model.Store;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
-
+import Model.Rental;
 
 public class CarRental {
 
@@ -20,6 +20,7 @@ public class CarRental {
 	private static HashMap<String, Store> stores = RentalLoader.loadStores(inventory);
 	private static HashMap<String, Integer> categories = RentalLoader.loadCategories();
 	private static HashMap<String, Insurance> insurances = RentalLoader.loadInsurances();
+	private static HashMap<Car, ArrayList<Rental>> rentals = RentalLoader.loadRentals(cars);
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
