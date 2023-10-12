@@ -23,7 +23,7 @@ public class CarRental {
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
-		String login, int licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
+		String login, long licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
 
 		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, cardNumber, cardExpiration, 
 			cardCode, cardOwner, cardAddress, login);
