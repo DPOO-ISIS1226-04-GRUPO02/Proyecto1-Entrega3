@@ -32,8 +32,9 @@ public class Store {
 
     }
 
-    public boolean checkOpeningHours(Calendar current) {
+    public boolean checkOpeningHours() {
 
+        Calendar current = Calendar.getInstance();
         boolean truthValue = true;
         
         int opHour = openingTime.get(Calendar.HOUR);
