@@ -13,13 +13,7 @@ import Model.Insurance;
 public class RentalLoader {
 
     private static String mainFolderPath = "";
-    private static String clientsFolderPath = "";
-    private static String storesFolderPath = "";
-    private static String carsFolderPath = "";
-    private static String rentalsFolderPath = "";
-    private static String usersFolderPath = "";
-    private static String insurancesFolderPath = "";
-    // TODO: Initialize all values for the folders
+    // TODO: Define folder path
 
     public static HashMap<String, User> usersInformation() {
 

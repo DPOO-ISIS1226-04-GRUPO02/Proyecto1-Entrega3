@@ -44,6 +44,13 @@ public class CarRental {
 
 	}
 
+	public static Client getClient(String login) {
+
+		Client found = clients.get(login);
+		return found;
+
+	}
+
 	//TODO: Create all methods
 
 	public static void reserveCar(Client renter, Car vehicle, int base, Store origin, Store destination, Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
