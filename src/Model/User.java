@@ -1,6 +1,4 @@
-package Processing;
-
-import Model.Store;
+package Model;
 
 public class User {
 
@@ -9,7 +7,7 @@ public class User {
 	private Store workplace;
 	private int access;
 	
-	User (String username, String password, Store workplace, int access) {
+	public User (String username, String password, Store workplace, int access) {
 		
 		this.username = username;
 		this.password = password;

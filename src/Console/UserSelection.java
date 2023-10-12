@@ -1,11 +1,13 @@
 package Console;
 
 import java.util.Scanner;
+
+import Model.User;
+
 import java.util.Arrays;
 import java.util.List;
 
 import Processing.Users;
-import Processing.User;
 
 public class UserSelection {
 	
@@ -32,7 +34,7 @@ public class UserSelection {
 		
 	}
 	
-	public static void login() {
+	private static void login() {
 		
 		System.out.print("Ingrese su nombre de usuario: ");
 		String username = scan.nextLine();
@@ -44,7 +46,7 @@ public class UserSelection {
 		
 	}
 	
-	public static void register() {
+	private static void register() {
 		
 		boolean user = true;
 		String username = "";
@@ -65,7 +67,7 @@ public class UserSelection {
 	
 	private static void initializeView(User current) {
 		
-		View initialized = new View(current.getAccess(), current.getWorkplace(), current.getUsername());
+		View initialized = new View(current.getAccess(), current.getUsername());
 		initialized.optionSelection();
 		
 	}

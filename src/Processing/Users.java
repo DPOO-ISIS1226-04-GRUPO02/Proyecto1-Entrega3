@@ -3,6 +3,7 @@ package Processing;
 import java.util.HashMap;
 
 import Model.Store;
+import Model.User;
 
 public class Users {
 
