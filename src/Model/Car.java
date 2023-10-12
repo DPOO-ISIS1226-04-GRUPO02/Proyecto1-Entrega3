@@ -11,6 +11,7 @@ public class Car {
     private String color;
     private boolean isAutomatic;
     private int availableIn;
+    private String category;
 
     public Car(String brand, String plate, short model, String color, boolean isAutomatic, 
         int availableIn) {
@@ -77,6 +78,18 @@ public class Car {
         Calendar newDate = Calendar.getInstance();
         newDate.add(Calendar.DAY_OF_MONTH, availableIn);
         return newDate;
+
+    }
+
+    public String getCategory() {
+
+        return category;
+
+    }
+
+    public void setCategory(String category) {
+
+        this.category = category;
 
     }
 	

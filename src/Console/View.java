@@ -1,9 +1,11 @@
 package Console;
 
 import java.util.Scanner;
+import java.util.Calendar;
 
 import Processing.CarRental;
 import Model.Store;
+import Model.Client;
 
 public class View {
 	
@@ -34,7 +36,14 @@ public class View {
 				switch (selection) {
 				
 					case 1:
+						Client information = CarRental.getClient(login);
+						if (information.equals(null)) {
+
+							System.out.println("Debe crear su usuario...");
+
+							/* TODO: Add all parameters */;
 						
+						}
 				
 				}
 		

@@ -34,6 +34,13 @@ public class CarRental {
 
 	}
 
+	public static Client getClient(String login) {
+
+		Client found = clients.get(login);
+		return found;
+
+	}
+
 	//TODO: Create all methods
 	
 }
