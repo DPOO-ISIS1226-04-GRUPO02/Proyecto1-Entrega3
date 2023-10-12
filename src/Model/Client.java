@@ -71,22 +71,10 @@ public class Client {
 
     }
 
-    public void setDateBirth(Calendar date) {
-
-        this.dateBirth = date;
-        
-    }
-
     public String getNationality() {
 
         return nationality;
 
-    }
-
-    public void setNationality(String nationality) {
-
-        this.nationality = nationality;
-        
     }
 
     public String getIdPhotoPath() {
@@ -107,9 +95,9 @@ public class Client {
 
     }
 
-    public void setPayment(long phoneNumber, Calendar dateBirth, short code, String fullName, String email) {
+    public void setPayment(long cardNumber, Calendar expiration, short code, String cardOwner, String cardAddress) {
 
-        this.payment = new Payment(phoneNumber, dateBirth, code, fullName, email);
+        this.payment = new Payment(cardNumber, expiration, code, cardOwner, cardAddress);
 
     }
 
