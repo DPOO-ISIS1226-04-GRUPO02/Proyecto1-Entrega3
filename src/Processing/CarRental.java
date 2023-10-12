@@ -29,11 +29,29 @@ public class CarRental {
 			cardCode, cardOwner, cardAddress, login);
 		person.setLicence(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
 		// TODO: Verify that the licence, nor the card have yet expired
-		clients.put(login, person);
-		// RentalWriter.addClient(person);
+		Calendar expDate = (person.getLicence()).getExpiration();
+		Calendar currentDate = Calendar.getInstance();
+		if (expDate.after(currentDate) || expDate.equals(currentDate)){
+			clients.put(login, person);
+			// RentalWriter.addClient(person);
+
+		}
+
+		else{
+		
+		}
+		
 
 	}
 
 	//TODO: Create all methods
+
+	public static void reserveCar(Client renter, Car vehicle, int base, Store origin, Store destination, Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
+		byte currentStatus = vehicle.getStatus();
+		byte available = 0;
+		if (currentStatus == available){
+			
+		}
+	}
 	
 }
