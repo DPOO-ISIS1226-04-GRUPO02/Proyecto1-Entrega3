@@ -4,12 +4,12 @@ import java.util.Calendar;
 
 public class Licence {
 
-    private int number;
+    private long number;
     private String country;
     private Calendar expiration;
     private String photoPath;
 
-    public Licence(int number, String country, Calendar expiration, String photoPath) {
+    public Licence(long number, String country, Calendar expiration, String photoPath) {
 
         this.number = number;
         this.country = country;
@@ -18,7 +18,7 @@ public class Licence {
 
     }
 
-    public int getNumber() {
+    public long getNumber() {
 
         return number;
 
