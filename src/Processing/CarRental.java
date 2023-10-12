@@ -2,13 +2,11 @@ package Processing;
 
 import java.util.HashMap;
 import java.util.Scanner;
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
 import Model.Car;
 import Model.Store;
-import Model.User;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
@@ -22,7 +20,6 @@ public class CarRental {
 	private static HashMap<String, Store> stores = RentalLoader.loadStores(inventory);
 	private static HashMap<String, Integer> categories = RentalLoader.loadCategories();
 	private static HashMap<String, Insurance> insurances = RentalLoader.loadInsurances();
-	private static HashMap<String,User> users = Users.getUsers();
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
@@ -131,7 +128,10 @@ public class CarRental {
 			default:
 				System.out.println("Option not found.");
 				break;
+
 		}
+		scan.close();
+
 	}
 
 	public static Licence newLicence(long licenceNumber, String licenceCountry, Calendar licenceExpiration, 
