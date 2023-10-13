@@ -12,6 +12,7 @@ import Model.Client;
 import Model.Insurance;
 import Model.Licence;
 import Model.Rental;
+import Model.Extra;
 
 public class CarRental {
 
@@ -36,9 +37,7 @@ public class CarRental {
 			clients.put(login, person);
 			// RentalWriter.addClient(person);
 
-		}
-
-		else{
+		} else {
 		
 		}
 		
@@ -175,7 +174,7 @@ public class CarRental {
 				licenceExpiration.set(calendarValues[0], calendarValues[1], calendarValues[2], 0, 0, 0);
 				System.out.println("Ingrese la ubicación de la foto de su licencia (en el computador): ");
 				String licencePhotoPath = scan.nextLine(); 
-				CarRental.newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, login);
+				newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, login);
 				break;
 			default:
 				System.out.println("Option not found.");
@@ -218,14 +217,45 @@ public class CarRental {
 
 		Client person = getClient(login);
 		if (!person.getActiveRental().equals(null)) {
-			Rental activeRental = person.getActiveRental();
-			activeRental.setActive(true);
-			activeRental.getCar().setStatus((byte) 2);
-			activeRental.setPickUp(Calendar.getInstance());
+			Rental rental = person.getActiveRental();
+			Car car = rental.getCar();
+			rental.setActive(true);
+			car.setStatus((byte) 2);
+			rental.setPickUp(Calendar.getInstance());
+			rental.getOrigin().removeCar(car);
 		} else {
 			// TODO: Create a Rental in case there is none yet (Use reserveCar to speed process)
 		} 
 
 	}
+
+	public static void confirmReturn(String login, int days, String comments, int extraCharges, String employeeLogin, 
+		String employeePassword) {
+
+		Client person = getClient(login);
+		if (!person.getActiveRental().equals(null)) System.out.println("Este cliente no tiene una renta activa. ");
+		else {
+			Rental rental = person.getActiveRental();
+			rental.setActive(false);
+			rental.setReturn(Calendar.getInstance());
+			int total = rental.getFinalCharge();
+			Store destination = getStore(Users.loadUser(employeeLogin, employeePassword).getWorkplace());
+			if (!destination.equals(rental.getDestination())) rental.addExtra("Devuelto a tienda distinta", 
+				10000, "El carro fue devuelto a una tienda distinta de la que fue inicialmente planeada.");
+			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
+			ArrayList<Extra> extras = rental.getExtras();
+			for (Extra extra: extras) resultingString += String.format(" + %-20s %d/día", 
+				extra.getType() + ":", extra.getCost());
+			ArrayList<Insurance> insurances = rental.getInsurances();
+			for (Insurance insurance: insurances) resultingString += String.format(" + %-20s %d/día", 
+				insurance.getName() + ":", insurance.getCost());
+			Car car = rental.getCar();
+			car.setAvailableTime(days);
+			car.setStatus((byte) 0);
+			destination.addCar(car);
+			resultingString += String.format("El total final del alquiler es de %8d", total);
+		}
+
+	} 
 	
 }

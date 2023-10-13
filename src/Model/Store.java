@@ -87,4 +87,18 @@ public class Store {
 
     }
 
+    public void addCar(Car car) {
+
+        String category = car.getCategory();
+        inventory.get(category).add(car.getPlate());
+
+    }
+
+    public void removeCar(Car car) {
+
+        String category = car.getCategory();
+        inventory.get(category).remove(car.getPlate());
+        
+    }
+
 }

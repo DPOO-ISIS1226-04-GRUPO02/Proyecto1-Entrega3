@@ -3,29 +3,35 @@ package Processing;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import Model.Store;
 import Model.User;
 
 public class Users {
 
 	private static HashMap<String, User> logins = RentalLoader.usersInformation();
 	
+	public static User registerNewUser(String login, String password, int access, String workplace) {
+
+		User created = new User(login, password, access, workplace);
+		logins.put(password, created);
+		return created;
+
+	}
+
 	public static User registerNewUser(String login, String password, int access, String login2, String password2) {
 		
+		Scanner scan = new Scanner(System.in);
 		User user = loadUser(login2, password2);
-		Store workplace = null;
-		if (!user.equals(null)) {
-			workplace = user.getWorkplace();
-			if (workplace.equals(null)) {
-				Scanner scan = new Scanner(System.in);
-				System.out.println("¿A qué tienda desea asignar a esta persona?");
-				String workplaceName = scan.nextLine();
-				scan.close();
-				workplace = CarRental.getStore(workplaceName);
+		String workplace = user.getWorkplace();
+		if (workplace.equals(null)) {
+			System.out.println("Ingrese la tienda en la que va a trabajar esta persona: ");
+			while (CarRental.getStore(workplace).equals(null)) {
+				System.out.println("Esta tienda no se ha encontrado. Ingrese el nombre nuevamente: ");
+				workplace = scan.nextLine();
 			}
 		}
-		User created = new User(login, password, workplace, access);
+		User created = new User(login, password, access, workplace);
 		logins.put(login, created);
+		scan.close();
 		return created;
 		
 	}
