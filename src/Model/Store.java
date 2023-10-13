@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 public class Store {
@@ -9,14 +10,16 @@ public class Store {
     private Calendar openingTime;
     private Calendar closingTime;
     private byte openingDays;
+    private ArrayList<String> inventory;
 
-    public Store(String name, String location, Calendar opening, Calendar closing, byte openingDays) {
+    public Store(String name, String location, Calendar opening, Calendar closing, byte openingDays, ArrayList<String> inventory) {
 
         this.name = name;
         this.location = location;
         this.openingTime = opening;
         this.closingTime = closing;
         this.openingDays = openingDays;
+        this.inventory = inventory;
 
     }
 

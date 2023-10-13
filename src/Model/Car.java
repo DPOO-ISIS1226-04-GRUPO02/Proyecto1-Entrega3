@@ -10,17 +10,19 @@ public class Car {
     private short model;
     private String color;
     private boolean isAutomatic;
-    private int availableIn;
     private String category;
+    private Calendar availableIn;
 
-    public Car(String brand, String plate, short model, String color, boolean isAutomatic, 
-        int availableIn) {
+
+    public Car(String brand, String plate, short model, String color, boolean isAutomatic, String category, 
+        Calendar availableIn) {
 
         this.brand = brand;
         this.plate = plate;
         this.model = model;
         this.color = color;
         this.isAutomatic = isAutomatic;
+        this.category = category;
         this.availableIn = availableIn;
 
     }
@@ -75,21 +77,9 @@ public class Car {
 
     public Calendar getAvailableDate() {
 
-        Calendar newDate = Calendar.getInstance();
-        newDate.add(Calendar.DAY_OF_MONTH, availableIn);
-        return newDate;
+        // TODO: Finish the method
 
-    }
-
-    public String getCategory() {
-
-        return category;
-
-    }
-
-    public void setCategory(String category) {
-
-        this.category = category;
+        return Calendar.getInstance();
 
     }
 	
