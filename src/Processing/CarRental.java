@@ -80,6 +80,24 @@ public class CarRental {
 	public static Set<String> getCategories() {
 
 		return categories.keySet();
+
+	}
+
+	public static Set<Insurance> getInsurances() {
+
+		return (Set<Insurance>) insurances.values();
+
+	}
+
+	public static void addInsurance(String name, int cost, String specs) {
+
+		insurances.put(name, new Insurance(name, cost, specs, true));
+
+	}
+
+	public static void changeInsuranceStatus(String name, boolean status) {
+
+		insurances.get(name).setActive(status);
 		
 	}
 
