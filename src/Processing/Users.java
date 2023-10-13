@@ -1,6 +1,7 @@
 package Processing;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 import Model.Store;
 import Model.User;
@@ -9,10 +10,17 @@ public class Users {
 
 	private static HashMap<String, User> logins = RentalLoader.usersInformation();
 	
-	public static User registerNewUser(String username, String password, Store workplace, int access) {
+	public static User registerNewUser(String login, String password, int access, String login2, String password2) {
 		
-		User created = new User(username, password, workplace, access);
-		logins.put(username, created);
+		Store workplace = loadUser(login2, password2).getWorkplace();
+		if (workplace.equals(null)) {
+			Scanner scan = new Scanner(System.in);
+			System.out.println("¿A qué tienda desea asignar a esta persona?");
+			String workplaceName = scan.nextLine();
+			workplace = CarRental.getStore(workplaceName);
+		}
+		User created = new User(login, password, workplace, access);
+		logins.put(login, created);
 		return created;
 		
 	}

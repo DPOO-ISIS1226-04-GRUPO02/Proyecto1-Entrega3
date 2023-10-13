@@ -67,7 +67,7 @@ public class UserSelection {
 	
 	private static void initializeView(User current) {
 		
-		View initialized = new View(current.getAccess(), current.getUsername());
+		View initialized = new View(current.getAccess(), current.getUsername(), current.getPassword());
 		initialized.optionSelection();
 		
 	}
