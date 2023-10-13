@@ -11,11 +11,11 @@ public class Car {
     private String color;
     private boolean isAutomatic;
     private String category;
-    private Calendar availableIn;
+    private int availableIn;
 
 
     public Car(String brand, String plate, short model, String color, boolean isAutomatic, String category, 
-        Calendar availableIn) {
+        int availableIn) {
 
         this.brand = brand;
         this.plate = plate;
@@ -69,6 +69,12 @@ public class Car {
 
     }
 
+    public String getCategory() {
+
+        return category;
+
+    }
+
     public void setAvailableTime(int days) {
 
         this.availableIn = days;
@@ -78,8 +84,6 @@ public class Car {
     public Calendar getAvailableDate() {
 
         // TODO: Finish the method
-
-        return Calendar.getInstance();
 
     }
 	
