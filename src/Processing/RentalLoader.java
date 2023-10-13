@@ -17,6 +17,7 @@ import Model.Client;
 import Model.Car;
 import Model.Rental;
 import Model.Store;
+import Model.User;
 import Model.Insurance;
 
 public class RentalLoader {
