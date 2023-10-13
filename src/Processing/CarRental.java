@@ -23,11 +23,11 @@ public class CarRental {
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
-		String login, int licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
+		String login, long licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
 
 		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, cardNumber, cardExpiration, 
 			cardCode, cardOwner, cardAddress, login);
-		person.setLicence(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
+		person.setLicence(newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null));
 		// TODO: Verify that the licence, nor the card have yet expired
 		Calendar expDate = (person.getLicence()).getExpiration();
 		Calendar currentDate = Calendar.getInstance();
@@ -48,6 +48,15 @@ public class CarRental {
 
 		Client found = clients.get(login);
 		return found;
+
+	}
+
+	public static Licence newLicence(long licenceNumber, String licenceCountry, Calendar licenceExpiration, 
+		String licencePhotoPath, String login) {
+			
+		Licence created = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
+		if (!login.equals(null)) getClient(login).setLicence(created);
+		return created;
 
 	}
 
