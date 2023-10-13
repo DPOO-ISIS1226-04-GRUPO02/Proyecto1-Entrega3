@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Set;
 
 import Model.Car;
 import Model.Store;
@@ -46,8 +47,7 @@ public class CarRental {
 
 	private static Client getClient(String login) {
 
-		Client found = clients.get(login);
-		return found;
+		return clients.get(login);
 
 	}
 
@@ -57,6 +57,30 @@ public class CarRental {
 		if (client.equals(null)) return false;
 		else return true;
 
+	}
+
+	private static Car getCar(String plate) {
+
+		return cars.get(plate);
+
+	}
+
+	public static Store getStore(String storeName) {
+
+		return stores.get(storeName);
+
+	}
+
+	private static int getPriceCategory(String category) {
+
+		return categories.get(category);
+
+	}
+
+	public static Set<String> getCategories() {
+
+		return categories.keySet();
+		
 	}
 
 	public static void modifyClient(String login) {
@@ -155,12 +179,35 @@ public class CarRental {
 
 	//TODO: Create all methods
 
-	public static void reserveCar(Client renter, Car vehicle, int base, Store origin, Store destination, Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
-		byte currentStatus = vehicle.getStatus();
-		byte available = 0;
-		if (currentStatus == available){
-			
+	public static void reserveCar(Client renter, String category, int base, Store origin, Store destination, Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
+		ArrayList<String> categoryList = origin.getInventory().get(category);
+		int i = 0;
+		boolean found = false;
+		Car reservation = null;
+		while (!found && i < categoryList.size()) {
+			String plate = categoryList.get(i);
+			byte status = getCar(plate).getStatus();
+			if (status == 0) {
+				found = true;
+				reservation = getCar(plate);
+				reservation.setStatus((byte)1);
+			}
 		}
+		// TODO: Use reserved Car in new Rental, as well as associating the Rental to the Client
+	}
+
+	public static void confirmPickUp(String login) {
+
+		Client person = getClient(login);
+		if (!person.getActiveRental().equals(null)) {
+			Rental activeRental = person.getActiveRental();
+			activeRental.setActive(true);
+			activeRental.getCar().setStatus((byte) 2);
+			activeRental.setPickUp(Calendar.getInstance());
+		} else {
+			// TODO: Create a Rental in case there is none yet (Use reserveCar to speed process)
+		} 
+
 	}
 	
 }

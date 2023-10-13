@@ -20,6 +20,7 @@ public class Users {
 				Scanner scan = new Scanner(System.in);
 				System.out.println("¿A qué tienda desea asignar a esta persona?");
 				String workplaceName = scan.nextLine();
+				scan.close();
 				workplace = CarRental.getStore(workplaceName);
 			}
 		}

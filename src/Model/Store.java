@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class Store {
 
@@ -10,9 +11,10 @@ public class Store {
     private Calendar openingTime;
     private Calendar closingTime;
     private byte openingDays;
-    private ArrayList<String> inventory;
+    private HashMap<String, ArrayList<String>> inventory;
 
-    public Store(String name, String location, Calendar opening, Calendar closing, byte openingDays, ArrayList<String> inventory) {
+    public Store(String name, String location, Calendar opening, Calendar closing, byte openingDays, 
+        HashMap<String, ArrayList<String>> inventory) {
 
         this.name = name;
         this.location = location;
@@ -32,6 +34,12 @@ public class Store {
     public String getLocation() {
 
         return location;
+
+    }
+
+    public HashMap<String, ArrayList<String>> getInventory() {
+
+        return inventory;
 
     }
 

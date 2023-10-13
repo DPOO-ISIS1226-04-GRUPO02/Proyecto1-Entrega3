@@ -83,7 +83,9 @@ public class Car {
 
     public Calendar getAvailableDate() {
 
-        // TODO: Finish the method
+        Calendar current = Calendar.getInstance();
+        current.add(Calendar.DAY_OF_MONTH, availableIn);
+        return current;
 
     }
 	
