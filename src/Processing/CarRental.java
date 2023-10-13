@@ -16,8 +16,7 @@ public class CarRental {
 
 	private static HashMap<String, Client> clients = RentalLoader.loadClients();
 	private static HashMap<String, Car> cars = RentalLoader.loadCars();
-	private static HashMap<Store, HashMap<String, ArrayList<Car>>> inventory = RentalLoader.loadInventory(cars);
-	private static HashMap<String, Store> stores = RentalLoader.loadStores(inventory);
+	private static HashMap<String, Store> stores = RentalLoader.loadStores();
 	private static HashMap<String, Integer> categories = RentalLoader.loadCategories();
 	private static HashMap<String, Insurance> insurances = RentalLoader.loadInsurances();
 	private static HashMap<Car, ArrayList<Rental>> rentals = RentalLoader.loadRentals(cars);

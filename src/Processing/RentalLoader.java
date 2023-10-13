@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -80,7 +81,9 @@ public class RentalLoader {
             Date availableInDate = (Date)formatter.parse(strAvailableIn);
             availableIn.setTime(availableInDate);
 
-            Car newCar = new Car(brand, plate, model, color, isAutomatic, plate, availableIn);
+            long daysBetween = ChronoUnit.DAYS.between(availableIn.toInstant(), Calendar.getInstance().toInstant());
+
+            Car newCar = new Car(brand, plate, model, color, isAutomatic, plate, (int) daysBetween);
             cars.put(plate, newCar);
             linea = br.readLine();
 
@@ -96,7 +99,7 @@ public class RentalLoader {
         HashMap<String, Store> stores = new HashMap<String, Store>();
 
         //lectura de la carpeta con los distintos .txt"
-        String folderPath = "ruta";
+        String folderPath = ruta;
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 

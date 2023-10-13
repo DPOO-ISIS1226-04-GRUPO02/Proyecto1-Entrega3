@@ -12,12 +12,16 @@ public class Users {
 	
 	public static User registerNewUser(String login, String password, int access, String login2, String password2) {
 		
-		Store workplace = loadUser(login2, password2).getWorkplace();
-		if (workplace.equals(null)) {
-			Scanner scan = new Scanner(System.in);
-			System.out.println("¿A qué tienda desea asignar a esta persona?");
-			String workplaceName = scan.nextLine();
-			workplace = CarRental.getStore(workplaceName);
+		User user = loadUser(login2, password2);
+		Store workplace = null;
+		if (!user.equals(null)) {
+			workplace = user.getWorkplace();
+			if (workplace.equals(null)) {
+				Scanner scan = new Scanner(System.in);
+				System.out.println("¿A qué tienda desea asignar a esta persona?");
+				String workplaceName = scan.nextLine();
+				workplace = CarRental.getStore(workplaceName);
+			}
 		}
 		User created = new User(login, password, workplace, access);
 		logins.put(login, created);

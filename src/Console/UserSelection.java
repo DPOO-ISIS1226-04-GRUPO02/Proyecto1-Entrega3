@@ -60,7 +60,7 @@ public class UserSelection {
 		
 		System.out.print("Ingrese una contraseña para su cuenta: ");
 		String password = scan.nextLine();
-		User current = Users.registerNewUser(username, password, null, (char) 0);
+		User current = Users.registerNewUser(username, password, 0, null, null);
 		initializeView(current);
 		
 	}
