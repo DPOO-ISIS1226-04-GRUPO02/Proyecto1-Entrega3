@@ -22,29 +22,31 @@ public class View {
 		
 	}
 	
-	public void optionSelection() {
+	public boolean optionSelection() {
 		
 		Scanner scan = new Scanner(System.in);
-		int selection;
+		int selection = 0;
 		switch (access) {
-		
 			case 0:
+				System.out.println("0. Salir de la aplicación");
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				selection = scan.nextInt();
 				scan.close();
-				if (0 < selection && selection <= 2) runOptions(selection);
+				if (0 <= selection && selection <= 2) runOptions(selection);
 				break;
 			case 1:
+				System.out.println("0. Salir de la aplicación");
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				System.out.println("3. Confirmar recogida de un carro");
 				System.out.println("4. Confirmar devolución de un carro");
 				selection = scan.nextInt();
 				scan.close();
-				if (0 < selection && selection <= 4) runOptions(selection);
+				if (0 <= selection && selection <= 4) runOptions(selection);
 				break;
 			case 2:
+				System.out.println("0. Salir de la aplicación");
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				System.out.println("3. Confirmar recogida de un carro");
@@ -52,9 +54,10 @@ public class View {
 				System.out.println("5. Registrar nuevo empleado");
 				selection = scan.nextInt();
 				scan.close();
-				if (0 < selection && selection <= 5) runOptions(selection);
+				if (0 <= selection && selection <= 5) runOptions(selection);
 				break;
 			case 3:
+				System.out.println("0. Salir de la aplicación");
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				System.out.println("3. Confirmar recogida de un carro");
@@ -72,10 +75,11 @@ public class View {
 				System.out.println("15. Generar historial de alquileres para un carro");
 				selection = scan.nextInt();
 				scan.close();
-				if (0 < selection && selection <= 15) runOptions(selection);
+				if (0 <= selection && selection <= 15) runOptions(selection);
 				break;
-				
 		}
+		if (selection == 0) return false;
+		else return true;
 		
 	}
 
@@ -86,6 +90,9 @@ public class View {
 		List<String> usernames = Arrays.asList(Users.getUsernames());
 		if (selection == 0) selection = scan.nextInt();
 		switch (selection) {	
+			case 0:
+				System.out.println("Gracias por usar la aplicación.");
+				break;
 			case 1:
 				if (!CarRental.clientExists(login)) {
 					System.out.println("Debe crear su usuario...");
@@ -211,6 +218,7 @@ public class View {
 				Users.registerNewUser(managerLogin, managerPassword, 2, storeName);
 				break;
 			case 7:
+				
 			case 8:
 			case 9:
 			case 10:
