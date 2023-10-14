@@ -11,6 +11,7 @@ import Model.Store;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
+import Model.Payment;
 import Model.Rental;
 import Model.Extra;
 
@@ -21,14 +22,14 @@ public class CarRental {
 	private static HashMap<String, Store> stores = RentalLoader.loadStores();
 	private static HashMap<String, Integer> categories = RentalLoader.loadCategories();
 	private static HashMap<String, Insurance> insurances = RentalLoader.loadInsurances();
-	private static HashMap<Car, ArrayList<Rental>> rentals = RentalLoader.loadRentals(cars);
+	private static HashMap<Car, ArrayList<Rental>> rentals = RentalLoader.loadRentals();
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
 		String login, long licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
 
-		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, cardNumber, cardExpiration, 
-			cardCode, cardOwner, cardAddress, login);
+		Payment payment = new Payment(licenceNumber, licenceExpiration, cardCode, cardOwner, cardAddress);
+		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, payment, login);
 		person.setLicence(newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null));
 		// TODO: Verify that the licence, nor the card have yet expired
 		Calendar expDate = (person.getLicence()).getExpiration();
@@ -236,8 +237,8 @@ public class CarRental {
 			return;
 		}
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
-			Rental newRental = new Rental(person, reservation, base, originStore, destinationStore, pickUpdateTime, 
-				returnDateTime, secondaryLicence);
+			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
+				destinationStore, pickUpdateTime, returnDateTime, secondaryLicence, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
@@ -257,21 +258,21 @@ public class CarRental {
 				System.out.println("Nombre de usuario no encontrado!"); 
 				System.out.println("Ingrese de nuevo el nombre de usuario o 'stop' si quiere salir: ");
 				clientLogin = scan.nextLine();
-				if (clientLogin.equals("stop")) return;
+				if (clientLogin.equals("stop")) scan.close(); return;
 			}
 			System.out.println("Ingrese la categoría de la cual desea alquilar el carro: ");
 			String category = scan.nextLine();
 			while (!categories.containsKey(category)) {
 				System.out.println("Esta categoría no existe en nuestro sistema. Ingrese una nuevamente o 'stop' para salir: ");
 				category = scan.nextLine();
-				if (category.equals("stop")) return;
+				if (category.equals("stop")) scan.close(); return;
 			}
 			System.out.println("¿A qué tienda desea devolver el carro luego del alquiler?: ");
 			String destination = scan.nextLine();
 			while (!storeExists(destination)) {
 				System.out.println("Esta tienda no está registrada en nuestro sistema. Ingrese otra o 'stop' para salir: ");
 				destination = scan.nextLine();
-				if (destination.equals("stop")) return;
+				if (destination.equals("stop")) scan.close(); return;
 			}
 			// TODO: Finish Rental formalization
 		} 
@@ -281,6 +282,7 @@ public class CarRental {
 		car.setStatus((byte) 2);
 		rental.setPickUp(Calendar.getInstance());
 		rental.getOrigin().removeCar(car);
+		scan.close();
 
 	}
 
@@ -295,8 +297,10 @@ public class CarRental {
 			rental.setReturn(Calendar.getInstance());
 			int total = rental.getFinalCharge();
 			Store destination = getStore(Users.loadUser(employeeLogin, employeePassword).getWorkplace());
-			if (!destination.equals(rental.getDestination())) rental.addExtra("Devuelto a tienda distinta", 
-				10000, "El carro fue devuelto a una tienda distinta de la que fue inicialmente planeada.");
+			if (!destination.equals(rental.getDestination())) 
+				rental.addExtra("Devuelto a tienda distinta", 
+				0000 /* TODO: Change value */,
+				"El carro fue devuelto a una tienda distinta de la que fue inicialmente planeada.");
 			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
 			ArrayList<Extra> extras = rental.getExtras();
 			for (Extra extra: extras) resultingString += String.format(" + %-20s %d/día", 

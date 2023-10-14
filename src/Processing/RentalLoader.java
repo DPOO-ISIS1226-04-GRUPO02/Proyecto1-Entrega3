@@ -178,7 +178,7 @@ public class RentalLoader {
 
     }
 
-    public static HashMap<String, Client> loadClients() {
+    public static HashMap<String, Client> loadClients() throws IOException, ParseException {
 
         HashMap<String, Client> clients = new HashMap<String, Client>();
 
@@ -281,7 +281,7 @@ public class RentalLoader {
                     dateBirth.setTime(dateBirthDate);
 
                     Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newPayment, login);
-                    newClient.setLicence(newLicence(number, country, expirationLicence, photoPath, login));
+                    newClient.setLicence(CarRental.newLicence(number, country, expirationLicence, photoPath, login));
                     clients.put(login, newClient);
 
                     linea = br.readLine();
@@ -521,12 +521,11 @@ public class RentalLoader {
                     Store rentedFrom= stores.get(rentedFromStr);
                     Store returnTo = stores.get(returnToStr);
 
-                    Retal newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras);
-                    rentals.put(car, newRental);
-
+                    Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras);
+                    if (rentals.get(car).equals(null)) rentals.put(car, new ArrayList<Rental>()); 
+                    rentals.get(car).add(newRental);
 
                     linea1 = br1.readLine();  
-
 
                 }
                 br1.close();  

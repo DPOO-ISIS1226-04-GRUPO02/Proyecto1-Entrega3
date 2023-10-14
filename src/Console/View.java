@@ -227,7 +227,7 @@ public class View {
 			case 13:
 			case 14:
 			case 15:
-			// TODO: Add general manger options
+				// TODO: Add the rest of the general manger options
 			default:
 				System.out.println("Option not found.");
 				break;

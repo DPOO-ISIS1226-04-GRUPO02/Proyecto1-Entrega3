@@ -15,7 +15,8 @@ public class Client {
     private String login;
     private Rental active = null;
 
-    public Client(String name, long phone, String email, Calendar dateBirth, String nationality, String idPhotoPath, Payment payment,  String login) {
+    public Client(String name, long phone, String email, Calendar dateBirth, String nationality, String idPhotoPath, 
+        Payment payment,  String login) {
         
         this.fullName = name;
         this.phoneNumber = phone;
