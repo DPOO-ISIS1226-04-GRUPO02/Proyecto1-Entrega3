@@ -1,0 +1,55 @@
+Toyota,ABC123,Corolla,Rojo,1,Compacto
+Honda,XYZ456,Civic,Azul,0,Compacto
+Ford,DEF789,Focus,Plateado,1,Compacto
+Chevrolet,GHI101,Malibu,Negro,0,Sedán
+Volkswagen,JKL234,Golf,Blanco,1,Compacto
+Nissan,MNO567,Sentra,Gris,0,Sedán
+BMW,PQR890,Serie 3,Azul,1,Lujoso
+Mercedes-Benz,STU123,Clase C,Plateado,1,Lujoso
+Audi,VWX456,A4,Negro,0,Lujoso
+Hyundai,YZA789,Elantra,Rojo,1,Sedán
+Kia,BCD345,Forte,Blanco,0,Sedán
+Subaru,EFG678,Impreza,Verde,1,Compacto
+Mazda,HIJ901,Mazda3,Azul,0,Compacto
+Tesla,KLM234,Model 3,Rojo,1,Eléctrico
+Dodge,NOP567,Charger,Negro,0,Deportivo
+Jeep,QRS890,Wrangler,Verde,1,Todoterreno
+GMC,TUV123,Terrain,Gris,0,SUV
+Chrysler,WXY456,300,Blanco,1,Sedán
+Acura,ZAB789,TLX,Plateado,0,Lujoso
+Subaru,CDE345,Outback,Azul,1,SUV
+Toyota,FGH678,Camry,Rojo,0,Sedán
+Honda,IJK901,Accord,Negro,1,Sedán
+Ford,LMN234,Mustang,Amarillo,0,Deportivo
+Chevrolet,OPQ567,Cruze,Gris,1,Compacto
+Volkswagen,RST890,Passat,Blanco,0,Sedán
+Nissan,UVW123,Altima,Plateado,1,Sedán
+BMW,XYZ456,Serie 5,Azul,0,Lujoso
+Mercedes-Benz,ABC789,Clase E,Negro,1,Lujoso
+Audi,DEF345,A6,Rojo,0,Lujoso
+Hyundai,GHI678,Sonata,Gris,1,Sedán
+Kia,JKL901,Optima,Blanco,0,Sedán
+Subaru,MNO234,Legacy,Plateado,1,Sedán
+Mazda,PQR567,Mazda6,Azul,0,Compacto
+Tesla,STU890,Model S,Rojo,1,Eléctrico
+Dodge,VWX123,Challenger,Negro,0,Deportivo
+Jeep,YZA456,Grand Cherokee,Verde,1,SUV
+GMC,BCD789,Acadia,Gris,0,SUV
+Chrysler,EFG345,Pacifica,Plateado,1,Minivan
+Acura,HIJ678,RDX,Negro,0,SUV
+Subaru,KLM901,Crosstrek,Naranja,1,SUV
+Toyota,NOP234,4Runner,Gris,0,Todoterreno
+Honda,QRS567,HR-V,Verde,1,SUV
+Ford,TUV890,Escape,Plateado,0,SUV
+Chevrolet,WXY123,Equinox,Rojo,1,SUV
+Volkswagen,ZAB456,Tiguan,Blanco,0,SUV
+Nissan,CDE789,Rogue,Negro,1,SUV
+BMW,FGH678,X3,Azul,0,SUV
+Mercedes-Benz,IJK901,GLC,Plateado,1,SUV
+Audi,LMN234,Q5,Gris,0,SUV
+Hyundai,OPQ567,Tucson,Rojo,1,SUV
+Ferrari,FER001,488 Spider,Rojo,1,Deportivo
+Ferrari,FER002,812 Superfast,Amarillo,1,Deportivo
+Ferrari,FER003,F8 Tributo,Blanco,1,Deportivo
+Ferrari,FER004,Portofino,Azul,1,Deportivo
+Ferrari,FER005,LaFerrari,Negro,1,Superdeportivo
