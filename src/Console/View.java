@@ -1,6 +1,7 @@
 package Console;
 
 import java.util.Scanner;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -172,7 +173,11 @@ public class View {
 			case 3:
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
 				clientLogin = scan.nextLine();
-				CarRental.confirmPickUp(clientLogin);
+				try {
+					CarRental.confirmPickUp(clientLogin);
+				} catch (ParseException pe) {
+					System.out.println("Se ha encontrado un error con el formato de la fecha " + pe);
+				}
 				break;
 			case 4:
 				System.out.println("Ingrese el nombre de usuario del cliente: ");

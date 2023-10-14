@@ -1,5 +1,7 @@
 package Processing;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -7,7 +9,13 @@ import Model.User;
 
 public class Users {
 
-	private static HashMap<String, User> logins = RentalLoader.usersInformation();
+	private static HashMap<String, User> logins;
+
+	public static void loadUsers() throws IOException, ParseException {
+
+		logins = RentalLoader.usersInformation();
+
+	}
 	
 	public static User registerNewUser(String login, String password, int access, String workplace) {
 

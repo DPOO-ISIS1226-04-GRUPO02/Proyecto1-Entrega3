@@ -2,8 +2,13 @@ package Processing;
 
 import java.util.HashMap;
 import java.util.Scanner;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 
 import Model.Car;
@@ -17,12 +22,23 @@ import Model.Extra;
 
 public class CarRental {
 
-	private static HashMap<String, Client> clients = RentalLoader.loadClients();
-	private static HashMap<String, Car> cars = RentalLoader.loadCars();
-	private static HashMap<String, Store> stores = RentalLoader.loadStores();
-	private static HashMap<String, Integer> categories = RentalLoader.loadCategories();
-	private static HashMap<String, Insurance> insurances = RentalLoader.loadInsurances();
-	private static HashMap<Car, ArrayList<Rental>> rentals = RentalLoader.loadRentals();
+	private static HashMap<String, Client> clients;
+	private static HashMap<String, Car> cars;
+	private static HashMap<String, Store> stores;
+	private static HashMap<String, Integer> categories;
+	private static HashMap<String, Insurance> insurances;
+	private static HashMap<Car, ArrayList<Rental>> rentals;
+
+	public static void loadCarRental() throws IOException, ParseException {
+
+		clients = RentalLoader.loadClients();
+		cars = RentalLoader.loadCars();
+		stores = RentalLoader.loadStores();
+		categories = RentalLoader.loadCategories();
+		insurances = RentalLoader.loadInsurances();
+		rentals = RentalLoader.loadRentals();
+
+	}
 
 	public static void registerNewClient(String name, long phone, String email, Calendar dateBirth, String nationality, 
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
@@ -42,7 +58,6 @@ public class CarRental {
 		
 		}
 		
-
 	}
 
 	private static Client getClient(String login) {
@@ -246,7 +261,7 @@ public class CarRental {
 		
 	}
 
-	public static void confirmPickUp(String login) {
+	public static void confirmPickUp(String login) throws ParseException {
 
 		Scanner scan = new Scanner(System.in);
 		Client person = getClient(login);
@@ -274,8 +289,27 @@ public class CarRental {
 				destination = scan.nextLine();
 				if (destination.equals("stop")) scan.close(); return;
 			}
-			// TODO: Finish Rental formalization
-		} 
+			System.out.println("Ingrese la fecha en que se espera que se regrese el carro a la tienda (AAAA-MM-DD): ");
+			String returnDateString = scan.nextLine();
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar returnDateTime = Calendar.getInstance();
+            Date availableInDate = (Date)formatter.parse(returnDateString);
+            returnDateTime.setTime(availableInDate);
+			System.out.println("¿Habrá un segundo conductor para este alquiler? (Y/N): ");
+			String second = scan.nextLine();
+			if (second.equals("Y")) {
+				System.out.println("Ingrese el número de licencia del segundo conductor: ");
+				long licenceNumber = scan.nextLong();
+				System.out.println("Ingrese el país en que se expidieo la licencia del conductor: ");
+				String licenceCountry = scan.nextLine();
+				System.out.println("Ingrese la fecha de vencimiento de la licencia de conducción (AAAA-MM-DD): ");
+				String expDateString = scan.nextLine();
+				Calendar licenceExpirationDate = Calendar.getInstance();
+				Date licenceExpDate = (Date) formatter.parse(expDateString);
+				licenceExpirationDate.setTime(licenceExpDate);
+
+			}
+		}
 		Rental rental = person.getActiveRental();
 		Car car = rental.getCar();
 		rental.setActive(true);

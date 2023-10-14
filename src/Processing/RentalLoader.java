@@ -122,8 +122,6 @@ public class RentalLoader {
 
     public static HashMap<String, User> usersInformation() throws IOException, ParseException {
 
-        HashMap<String,Store> stores = loadStores();
-
         HashMap<String, User> users = new HashMap<String, User>();
         BufferedReader br = new BufferedReader(new FileReader("./data/users.txt"));
 		String linea = br.readLine();
@@ -134,16 +132,11 @@ public class RentalLoader {
            String username = partes[0];
            String password = partes[1];
            int access = Integer.parseInt(partes[2]);
-           String workplaceSTr = partes[3];
-
-           //cambiar workplace a objeto
-           Store workplace = stores.get(workplaceSTr);
-
+           String workplace = partes[3];
            User newUser= new User(username, password, access, workplace);
            users.put(username, newUser);
 
            linea = br.readLine();
-
 
         }
         

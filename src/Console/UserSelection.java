@@ -4,9 +4,12 @@ import java.util.Scanner;
 
 import Model.User;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 
+import Processing.CarRental;
 import Processing.Users;
 
 public class UserSelection {
@@ -15,6 +18,13 @@ public class UserSelection {
 
 	public static void main(String[] args) {
 		
+		try {
+			Users.loadUsers();
+		} catch (ParseException pe) {
+			System.out.println("Se ha encontrado un error cargando los usuarios: " + pe);
+		} catch (IOException ioe) {
+			System.out.println("Se he encontrado un error con el acceso al directorio de usuarios: " + ioe);
+		}
 		System.out.println("Iniciar sesión o registrar nuevo usuario.");
 		System.out.println("1. Iniciar Sesión\n2. Registrar\n3. Cerrar");
 		boolean loop = true;
@@ -30,7 +40,6 @@ public class UserSelection {
 					System.out.println("Ingrese un número entre 1 y 3."); break;
 			}
 		}
-		System.out.println("Gracias por usar la aplicación.");
 		
 	}
 	
@@ -67,8 +76,16 @@ public class UserSelection {
 	
 	private static void initializeView(User current) {
 		
+		try {
+			CarRental.loadCarRental();
+		} catch (ParseException pe) {
+			System.out.println("Se ha encontrado un problema con el formato de carga de los archivos: " + pe);
+		} catch (IOException ioe) {
+			System.out.println("Se ha encontrado un problema con el acceso al directorio de archivos: " + ioe);
+		}
 		View initialized = new View(current.getAccess(), current.getUsername(), current.getPassword());
-		initialized.optionSelection();
+		boolean truth = true;
+		while (truth) truth = initialized.optionSelection();
 		
 	}
 
