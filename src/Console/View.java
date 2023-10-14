@@ -174,7 +174,7 @@ public class View {
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
 				clientLogin = scan.nextLine();
 				try {
-					CarRental.confirmPickUp(clientLogin);
+					CarRental.confirmPickUp(clientLogin, Users.loadUser(login, password).getWorkplace());
 				} catch (ParseException pe) {
 					System.out.println("Se ha encontrado un error con el formato de la fecha " + pe);
 				}

@@ -221,7 +221,7 @@ public class CarRental {
 		String licencePhotoPath, String login) {
 			
 		Licence created = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
-		if (!login.equals(null)) getClient(login).setLicence(created);
+		if (clientExists(login)) getClient(login).setLicence(created);
 		return created;
 
 	}
@@ -261,7 +261,7 @@ public class CarRental {
 		
 	}
 
-	public static void confirmPickUp(String login) throws ParseException {
+	public static void confirmPickUp(String login, String origin) throws ParseException {
 
 		Scanner scan = new Scanner(System.in);
 		Client person = getClient(login);
@@ -297,6 +297,7 @@ public class CarRental {
             returnDateTime.setTime(availableInDate);
 			System.out.println("¿Habrá un segundo conductor para este alquiler? (Y/N): ");
 			String second = scan.nextLine();
+			Licence secondLicence = null;
 			if (second.equals("Y")) {
 				System.out.println("Ingrese el número de licencia del segundo conductor: ");
 				long licenceNumber = scan.nextLong();
@@ -307,8 +308,11 @@ public class CarRental {
 				Calendar licenceExpirationDate = Calendar.getInstance();
 				Date licenceExpDate = (Date) formatter.parse(expDateString);
 				licenceExpirationDate.setTime(licenceExpDate);
-
+				System.out.println("Ingrese el path para obtener la foto de la licencia de conducción (.png únicamente): ");
+				String licencePhotoPath = scan.nextLine();
+				secondLicence = newLicence(licenceNumber, licenceCountry, licenceExpirationDate, licencePhotoPath, null);
 			}
+			reserveCar(login, category, getPriceCategory(category), origin, destination, Calendar.getInstance(), returnDateTime, secondLicence);
 		}
 		Rental rental = person.getActiveRental();
 		Car car = rental.getCar();
