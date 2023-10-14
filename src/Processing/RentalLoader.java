@@ -148,7 +148,7 @@ public class RentalLoader {
                     photoPath= "./data/clients/"+logIn+"/licence.JPG"
 
                     //cambiar fecha string a Calendar
-                    DateFormat formatter = new SimpleDateFormat();
+                    DateFormat formatter = new SimpleDateFormat("yy-MM");
                     expirationLicence = Calendar.getInstance();
 
                     Date expirationLicenceDate = (Date)formatter.parse(strExpirationLicence);
