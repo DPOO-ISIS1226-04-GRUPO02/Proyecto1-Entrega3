@@ -3,7 +3,6 @@ package Processing;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -13,7 +12,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Set;
 
 import Model.Client;
 import Model.Extra;
@@ -24,7 +22,6 @@ import Model.User;
 import Model.Insurance;
 import Model.Licence;
 import Model.Payment;
-import Processing.CarRental;
 
 public class RentalLoader {
 
