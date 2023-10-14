@@ -52,7 +52,7 @@ public class CarRental {
 
 	public static boolean clientExists(String login) {
 
-		Client client = CarRental.getClient(login);
+		Client client = getClient(login);
 		if (client.equals(null)) return false;
 		else return true;
 
@@ -64,9 +64,25 @@ public class CarRental {
 
 	}
 
+	private static boolean carExists(String plate) {
+
+		Car car = getCar(plate);
+		if (car.equals(null)) return false;
+		else return true;
+
+	}
+
 	public static Store getStore(String storeName) {
 
 		return stores.get(storeName);
+
+	}
+
+	private static boolean storeExists(String name) {
+
+		Store store = getStore(name);
+		if (store.equals(null)) return false;
+		else return true;
 
 	}
 
@@ -194,10 +210,13 @@ public class CarRental {
 
 	}
 
-	//TODO: Create all methods
-
-	public static void reserveCar(Client renter, String category, int base, Store origin, Store destination, Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
-		ArrayList<String> categoryList = origin.getInventory().get(category);
+	public static void reserveCar(String renter, String category, int base, String origin, String destination,
+		Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
+		
+		Store originStore = getStore(origin);
+		Store destinationStore = getStore(destination);
+		Client person = getClient(renter);
+		ArrayList<String> categoryList = originStore.getInventory().get(category);
 		int i = 0;
 		boolean found = false;
 		Car reservation = null;
@@ -210,22 +229,58 @@ public class CarRental {
 				reservation.setStatus((byte)1);
 			}
 		}
-		// TODO: Use reserved Car in new Rental, as well as associating the Rental to the Client
+		if (reservation.equals(null)) {
+			System.out.println(String.format(
+				"No se ha encontrado un carro de esta categoría en la tienda %s. Seleccione otra, por favor.", 
+				origin));
+			return;
+		}
+		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
+			Rental newRental = new Rental(person, reservation, base, originStore, destinationStore, pickUpdateTime, 
+				returnDateTime, secondaryLicence);
+			person.setActiveRental(newRental);
+		} else {
+			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
+		}
+		
 	}
 
 	public static void confirmPickUp(String login) {
 
+		Scanner scan = new Scanner(System.in);
 		Client person = getClient(login);
-		if (!person.getActiveRental().equals(null)) {
-			Rental rental = person.getActiveRental();
-			Car car = rental.getCar();
-			rental.setActive(true);
-			car.setStatus((byte) 2);
-			rental.setPickUp(Calendar.getInstance());
-			rental.getOrigin().removeCar(car);
-		} else {
-			// TODO: Create a Rental in case there is none yet (Use reserveCar to speed process)
+		if (person.getActiveRental().equals(null)) {
+			System.out.println("Por favor ingrese los siguientes datos para poder formalizar la reserva.");
+			System.out.println("Ingrese el nombre de usuario del cliente que va a realizar la reserva: ");
+			String clientLogin = scan.nextLine();
+			while (!clientExists(clientLogin)) {
+				System.out.println("Nombre de usuario no encontrado!"); 
+				System.out.println("Ingrese de nuevo el nombre de usuario o 'stop' si quiere salir: ");
+				clientLogin = scan.nextLine();
+				if (clientLogin.equals("stop")) return;
+			}
+			System.out.println("Ingrese la categoría de la cual desea alquilar el carro: ");
+			String category = scan.nextLine();
+			while (!categories.containsKey(category)) {
+				System.out.println("Esta categoría no existe en nuestro sistema. Ingrese una nuevamente o 'stop' para salir: ");
+				category = scan.nextLine();
+				if (category.equals("stop")) return;
+			}
+			System.out.println("¿A qué tienda desea devolver el carro luego del alquiler?: ");
+			String destination = scan.nextLine();
+			while (!storeExists(destination)) {
+				System.out.println("Esta tienda no está registrada en nuestro sistema. Ingrese otra o 'stop' para salir: ");
+				destination = scan.nextLine();
+				if (destination.equals("stop")) return;
+			}
+			// TODO: Finish Rental formalization
 		} 
+		Rental rental = person.getActiveRental();
+		Car car = rental.getCar();
+		rental.setActive(true);
+		car.setStatus((byte) 2);
+		rental.setPickUp(Calendar.getInstance());
+		rental.getOrigin().removeCar(car);
 
 	}
 
