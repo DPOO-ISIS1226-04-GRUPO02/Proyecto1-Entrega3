@@ -21,6 +21,7 @@ import Model.Rental;
 import Model.Store;
 import Model.User;
 import Model.Insurance;
+import Model.Licence;
 import Model.Payment;
 import Processing.CarRental;
 
@@ -362,12 +363,49 @@ public class RentalLoader {
 
     }
 
+    public static HashMap<Long, Licence> loadSecondaryLicence() throws IOException
+    {
+        HashMap<Long, Licence> secondaryLicence = new HashMap<Long, Licence>();
+        BufferedReader br = new BufferedReader(new FileReader(".data/secondaryLicence.txt"));
+		String linea = br.readLine();
+        linea = br.readLine();
+		while (linea != null)
+        {
+            String[] partes = linea.split(",");
+            long number = Long.parseLong(partes[0]);
+            String country = partes[1];
+            String strExpirationLicence = partes[2];
+           // String photoPath= "./data/clients/"+logIn+"/licence.JPG";
 
-    public static HashMap<Car, ArrayList<Rental>> loadRentals(HashMap<String, Car> cars) throws IOException {
+            //cambiar fecha string a Calendar
+            DateFormat formatter = new SimpleDateFormat("yy-MM");
+            Calendar expirationLicence = Calendar.getInstance();
 
+            Date expirationLicenceDate = (Date)formatter.parse(strExpirationLicence);
+            expirationLicence.setTime(expirationLicenceDate);
+
+            Licence newLicence = new Licence(number, country, expirationLicence, photoPath);
+            secondaryLicence.put(number, newLicence);
+
+        }
+        
+
+
+        return secondaryLicence;
+    }
+
+    public static HashMap<Car, ArrayList<Rental>> loadRentals() throws IOException, ParseException {
+
+        //HashMaps información
+        HashMap<String, Client> clients = loadClients();
+        HashMap<Long, Licence> secondaryLicence = loadSecondaryLicence();
+        HashMap<String, Car> cars = loadCars();
+        HashMap<String, Insurance> insurances = loadInsurances();
+         HashMap<String, Store> stores = loadStores();
+
+        //carga de datos
         HashMap<Car, ArrayList<Rental>> rentals = new HashMap<Car, ArrayList<Rental>>();
-
-         String folderPath = "./data/rentals";
+        String folderPath = "./data/rentals";
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 
@@ -382,20 +420,55 @@ public class RentalLoader {
                 {
                     String[] partes = linea.split(",");
                     String login = partes[0];
-                    //secondary licence
+                    long secondaryLicenceNum = Long.parseLong(partes[1]);
                     String plate= partes[2];
-                    int price = Integer.parseInt(partes[3]);
-                    String rentedFrom = partes[4];
-                    String returnTo = partes[5];
-                    String strPickUpDateTime = partes[6];
-                    String strReturnDateTime = partes[7];
+                    int baseCharge = Integer.parseInt(partes[3]);
+                    String insuranceStr = partes[4];
+                    String rentedFromStr = partes[5];
+                    String returnToStr = partes[6];
+                    String strPickUpDateTime = partes[7];
+                    String strReturnDateTime = partes[8];
+
+                    //Manejo de extra
+                    //String extraType = (partes.length>9)? partes[9]: null;
+                    //int cost = (partes.length>10)? Integer.parseInt(partes[10]):null;
+                    //String specification = (partes.length>11)? partes[11]: null;
+
+                    //cambiar String a Calendar
+                    DateFormat formatter= new SimpleDateFormat("yy-MM-dd:HH-mm");
+                    Calendar pickUpDateTime = Calendar.getInstance();
+                    Calendar returnDateTime = Calendar.getInstance();
+
+                    Date pickUpDateTimeDate = (Date)formatter.parse(strPickUpDateTime);
+                    Date returnDateTimeDate = (Date)formatter.parse(strReturnDateTime);
+
+                    pickUpDateTime.setTime(pickUpDateTimeDate);
+                    returnDateTime.setTime(returnDateTimeDate);
+
+                    //encuentra la información y la convierte en objeto
+                    Client renter = clients.get(login);
+                    Licence secondaryDriver= secondaryLicence.get(secondaryLicenceNum);
+                    Car car = cars.get(plate);
+                    Insurance insurance = insurances.get(insuranceStr);
+                    Store rentedFrom= stores.get(rentedFromStr);
+                    Store returnTo = stores.get(returnToStr);
+
+                    Retal newRental = new Rental(renter, secondaryDriver, car, baseCharge, insurance,rentedFrom, returnTo, pickUpDateTime, returnDateTime, extras);
+                    rentals.put(car, newRental);
 
                     
 
-                }
-                br.close();
-            }
 
+
+                    
+
+
+                    linea = br.readLine();  
+                }
+                
+            br.close();   
+            }
+            
         }
 
         return rentals;
