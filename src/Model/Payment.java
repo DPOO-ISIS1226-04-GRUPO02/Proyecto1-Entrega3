@@ -10,7 +10,7 @@ public class Payment {
     private String owner;
     private String address;
 
-    Payment(long number, Calendar expiration, short code, String owner, String address) {
+    public Payment(long number, Calendar expiration, short code, String owner, String address) {
 
         this.number = number;
         this.expiration = expiration;

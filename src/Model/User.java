@@ -7,7 +7,7 @@ public class User {
 	private Store workplace;
 	private int access;
 	
-	public User (String username, String password, Store workplace, int access) {
+	public User (String username, String password,  int access, Store workplace) {
 		
 		this.username = username;
 		this.password = password;

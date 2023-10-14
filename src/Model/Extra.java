@@ -6,7 +6,7 @@ public class Extra {
     private int cost;
     private String specification;
 
-    Extra(String type, int cost, String specification) {
+    public Extra(String type, int cost, String specification) {
 
         this.type = type;
         this.cost = cost;
