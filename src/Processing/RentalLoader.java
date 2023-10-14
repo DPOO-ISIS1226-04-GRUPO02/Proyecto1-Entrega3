@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Set;
 
 import Model.Client;
+import Model.Extra;
 import Model.Car;
 import Model.Rental;
 import Model.Store;
@@ -27,9 +28,104 @@ import Processing.CarRental;
 
 public class RentalLoader {
 
+    public static HashMap<String, Store> loadStores() throws IOException, ParseException {
+
+        HashMap<String, Store> stores = new HashMap<String, Store>();
+        HashMap<String, Car> cars = loadCars();
+
+        //lectura de la carpeta con los distintos .txt"
+        String folderPath = "./data/stores";
+        File folder = new File(folderPath);
+        File[] listOfFiles = folder.listFiles();
+
+        for (File file: listOfFiles)
+        {
+            if (file.isFile())
+            {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+		        String linea = br.readLine();
+                linea = br.readLine();
+		        while (linea != null)
+                {
+                String[] partes = linea.split(",");
+                String name= partes[0];
+                String location= partes[1] ;
+                String  strOpeningTime = partes[2];
+                String strClosingTime = partes[3];
+                byte openingDays= Byte.parseByte(partes[4]);
+                
 
 
-    public static HashMap<String, User> usersInformation() {
+                //cambiar hora string a calendar
+                DateFormat formatter = new SimpleDateFormat("HH:mm");
+                Calendar openingTime = Calendar.getInstance();
+                Calendar closingTime = Calendar.getInstance();
+
+                Date openingDate = (Date)formatter.parse(strOpeningTime);
+                Date closingDate = (Date)formatter.parse(strClosingTime);
+
+                openingTime.setTime(openingDate);
+                closingTime.setTime(closingDate);
+
+                
+                ArrayList<String> platesCarsInventory = new ArrayList<>();
+                for (int i=5; i< partes.length; i++)
+                {
+                    String car = partes[i];
+                    platesCarsInventory.add(car);
+                }
+
+                 HashMap<String, ArrayList<String>> inventory = new HashMap<String, ArrayList<String>>();
+                 for (String carPlate: platesCarsInventory){
+                    
+                    Car car= cars.get(carPlate);
+
+                    if (car!= null)
+                    {
+                        String category = car.getCategory();
+
+                        if (inventory.containsKey(category))
+                        {
+                            inventory.get(category).add(carPlate);
+                        }
+                        else
+                        {
+                            ArrayList<String> categoryCars = new ArrayList<String>();
+                            categoryCars.add(carPlate);
+                            inventory.put(category, categoryCars);
+                    }
+                 }
+                 
+                    
+                 
+
+
+
+
+                Store newStore = new Store(name, location, openingTime, closingTime, openingDays, inventory);
+                stores.put(name, newStore);
+
+
+                linea = br.readLine();
+
+
+                }
+                }
+                br.close();
+            }
+        
+        }
+
+        
+        return stores;
+    }
+
+
+
+
+    public static HashMap<String, User> usersInformation() throws IOException, ParseException {
+
+        HashMap<String,Store> stores = loadStores();
 
         HashMap<String, User> users = new HashMap<String, User>();
         BufferedReader br = new BufferedReader(new FileReader("./data/users.txt"));
@@ -41,7 +137,10 @@ public class RentalLoader {
            String username = partes[0];
            String password = partes[1];
            int access = Integer.parseInt(partes[2]);
-           String workplace = partes[3];
+           String workplaceSTr = partes[3];
+
+           //cambiar workplace a objeto
+           Store workplace = stores.get(workplaceSTr);
 
            User newUser= new User(username, password, access, workplace);
            users.put(username, newUser);
@@ -243,98 +342,8 @@ public class RentalLoader {
 
     }
 
-    public static HashMap<String, Store> loadStores() throws IOException, ParseException {
-
-        HashMap<String, Store> stores = new HashMap<String, Store>();
-        HashMap<String, Car> cars = loadCars();
-
-        //lectura de la carpeta con los distintos .txt"
-        String folderPath = "./data/stores";
-        File folder = new File(folderPath);
-        File[] listOfFiles = folder.listFiles();
-
-        for (File file: listOfFiles)
-        {
-            if (file.isFile())
-            {
-                BufferedReader br = new BufferedReader(new FileReader(file));
-		        String linea = br.readLine();
-                linea = br.readLine();
-		        while (linea != null)
-                {
-                String[] partes = linea.split(",");
-                String name= partes[0];
-                String location= partes[1] ;
-                String  strOpeningTime = partes[2];
-                String strClosingTime = partes[3];
-                byte openingDays= Byte.parseByte(partes[4]);
-                
-
-
-                //cambiar hora string a calendar
-                DateFormat formatter = new SimpleDateFormat("HH:mm");
-                Calendar openingTime = Calendar.getInstance();
-                Calendar closingTime = Calendar.getInstance();
-
-                Date openingDate = (Date)formatter.parse(strOpeningTime);
-                Date closingDate = (Date)formatter.parse(strClosingTime);
-
-                openingTime.setTime(openingDate);
-                closingTime.setTime(closingDate);
-
-                
-                ArrayList<String> platesCarsInventory = new ArrayList<>();
-                for (int i=5; i< partes.length; i++)
-                {
-                    String car = partes[i];
-                    platesCarsInventory.add(car);
-                }
-
-                 HashMap<String, ArrayList<String>> inventory = new HashMap<String, ArrayList<String>>();
-                 for (String carPlate: platesCarsInventory){
-                    
-                    Car car= cars.get(carPlate);
-
-                    if (car!= null)
-                    {
-                        String category = car.getCategory();
-
-                        if (inventory.containsKey(category))
-                        {
-                            inventory.get(category).add(carPlate);
-                        }
-                        else
-                        {
-                            ArrayList<String> categoryCars = new ArrayList<String>();
-                            categoryCars.add(carPlate);
-                            inventory.put(category, categoryCars);
-                    }
-                 }
-                 
-                    
-                 
-
-
-
-
-                Store newStore = new Store(name, location, openingTime, closingTime, openingDays, inventory);
-                stores.put(name, newStore);
-
-
-                linea = br.readLine();
-
-
-                }
-                }
-                br.close();
-            }
-        
-        }
-
-        
-        return stores;
-
-    }
+    
+    
 
 
 
@@ -363,31 +372,43 @@ public class RentalLoader {
 
     }
 
-    public static HashMap<Long, Licence> loadSecondaryLicence() throws IOException
+    public static HashMap<Long, Licence> loadSecondaryLicence() throws IOException, ParseException
     {
         HashMap<Long, Licence> secondaryLicence = new HashMap<Long, Licence>();
-        BufferedReader br = new BufferedReader(new FileReader(".data/secondaryLicence.txt"));
-		String linea = br.readLine();
-        linea = br.readLine();
-		while (linea != null)
+
+        String folderPath = "./data/secondaryLicence";
+        File folder = new File(folderPath);
+        File[] listOfFiles = folder.listFiles();
+
+        for (File file: listOfFiles)
         {
-            String[] partes = linea.split(",");
-            long number = Long.parseLong(partes[0]);
-            String country = partes[1];
-            String strExpirationLicence = partes[2];
-           // String photoPath= "./data/clients/"+logIn+"/licence.JPG";
+            if (file.isFile() && file.getName().toLowerCase().endsWith(".txt")){
+        
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String linea = br.readLine();
+            linea = br.readLine();
+            while (linea != null)
+            {
+                String[] partes = linea.split(",");
+                long number = Long.parseLong(partes[0]);
+                String country = partes[1];
+                String strExpirationLicence = partes[2];
+                String photoPath= "./data/secondaryLicence/"+number+"/licence.JPG";
 
-            //cambiar fecha string a Calendar
-            DateFormat formatter = new SimpleDateFormat("yy-MM");
-            Calendar expirationLicence = Calendar.getInstance();
+                //cambiar fecha string a Calendar
+                DateFormat formatter = new SimpleDateFormat("yy-MM");
+                Calendar expirationLicence = Calendar.getInstance();
 
-            Date expirationLicenceDate = (Date)formatter.parse(strExpirationLicence);
-            expirationLicence.setTime(expirationLicenceDate);
+                Date expirationLicenceDate = (Date)formatter.parse(strExpirationLicence);
+                expirationLicence.setTime(expirationLicenceDate);
 
-            Licence newLicence = new Licence(number, country, expirationLicence, photoPath);
-            secondaryLicence.put(number, newLicence);
+                Licence newLicence = new Licence(number, country, expirationLicence, photoPath);
+                secondaryLicence.put(number, newLicence);
 
+            }
+            br.close();
         }
+    }
         
 
 
@@ -401,38 +422,86 @@ public class RentalLoader {
         HashMap<Long, Licence> secondaryLicence = loadSecondaryLicence();
         HashMap<String, Car> cars = loadCars();
         HashMap<String, Insurance> insurances = loadInsurances();
-         HashMap<String, Store> stores = loadStores();
+        HashMap<String, Store> stores = loadStores();
 
         //carga de datos
         HashMap<Car, ArrayList<Rental>> rentals = new HashMap<Car, ArrayList<Rental>>();
         String folderPath = "./data/rentals";
         File folder = new File(folderPath);
-        File[] listOfFiles = folder.listFiles();
+        File[] plateFolders = folder.listFiles();
 
-        for (File file: listOfFiles)
-        {
-            if (file.isFile())
-            {
-                BufferedReader br = new BufferedReader(new FileReader(file));
+        for (File plateFolder: plateFolders)
+        {   
+
+            if (plateFolder.isDirectory())
+            {   
+                //lee la carpeta extra
+                File extraFolder = new File(plateFolder, "extra");
+                File[] extraFiles = extraFolder.listFiles();
+                ArrayList<Extra> extras= new ArrayList<>();
+
+                for (File extraFile: extraFiles)
+                {
+                    BufferedReader br = new BufferedReader(new FileReader(extraFile));
+                    String linea = br.readLine();
+                    linea = br.readLine();
+                    while (linea != null)
+                    {
+                        String[] partes = linea.split(",");
+                        String extraType = partes[0];
+                        int cost = Integer.parseInt(partes[1]); 
+                        String specification = partes[2]; 
+
+                        Extra newExtra = new Extra(extraType, cost, specification); 
+                        extras.add(newExtra); 
+
+                        linea = br.readLine();  
+                    }
+                    br.close();
+
+                }
+            
+
+
+                
+                File infoFile= new File(plateFolder, "info.txt");
+                File insuranceFile = new File (plateFolder, "insurance.txt");
+
+                //información insurance
+                ArrayList<Insurance> insurancesRental = new ArrayList<>();
+
+                BufferedReader br = new BufferedReader(new FileReader(insuranceFile));
 		        String linea = br.readLine();
                 linea = br.readLine();
 		        while (linea != null)
                 {
                     String[] partes = linea.split(",");
+                    String insuranceStr = partes[0];
+                    Insurance insurance = insurances.get(insuranceStr);
+                    insurancesRental.add(insurance);
+
+
+                    linea = br.readLine();  
+                }
+                br.close();  
+
+
+
+                //información rental
+                BufferedReader br1 = new BufferedReader(new FileReader(infoFile));
+		        String linea1 = br1.readLine();
+                linea1 = br1.readLine();
+		        while (linea1 != null)
+                {
+                    String[] partes = linea1.split(",");
                     String login = partes[0];
                     long secondaryLicenceNum = Long.parseLong(partes[1]);
                     String plate= partes[2];
                     int baseCharge = Integer.parseInt(partes[3]);
-                    String insuranceStr = partes[4];
-                    String rentedFromStr = partes[5];
-                    String returnToStr = partes[6];
-                    String strPickUpDateTime = partes[7];
-                    String strReturnDateTime = partes[8];
-
-                    //Manejo de extra
-                    //String extraType = (partes.length>9)? partes[9]: null;
-                    //int cost = (partes.length>10)? Integer.parseInt(partes[10]):null;
-                    //String specification = (partes.length>11)? partes[11]: null;
+                    String rentedFromStr = partes[4];
+                    String returnToStr = partes[5];
+                    String strPickUpDateTime = partes[6];
+                    String strReturnDateTime = partes[7];
 
                     //cambiar String a Calendar
                     DateFormat formatter= new SimpleDateFormat("yy-MM-dd:HH-mm");
@@ -449,29 +518,27 @@ public class RentalLoader {
                     Client renter = clients.get(login);
                     Licence secondaryDriver= secondaryLicence.get(secondaryLicenceNum);
                     Car car = cars.get(plate);
-                    Insurance insurance = insurances.get(insuranceStr);
                     Store rentedFrom= stores.get(rentedFromStr);
                     Store returnTo = stores.get(returnToStr);
 
-                    Retal newRental = new Rental(renter, secondaryDriver, car, baseCharge, insurance,rentedFrom, returnTo, pickUpDateTime, returnDateTime, extras);
+                    Retal newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras);
                     rentals.put(car, newRental);
 
-                    
+
+                    linea1 = br1.readLine();  
 
 
-
-                    
-
-
-                    linea = br.readLine();  
                 }
-                
-            br.close();   
-            }
+                br1.close();  
+
+
+                }
+
+                }
             
-        }
 
         return rentals;
+    
 
     }
 
