@@ -3,6 +3,7 @@ package Processing;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -25,13 +26,12 @@ import Processing.CarRental;
 
 public class RentalLoader {
 
-    private static String mainFolderPath = "";
-    // TODO: Define folder path
+
 
     public static HashMap<String, User> usersInformation() {
 
         HashMap<String, User> users = new HashMap<String, User>();
-        BufferedReader br = new BufferedReader(new FileReader(ruta));
+        BufferedReader br = new BufferedReader(new FileReader("./data/users.txt"));
 		String linea = br.readLine();
         linea = br.readLine();
 		while (linea != null)
@@ -52,15 +52,15 @@ public class RentalLoader {
         
 
 
-
+        br.close();
         return users;
 
     }
 
-    public static HashMap<String, Integer> loadCategories() {
+    public static HashMap<String, Integer> loadCategories() throws IOException {
 
         HashMap<String, Integer> categories = new HashMap<String, Integer>();
-        BufferedReader br = new BufferedReader(new FileReader(ruta));
+        BufferedReader br = new BufferedReader(new FileReader("./data/categories.txt"));
 		String linea = br.readLine();
         linea = br.readLine();
         {
@@ -73,7 +73,7 @@ public class RentalLoader {
              linea = br.readLine();
 
         }
-
+        br.close();
         return categories;
 
     }
@@ -83,13 +83,13 @@ public class RentalLoader {
         HashMap<String, Client> clients = new HashMap<String, Client>();
 
         
-        String folderPath = "ruta";
+        String folderPath = ".data/clients";
         File mainFolder = new File(folderPath);
         File[] clientFolders = mainFolder.listFiles();
     
             for (File clientFolder: clientFolders)
             {
-                if (file.isFile())
+                if (clientFolder.isFile())
                 {
                 
                 String logIn = clientFolder.getName();
@@ -127,7 +127,7 @@ public class RentalLoader {
 
                 }
 
-                
+                br.close();
 
                 //license
                 long number =0;
@@ -136,16 +136,16 @@ public class RentalLoader {
                 String photoPath = null;
 
 
-                BufferedReader br = new BufferedReader(new FileReader(licenceFile));
-		        String linea = br.readLine();
-                linea = br.readLine();
-		        while (linea != null)
+                BufferedReader br2 = new BufferedReader(new FileReader(licenceFile));
+		        String linea2 = br2.readLine();
+                linea2 = br2.readLine();
+		        while (linea2 != null)
                 {
-                    String[] partes = linea.split(",");
+                    String[] partes = linea2.split(",");
                     number = Long.parseLong(partes[0]);
                     country = partes[1];
                     String strExpirationLicence = partes[2];
-                    photoPath= "./data/clients/"+logIn+"/licence.JPG"
+                    photoPath= "./data/clients/"+logIn+"/licence.JPG";
 
                     //cambiar fecha string a Calendar
                     DateFormat formatter = new SimpleDateFormat("yy-MM");
@@ -156,15 +156,15 @@ public class RentalLoader {
 
                     linea = br.readLine();
                 }
-
+                br2.close();
 
                 //client
-                BufferedReader br = new BufferedReader(new FileReader(clientInfoFile));
-		        String linea = br.readLine();
-                linea = br.readLine();
-		        while (linea != null)
+                BufferedReader br1 = new BufferedReader(new FileReader(clientInfoFile));
+		        String linea1 = br1.readLine();
+                linea1 = br1.readLine();
+		        while (linea1 != null)
                 {
-                    String[] partes = linea.split(",");
+                    String[] partes = linea1.split(",");
                     String name = partes[0];
                     long phone = Long.parseLong(partes[1]);
                     String email = partes[2];
@@ -182,12 +182,13 @@ public class RentalLoader {
 
                     Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newPayment, login);
                     newClient.setLicence(newLicence(number, country, expirationLicence, photoPath, login));
+                    clients.put(login, newClient);
 
                     linea = br.readLine();
 
                 }
 
-
+                br1.close();
 
 
                 }
@@ -197,17 +198,17 @@ public class RentalLoader {
             }
         
 
-
+        
         return clients;
 
     }
 
-    public static HashMap<String, Car> loadCars() {
+    public static HashMap<String, Car> loadCars() throws IOException, ParseException {
 
         HashMap<String, Car> cars = new HashMap<String, Car>();
 
         // TODO: Get all cars' information
-        BufferedReader br = new BufferedReader(new FileReader(ruta));
+        BufferedReader br = new BufferedReader(new FileReader("./data/cars"));
 		String linea = br.readLine();
         linea = br.readLine();
 		while (linea != null)
@@ -247,7 +248,7 @@ public class RentalLoader {
         HashMap<String, Car> cars = loadCars();
 
         //lectura de la carpeta con los distintos .txt"
-        String folderPath = ruta;
+        String folderPath = "./data/stores";
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 
@@ -324,21 +325,22 @@ public class RentalLoader {
 
                 }
                 }
+                br.close();
             }
         
         }
 
-
+        
         return stores;
 
     }
 
 
 
-    public static HashMap<String, Insurance> loadInsurances() {
+    public static HashMap<String, Insurance> loadInsurances() throws IOException {
 
         HashMap<String, Insurance> insurances = new HashMap<String, Insurance>();
-                BufferedReader br = new BufferedReader(new FileReader(ruta));
+        BufferedReader br = new BufferedReader(new FileReader(".data/insurances.txt"));
 		String linea = br.readLine();
         linea = br.readLine();
 		while (linea != null)
@@ -355,17 +357,46 @@ public class RentalLoader {
             linea = br.readLine();
 
         }
-
+        br.close();
         return insurances;
 
     }
 
 
-    public static HashMap<Car, ArrayList<Rental>> loadRentals(HashMap<String, Car> cars) {
+    public static HashMap<Car, ArrayList<Rental>> loadRentals(HashMap<String, Car> cars) throws IOException {
 
         HashMap<Car, ArrayList<Rental>> rentals = new HashMap<Car, ArrayList<Rental>>();
 
-        // TODO: Get all past rentals for all cars
+         String folderPath = "./data/rentals";
+        File folder = new File(folderPath);
+        File[] listOfFiles = folder.listFiles();
+
+        for (File file: listOfFiles)
+        {
+            if (file.isFile())
+            {
+                BufferedReader br = new BufferedReader(new FileReader(file));
+		        String linea = br.readLine();
+                linea = br.readLine();
+		        while (linea != null)
+                {
+                    String[] partes = linea.split(",");
+                    String login = partes[0];
+                    //secondary licence
+                    String plate= partes[2];
+                    int price = Integer.parseInt(partes[3]);
+                    String rentedFrom = partes[4];
+                    String returnTo = partes[5];
+                    String strPickUpDateTime = partes[6];
+                    String strReturnDateTime = partes[7];
+
+                    
+
+                }
+                br.close();
+            }
+
+        }
 
         return rentals;
 
