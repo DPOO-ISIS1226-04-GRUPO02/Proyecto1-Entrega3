@@ -4,10 +4,10 @@ public class User {
 
 	private String username;
 	private String password;
-	private Store workplace;
+	private String workplace;
 	private int access;
 	
-	public User (String username, String password, Store workplace, int access) {
+	public User (String username, String password, int access, String workplace) {
 		
 		this.username = username;
 		this.password = password;
@@ -28,7 +28,7 @@ public class User {
 		
 	}
 	
-	public Store getWorkplace() {
+	public String getWorkplace() {
 		
 		return this.workplace;
 		

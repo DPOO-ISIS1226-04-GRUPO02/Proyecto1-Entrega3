@@ -1,7 +1,9 @@
 package Console;
 
 import java.util.Scanner;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 
 import Processing.CarRental;
 import Processing.Users;
@@ -58,10 +60,19 @@ public class View {
 				System.out.println("3. Confirmar recogida de un carro");
 				System.out.println("4. Confirmar devolución de un carro");
 				System.out.println("5. Registrar nuevo empleado");
-				// TODO: Add all options for the general manager
+				System.out.println("6. Registrar nuevo gerente local");
+				System.out.println("7. Registrar un nuevo carro");
+				System.out.println("8. Registrar una nueva tienda");
+				System.out.println("9. Cambiar un carro de sede");
+				System.out.println("10. Inhabilitar renta de un carro");
+				System.out.println("11. Cambiar tarifas diarias por categoría");
+				System.out.println("12. Añadir seguro");
+				System.out.println("13. Habilitar/Inhabilitar un seguro");
+				System.out.println("14. Cambiar información de una tienda");
+				System.out.println("15. Generar historial de alquileres para un carro");
 				selection = scan.nextInt();
 				scan.close();
-				if (0 < selection && selection <= 000000) runOptions(selection); // TODO: Change the max. limit
+				if (0 < selection && selection <= 15) runOptions(selection);
 				break;
 				
 		}
@@ -72,6 +83,7 @@ public class View {
 
 		Scanner scan = new Scanner(System.in);
 		String clientLogin;
+		List<String> usernames = Arrays.asList(Users.getUsernames());
 		if (selection == 0) selection = scan.nextInt();
 		switch (selection) {	
 			case 1:
@@ -166,15 +178,47 @@ public class View {
 				String comments = scan.nextLine();
 				System.out.println("¿Cuánto es el recargo de?: ");
 				int extraCharges = scan.nextInt();
-				CarRental.confirmReturn(clientLogin, days, comments, extraCharges);
+				CarRental.confirmReturn(clientLogin, days, comments, extraCharges, login, password);
 				break;
 			case 5:
 				System.out.println("Ingrese el nombre de usuario para el nuevo empleado: ");
 				String employeeLogin = scan.nextLine();
+				while (usernames.contains(employeeLogin)) {
+					System.out.println("¡Este nombre de usuario ya existe!");
+					System.out.println("Ingrese un nuevo nombre de usuario: ");
+					employeeLogin = scan.nextLine();
+				}
 				System.out.println("Ingrese la contraseña para el nuevo empleado: ");
 				String employeePassword = scan.nextLine();
 				Users.registerNewUser(employeeLogin, employeePassword, 1, login, password);
 				break;
+			case 6:
+				System.out.println("Ingrese un nombre de usuario para la cuenta del gerente: ");
+				String managerLogin = scan.nextLine();
+				while (usernames.contains(managerLogin)) {
+					System.out.println("¡Este nombre de usuario ya existe!");
+					System.out.println("Ingrese un nuevo nombre de usuario: ");
+					managerLogin = scan.nextLine();
+				}
+				System.out.println("Ingrese una contraseña para la cuenta del gerente: ");
+				String managerPassword = scan.nextLine();
+				System.out.println("Ingrese el nombre de la tienda al que va a pertenecer este gerente: ");
+				String storeName = scan.nextLine();
+				while (CarRental.getStore(storeName).equals(null)) {
+					System.out.println("Esta tienda no se ha encontrado. Ingrese el nombre nuevamente: ");
+					storeName = scan.nextLine();
+				}
+				Users.registerNewUser(managerLogin, managerPassword, 2, storeName);
+				break;
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+			case 12:
+			case 13:
+			case 14:
+			case 15:
 			// TODO: Add general manger options
 			default:
 				System.out.println("Option not found.");
