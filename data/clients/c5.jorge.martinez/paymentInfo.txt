@@ -1,1 +1,1 @@
-1111 1111 1111 1111, 07/26, 678, Jorge Martínez, Calle 678
+1111 1111 1111 1111, 07-26, 678, Jorge Martínez, Calle 678

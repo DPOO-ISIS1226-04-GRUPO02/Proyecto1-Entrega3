@@ -1,1 +1,10 @@
-insurances
+Seguro de Auto, 100, Cobertura completa, 1
+Seguro de Salud, 75, Cobertura médica, 1
+Seguro de Daños al Vehículo, 150, Cobertura de daños al vehículo, 1
+Seguro de Responsabilidad Civil, 50, Cobertura de responsabilidad civil, 1
+Seguro de Pérdida de Equipaje, 25, Cobertura de pérdida de equipaje, 1
+Seguro de Accidentes, 30, Cobertura de accidentes, 0
+Seguro de Robo del Vehículo, 90, Cobertura de robo del vehículo, 1
+Seguro de Cancelación de Reserva, 20, Cobertura de cancelación de reserva, 1
+Seguro de Asistencia en el Camino, 40, Cobertura de asistencia en el camino, 1
+Seguro de Accidentes de Conductor, 60, Cobertura de accidentes del conductor, 1
