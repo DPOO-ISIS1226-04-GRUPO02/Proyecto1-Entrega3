@@ -28,16 +28,18 @@ public class CarRental {
 	private static HashMap<String, Store> stores;
 	private static HashMap<String, Integer> categories;
 	private static HashMap<String, Insurance> insurances;
+	private static HashMap<Long, Licence> secondaryLicences;
 	private static HashMap<Car, ArrayList<Rental>> rentals;
 
 	public static void loadCarRental() throws IOException, ParseException {
 
-		clients = RentalLoader.loadClients();
+		//clients = RentalLoader.loadClients();
 		cars = RentalLoader.loadCars();
 		stores = RentalLoader.loadStores();
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
-		rentals = RentalLoader.loadRentals(cars);
+		secondaryLicences = RentalLoader.loadSecondaryLicence();
+		rentals = RentalLoader.loadRentals();
 
 	}
 

@@ -1,1 +1,1 @@
-Vehículo entregado con daño, 75, Daño en la parte delantera del vehículo
+Vehículo entregado con daño,75,Daño en la parte delantera del vehículo

@@ -1,1 +1,1 @@
-Juan Pérez, 555-555-5551, juan.perez@email.com, 1985-04-15, Colombiano, c1.juan.perez
+Juan Pérez,5555555551,juan.perez@email.com,1985-04-15,Colombiano,c1.juan.perez

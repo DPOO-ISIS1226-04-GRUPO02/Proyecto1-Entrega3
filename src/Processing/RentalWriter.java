@@ -14,6 +14,7 @@ public class RentalWriter {
 
         // TODO: Finish implementing the method
 
+
     }
     public static void addClient(Client client){
         // TODO: Finish implementing the method

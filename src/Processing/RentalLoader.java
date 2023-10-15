@@ -41,7 +41,6 @@ public class RentalLoader {
             {
                 BufferedReader br = new BufferedReader(new FileReader(file));
 		        String linea = br.readLine();
-                linea = br.readLine();
 		        while (linea != null)
                 {
                 String[] partes = linea.split(",");
@@ -125,7 +124,6 @@ public class RentalLoader {
         HashMap<String, User> users = new HashMap<String, User>();
         BufferedReader br = new BufferedReader(new FileReader("./data/users.txt"));
 		String linea = br.readLine();
-        linea = br.readLine();
 		while (linea != null)
         {
            String[] partes = linea.split(",");
@@ -152,7 +150,6 @@ public class RentalLoader {
         HashMap<String, Integer> categories = new HashMap<String, Integer>();
         BufferedReader br = new BufferedReader(new FileReader("./data/categories.txt"));
 		String linea = br.readLine();
-        linea = br.readLine();
         {
              String[] partes = linea.split(",");
              String category = partes[0];
@@ -173,13 +170,13 @@ public class RentalLoader {
         HashMap<String, Client> clients = new HashMap<String, Client>();
 
         
-        String folderPath = ".data/clients";
+        String folderPath = ".\\data\\clients";
         File mainFolder = new File(folderPath);
         File[] clientFolders = mainFolder.listFiles();
     
             for (File clientFolder: clientFolders)
             {
-                if (clientFolder.isFile())
+                if (clientFolder.isDirectory())
                 {
                 
                 String logIn = clientFolder.getName();
@@ -194,7 +191,6 @@ public class RentalLoader {
             
                 BufferedReader br = new BufferedReader(new FileReader(paymentFile));
 		        String linea = br.readLine();
-                linea = br.readLine();
 		        while (linea != null)
                 {
                     String[] partes = linea.split(",");
@@ -228,7 +224,6 @@ public class RentalLoader {
 
                 BufferedReader br2 = new BufferedReader(new FileReader(licenceFile));
 		        String linea2 = br2.readLine();
-                linea2 = br2.readLine();
 		        while (linea2 != null)
                 {
                     String[] partes = linea2.split(",");
@@ -244,14 +239,13 @@ public class RentalLoader {
                     Date expirationLicenceDate = (Date)formatter.parse(strExpirationLicence);
                     expirationLicence.setTime(expirationLicenceDate);
 
-                    linea = br.readLine();
+                    linea2 = br2.readLine();
                 }
                 br2.close();
 
                 //client
                 BufferedReader br1 = new BufferedReader(new FileReader(clientInfoFile));
 		        String linea1 = br1.readLine();
-                linea1 = br1.readLine();
 		        while (linea1 != null)
                 {
                     String[] partes = linea1.split(",");
@@ -274,7 +268,7 @@ public class RentalLoader {
                     newClient.setLicence(CarRental.newLicence(number, country, expirationLicence, photoPath, login));
                     clients.put(login, newClient);
 
-                    linea = br.readLine();
+                    linea1 = br1.readLine();
 
                 }
 
@@ -297,10 +291,9 @@ public class RentalLoader {
 
         HashMap<String, Car> cars = new HashMap<String, Car>();
 
-        // TODO: Get all cars' information
-        BufferedReader br = new BufferedReader(new FileReader("./data/cars"));
+        
+        BufferedReader br = new BufferedReader(new FileReader("./data/cars.txt"));
 		String linea = br.readLine();
-        linea = br.readLine();
 		while (linea != null)
         {
             String[] partes = linea.split(",");
@@ -343,7 +336,6 @@ public class RentalLoader {
         HashMap<String, Insurance> insurances = new HashMap<String, Insurance>();
         BufferedReader br = new BufferedReader(new FileReader(".data/insurances.txt"));
 		String linea = br.readLine();
-        linea = br.readLine();
 		while (linea != null)
         {
             String[] partes = linea.split(",");
@@ -377,7 +369,6 @@ public class RentalLoader {
         
             BufferedReader br = new BufferedReader(new FileReader(file));
             String linea = br.readLine();
-            linea = br.readLine();
             while (linea != null)
             {
                 String[] partes = linea.split(",");
@@ -395,6 +386,8 @@ public class RentalLoader {
 
                 Licence newLicence = new Licence(number, country, expirationLicence, photoPath);
                 secondaryLicence.put(number, newLicence);
+
+                linea = br.readLine();
 
             }
             br.close();
@@ -435,7 +428,6 @@ public class RentalLoader {
                 {
                     BufferedReader br = new BufferedReader(new FileReader(extraFile));
                     String linea = br.readLine();
-                    linea = br.readLine();
                     while (linea != null)
                     {
                         String[] partes = linea.split(",");
@@ -463,7 +455,6 @@ public class RentalLoader {
 
                 BufferedReader br = new BufferedReader(new FileReader(insuranceFile));
 		        String linea = br.readLine();
-                linea = br.readLine();
 		        while (linea != null)
                 {
                     String[] partes = linea.split(",");
@@ -481,7 +472,6 @@ public class RentalLoader {
                 //información rental
                 BufferedReader br1 = new BufferedReader(new FileReader(infoFile));
 		        String linea1 = br1.readLine();
-                linea1 = br1.readLine();
 		        while (linea1 != null)
                 {
                     String[] partes = linea1.split(",");

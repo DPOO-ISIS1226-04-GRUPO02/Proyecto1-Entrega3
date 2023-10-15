@@ -20,6 +20,7 @@ public class UserSelection {
 		
 		try {
 			Users.loadUsers();
+			CarRental.loadCarRental();
 		} catch (ParseException pe) {
 			System.out.println("Se ha encontrado un error cargando los usuarios: " + pe);
 		} catch (IOException ioe) {
