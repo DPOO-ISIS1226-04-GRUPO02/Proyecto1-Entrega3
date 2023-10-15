@@ -301,8 +301,8 @@ public class RentalLoader {
             String plate = partes[1];
             String model = (partes[2]);
             String color = partes[3];
-            boolean isAutomatic = Boolean.parseBoolean(partes[4]);
-            String strAvailableIn = partes[5];
+            boolean isAutomatic = Boolean.parseBoolean(partes[5]);
+            String strAvailableIn = partes[4];
             String category = partes[6];
 
             // cambiar fecha string a Calendar
