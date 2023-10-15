@@ -8,7 +8,7 @@ public class Rental {
 
     private boolean active;
     private Client renter;
-    private Licence secondaryDriver;
+    private ArrayList<Licence> secondaryDriver;
     private Car car;
     private int baseCharge;
     private ArrayList<Insurance> insurances;
@@ -23,7 +23,7 @@ public class Rental {
 
         this.active = false;
         this.renter = renter;
-        this.secondaryDriver = secondaryDriver;
+        this.secondaryDriver = new ArrayList<Licence>();
         this.car = car;
         this.baseCharge = base;
         this.insurances = insurances;
@@ -53,7 +53,7 @@ public class Rental {
 
     }
 
-    public Licence getSecondaryDriver() {
+    public ArrayList<Licence> getSecondaryDriver() {
 
         return secondaryDriver;
 

@@ -13,6 +13,7 @@ import java.util.Set;
 
 import Model.Car;
 import Model.Store;
+import Model.User;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
@@ -36,7 +37,7 @@ public class CarRental {
 		stores = RentalLoader.loadStores();
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
-		rentals = RentalLoader.loadRentals();
+		rentals = RentalLoader.loadRentals(cars);
 
 	}
 
@@ -47,17 +48,9 @@ public class CarRental {
 		Payment payment = new Payment(licenceNumber, licenceExpiration, cardCode, cardOwner, cardAddress);
 		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, payment, login);
 		person.setLicence(newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null));
-		// TODO: Verify that the licence, nor the card have yet expired
-		Calendar expDate = (person.getLicence()).getExpiration();
-		Calendar currentDate = Calendar.getInstance();
-		if (expDate.after(currentDate) || expDate.equals(currentDate)){
-			clients.put(login, person);
-			// RentalWriter.addClient(person);
-
-		} else {
 		
-		}
-		
+		clients.put(login, person);
+		RentalWriter.addClient(person);	
 	}
 
 	private static Client getClient(String login) {
@@ -261,67 +254,20 @@ public class CarRental {
 		
 	}
 
-	public static void confirmPickUp(String login, String origin) throws ParseException {
-
-		Scanner scan = new Scanner(System.in);
+	public static void confirmPickUp(String login, ArrayList<Licence> secondaryDriver, String employeeLogin, 
+		String employeePassword) {
 		Client person = getClient(login);
-		if (person.getActiveRental().equals(null)) {
-			System.out.println("Por favor ingrese los siguientes datos para poder formalizar la reserva.");
-			System.out.println("Ingrese el nombre de usuario del cliente que va a realizar la reserva: ");
-			String clientLogin = scan.nextLine();
-			while (!clientExists(clientLogin)) {
-				System.out.println("Nombre de usuario no encontrado!"); 
-				System.out.println("Ingrese de nuevo el nombre de usuario o 'stop' si quiere salir: ");
-				clientLogin = scan.nextLine();
-				if (clientLogin.equals("stop")) scan.close(); return;
-			}
-			System.out.println("Ingrese la categoría de la cual desea alquilar el carro: ");
-			String category = scan.nextLine();
-			while (!categories.containsKey(category)) {
-				System.out.println("Esta categoría no existe en nuestro sistema. Ingrese una nuevamente o 'stop' para salir: ");
-				category = scan.nextLine();
-				if (category.equals("stop")) scan.close(); return;
-			}
-			System.out.println("¿A qué tienda desea devolver el carro luego del alquiler?: ");
-			String destination = scan.nextLine();
-			while (!storeExists(destination)) {
-				System.out.println("Esta tienda no está registrada en nuestro sistema. Ingrese otra o 'stop' para salir: ");
-				destination = scan.nextLine();
-				if (destination.equals("stop")) scan.close(); return;
-			}
-			System.out.println("Ingrese la fecha en que se espera que se regrese el carro a la tienda (AAAA-MM-DD): ");
-			String returnDateString = scan.nextLine();
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Calendar returnDateTime = Calendar.getInstance();
-            Date availableInDate = (Date)formatter.parse(returnDateString);
-            returnDateTime.setTime(availableInDate);
-			System.out.println("¿Habrá un segundo conductor para este alquiler? (Y/N): ");
-			String second = scan.nextLine();
-			Licence secondLicence = null;
-			if (second.equals("Y")) {
-				System.out.println("Ingrese el número de licencia del segundo conductor: ");
-				long licenceNumber = scan.nextLong();
-				System.out.println("Ingrese el país en que se expidieo la licencia del conductor: ");
-				String licenceCountry = scan.nextLine();
-				System.out.println("Ingrese la fecha de vencimiento de la licencia de conducción (AAAA-MM-DD): ");
-				String expDateString = scan.nextLine();
-				Calendar licenceExpirationDate = Calendar.getInstance();
-				Date licenceExpDate = (Date) formatter.parse(expDateString);
-				licenceExpirationDate.setTime(licenceExpDate);
-				System.out.println("Ingrese el path para obtener la foto de la licencia de conducción (.png únicamente): ");
-				String licencePhotoPath = scan.nextLine();
-				secondLicence = newLicence(licenceNumber, licenceCountry, licenceExpirationDate, licencePhotoPath, null);
-			}
-			reserveCar(login, category, getPriceCategory(category), origin, destination, Calendar.getInstance(), returnDateTime, secondLicence);
-		}
 		Rental rental = person.getActiveRental();
-		Car car = rental.getCar();
-		rental.setActive(true);
-		car.setStatus((byte) 2);
-		rental.setPickUp(Calendar.getInstance());
-		rental.getOrigin().removeCar(car);
-		scan.close();
 
+		rental.setActive(true);
+		Car car = rental.getCar();
+		car.setStatus((byte)2);
+		if ( secondaryDriver.size() > 0){
+			for (Licence licence : secondaryDriver) {
+				rental.getSecondaryDriver().add(licence);
+			}
+		}
+		
 	}
 
 	public static void confirmReturn(String login, int days, String comments, int extraCharges, String employeeLogin, 
@@ -353,6 +299,20 @@ public class CarRental {
 			resultingString += String.format("El total final del alquiler es de %8d", total);
 		}
 
+	}
+	public static void registerCar(Byte status, String brand, String plate, String model, String color, boolean isAutomatic, String category, int availableIn, String store){
+		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn);
+		carro.setStatus(status);
+		cars.put(carro.getPlate(), carro);
+		Store st = stores.get(store);
+		((st.getInventory()).get(category)).add(plate);
 	} 
-	
+	public static void newStore(String name, String location, Calendar openingTime, Calendar closingTime, byte OpeningDays){
+		HashMap <String, ArrayList<String>> inventory = new HashMap<String, ArrayList<String>>();
+		Store store = new Store(name, location, openingTime, closingTime, OpeningDays, inventory);
+		stores.put(name, store);
+	}
+	public static void changeVehicleStatus(String plate, byte status){
+		(cars.get(plate)).setStatus(status);
+	}
 }

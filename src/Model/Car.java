@@ -7,14 +7,14 @@ public class Car {
 	private byte status;
     private String brand;
     private String plate;
-    private short model;
+    private String model;
     private String color;
     private boolean isAutomatic;
     private String category;
     private int availableIn;
 
 
-    public Car(String brand, String plate, short model, String color, boolean isAutomatic, String category, 
+    public Car(String brand, String plate, String model, String color, boolean isAutomatic, String category, 
         int availableIn) {
 
         this.brand = brand;
@@ -51,7 +51,7 @@ public class Car {
 
     }
 
-    public short getModel() {
+    public String getModel() {
 
         return model;
 
