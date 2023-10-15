@@ -306,10 +306,11 @@ public class RentalLoader {
             String[] partes = linea.split(",");
             String brand = partes[0];
             String plate = partes[1];
-            Short model = Short.parseShort(partes[2]);
+            String model = (partes[2]);
             String color = partes[3];
             boolean isAutomatic = Boolean.parseBoolean(partes[4]);
             String strAvailableIn = partes[5];
+            String category = partes[6];
 
             // cambiar fecha string a Calendar
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -320,7 +321,7 @@ public class RentalLoader {
 
             long daysBetween = ChronoUnit.DAYS.between(availableIn.toInstant(), Calendar.getInstance().toInstant());
 
-            Car newCar = new Car(brand, plate, model, color, isAutomatic, plate, (int) daysBetween);
+            Car newCar = new Car(brand, plate, model, color, isAutomatic, category, (int) daysBetween);
             cars.put(plate, newCar);
 
             linea = br.readLine();
