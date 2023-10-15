@@ -315,4 +315,7 @@ public class CarRental {
 	public static void changeVehicleStatus(String plate, byte status){
 		(cars.get(plate)).setStatus(status);
 	}
+	public static ArrayList<Rental> getPastRentals(Car car){
+		return rentals.get(car);
+	}
 }
