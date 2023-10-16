@@ -72,13 +72,33 @@ public class CarRental {
 
 	}
 
+	public static boolean carExists(String plate) {
+
+		Car car = getCar(plate);
+		if (car.equals(null)) return false;
+		else return true;
+
+	}
+
 	public static Store getStore(String storeName) {
 
 		return stores.get(storeName);
 
 	}
 
-	private static boolean storeExists(String name) {
+	public static String getStoreByPlate(String plate) {
+
+		for (String storeString: stores.keySet()) {
+			Store store = getStore(storeString);
+			for (String category: categories.keySet()) {
+				if (store.getInventory().get(category).contains(plate)) return storeString;
+			}
+		}
+		return null;
+
+	}
+
+	public static boolean storeExists(String name) {
 
 		Store store = getStore(name);
 		if (store.equals(null)) return false;

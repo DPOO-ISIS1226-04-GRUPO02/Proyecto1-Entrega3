@@ -97,7 +97,7 @@ public class View {
 		List<String> usernames = Arrays.asList(Users.getUsernames());
 		if (selection == 0) selection = scan.nextInt();
 		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
-		switch (selection) {	
+		abc: switch (selection) {	
 			case 0:
 				System.out.println("Gracias por usar la aplicación.");
 				break;
@@ -349,7 +349,25 @@ public class View {
 				CarRental.newStore(name, location, openingTime, closingTime, openingDays);
 				break;
 			case 9:
+				System.out.println("Ingrese la placa del carro que desea cambiar de sede: ");
+				String plate2 = scan.nextLine();
+				while (!CarRental.carExists(plate2)) {
+					System.out.println("Este carro no está registrado en el sistema. Ingrese la placa de nuevo o 'stop' para salir: ");
+					plate2 = scan.nextLine();
+					if (plate2.equals("stop")) break abc;
+				}
+				String originStore = CarRental.getStoreByPlate(plate2);
+				System.out.println("Ingrese el nombre de la sede a donde desea mover el vehículo: ");
+				String destinationStore = scan.nextLine();
+				while (!CarRental.storeExists(destinationStore)) {
+					System.out.println("Esta tienda no existe o es la misma en que ya está. Ingrese otra o 'stop' para salir: ");
+					destinationStore = scan.nextLine();
+					if (destinationStore.equals("stop")) break abc;
+				}
+				// TODO: Implement the option to change a car from store in CarRental
+				break;
 			case 10:
+				
 			case 11:
 			case 12:
 			case 13:
