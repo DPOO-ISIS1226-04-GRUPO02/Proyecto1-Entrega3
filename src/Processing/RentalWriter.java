@@ -1,7 +1,10 @@
 package Processing;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,9 +23,40 @@ import Model.Rental;
 public class RentalWriter {
 
 
-    public static void changeTariffs(HashMap<String, Integer> tariffs) {
-        // TODO: Finish implementing the method
-    }
+    /**
+     * @param category
+     * @param value
+     */
+    public static void changeTariffs(String category, int value) {
+        String filePath = "data/categories.txt";
+        try {
+            FileReader fileReader = new FileReader(filePath);
+            
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String linea;
+
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((linea = bufferedReader.readLine()) != null){
+                String[] parts = linea.split(",");
+                if (parts[0].equals(category)){
+                    stringBuilder.append(parts[0]).append(",").append(value).append(System.lineSeparator());
+                } else {
+                    stringBuilder.append(linea).append(System.lineSeparator());  
+                }
+            }
+            bufferedReader.close();
+            FileWriter fileWriter = new FileWriter(filePath);
+            fileWriter.write(stringBuilder.toString());
+            fileWriter.close();
+
+        } catch (FileNotFoundException ex){
+            ex.printStackTrace();
+        } catch (IOException ex){
+            ex.printStackTrace();
+        }
+
+        }
+    
 
     public static void addClient(Client client) {
         String username = client.getLogin();
@@ -92,7 +126,7 @@ public class RentalWriter {
             }
         }
     }
-    public void newRental(Rental rental){
+    public static void newRental(Rental rental){
         String plate = rental.getCar().getPlate();
         String folderPath = "data/rentals/" + plate;
 

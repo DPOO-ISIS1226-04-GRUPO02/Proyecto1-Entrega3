@@ -229,6 +229,7 @@ public class CarRental {
 
 		}
 		scan.close();
+		RentalWriter.changeClientInformation(client);
 
 	}
 
@@ -264,7 +265,8 @@ public class CarRental {
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
 				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
-			System.out.println("Reserva creada exitosamente!");
+			RentalWriter.newRental(newRental);
+			System.out.println("Reserva creada exitosamente");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
 		}
@@ -278,6 +280,7 @@ public class CarRental {
 		Rental rental = new Rental(null, getCar(plate), days, null, getStore(origin), getStore(destination), 
 			Calendar.getInstance(), returnCalendar, null, null);
 		rental.getCar().setAvailableTime(days);
+		RentalWriter.newRental(rental);
 
 	}
 
@@ -408,6 +411,10 @@ public class CarRental {
 
 		return rentals.get(car);
 
+	}
+	public static void setTariffs(String category, int value){
+		categories.put(category, value);
+		RentalWriter.changeTariffs(category, value);
 	}
 
 	public static void setTariff(String category, int amount) {
