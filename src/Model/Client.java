@@ -14,8 +14,9 @@ public class Client {
     private Payment payment;
     private String login;
     private Rental active = null;
+    private Licence licence;
 
-    public Client(String name, long phone, String email, Calendar dateBirth, String nationality, String idPhotoPath, 
+    public Client(String name, long phone, String email, Calendar dateBirth, String nationality, String idPhotoPath, Licence licence, 
         Payment payment,  String login) {
         
         this.fullName = name;
@@ -24,6 +25,7 @@ public class Client {
         this.dateBirth = dateBirth;
         this. nationality = nationality;
         this.idPhotoPath = idPhotoPath;
+        this.licence= licence
         this.payment = payment;
         this.login = login;
 
