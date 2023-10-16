@@ -224,9 +224,11 @@ public class View {
 				}
 			
 				if (fechaInicio != null && fechaFin != null){
+					System.out.println("Ingrese la cantidad de licencias secundarias que va a registrar: ");
+					int n = scan.nextInt();
 					try {
 						CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, 
-							fechaFin);
+							fechaFin, n);
 					} catch (ParseException pe) {
 						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
 					}
