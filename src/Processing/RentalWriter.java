@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Model.Car;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
@@ -64,6 +65,49 @@ public class RentalWriter {
         }
     }
     
+
+    public static void changeCarInformation(Car car){
+        String filePath = "data/cars.txt";
+        try {
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String linea;
+
+            StringBuilder stringBuilder = new StringBuilder();
+            while ((linea = bufferedReader.readLine()) != null) {
+                String[] parts = linea.split(",");
+                if (parts[1].equals(car.getPlate())) {
+                    // Se encontró la línea correspondiente a la placa, se modifica la información
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd");
+                    String formattedDate = dateFormat.format(car.getAvailableDate().getTime());
+                    byte aut = 0;
+                    if (car.isAutomatic()){
+                        aut = (byte) 1;
+                    }
+                    stringBuilder.append(car.getBrand()).append(",").append(car.getPlate()).append(",").append(car.getModel()).append(",")
+                            .append(car.getColor()).append(",").append(formattedDate).append(",").append(String.valueOf(aut)).append(",")
+                            .append(car.getCategory()).append(",").append(String.valueOf(car.getStatus())).append(System.lineSeparator());
+                } else {
+                    // La línea no corresponde a la placa, se agrega sin cambios
+                    stringBuilder.append(linea).append(System.lineSeparator());
+                }
+            }
+
+            bufferedReader.close();
+
+            FileWriter fileWriter = new FileWriter(filePath);
+            fileWriter.write(stringBuilder.toString());
+            fileWriter.close();
+
+            System.out.println("Información del carro modificada con éxito.");
+
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        
+    }
 
     public static void addClient(Client client) {
         String username = client.getLogin();
