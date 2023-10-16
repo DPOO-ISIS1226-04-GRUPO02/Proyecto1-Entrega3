@@ -31,7 +31,7 @@ public class RentalLoader {
         HashMap<String, Car> cars = loadCars();
 
         //lectura de la carpeta con los distintos .txt"
-        String folderPath = "./data/stores";
+        String folderPath = ".\\data\\stores";
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 
@@ -261,9 +261,10 @@ public class RentalLoader {
                     Date dateBirthDate = (Date)formatter.parse(strDateBirth);
                     dateBirth.setTime(dateBirthDate);
 
-                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newPayment, 
-                        login);
-                    newClient.setLicence(CarRental.newLicence(number, country, expirationLicence, photoPath, login));
+                    Licence newlicence= new Licence(number, country, expirationLicence, photoPath);
+
+                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newlicence, newPayment, login);
+                    
                     clients.put(login, newClient);
 
                     linea1 = br1.readLine();
@@ -360,7 +361,7 @@ public class RentalLoader {
     {
         HashMap<Long, Licence> secondaryLicence = new HashMap<Long, Licence>();
 
-        String folderPath = "./data/secondaryLicence";
+        String folderPath = ".\\data\\secondaryLicence";
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 
@@ -411,7 +412,7 @@ public class RentalLoader {
 
         //carga de datos
         HashMap<Car, ArrayList<Rental>> rentals = new HashMap<Car, ArrayList<Rental>>();
-        String folderPath = "./data/rentals";
+        String folderPath = ".\\data\\rentals";
         File folder = new File(folderPath);
         File[] plateFolders = folder.listFiles();
 
@@ -419,7 +420,6 @@ public class RentalLoader {
         {   
             if (plateFolder.isDirectory())
             {   
-                String plate = plateFolder.getName();
 
                 File[] dateFolders = plateFolder.listFiles();
 
@@ -459,66 +459,66 @@ public class RentalLoader {
                 File insuranceFile = new File (dateFolder, "insurance.txt");
                 File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt");
 
-                //información insurance
-                ArrayList<Insurance> insurancesRental = new ArrayList<>();
+                    //información insurance
+                    ArrayList<Insurance> insurancesRental = new ArrayList<>();
 
-                BufferedReader br = new BufferedReader(new FileReader(insuranceFile));
-		        String linea = br.readLine();
-		        while (linea != null)
-                {
-                    String[] partes = linea.split(",");
-                    String insuranceStr = partes[0];
-                    Insurance insurance = insurances.get(insuranceStr);
-                    insurancesRental.add(insurance);
-
-
-                    linea = br.readLine();  
-                }
-                br.close();  
-
-                //información secondary driver
-                ArrayList<Licence> secondaryDriver = new ArrayList<>();
-
-                BufferedReader br2 = new BufferedReader(new FileReader(secondaryDriverFile));
-		        String linea2 = br.readLine();
-		        while (linea2 != null)
-                {
-                    String[] partes = linea.split(",");
-                    String secondaryLicenceStr = partes[0];
-                    Licence secondaryLicence = secondaryLicences.get(secondaryLicenceStr);
-                    secondaryDriver.add(secondaryLicence);
+                    BufferedReader br = new BufferedReader(new FileReader(insuranceFile));
+                    String linea = br.readLine();
+                    while (linea != null)
+                    {
+                        String[] partes = linea.split(",");
+                        String insuranceStr = partes[0];
+                        Insurance insurance = insurances.get(insuranceStr);
+                        insurancesRental.add(insurance);
 
 
-                    linea = br2.readLine();  
-                }
-                br2.close();  
+                        linea = br.readLine();  
+                    }
+                    br.close();  
+
+                    //información secondary driver
+                    ArrayList<Licence> secondaryDriver = new ArrayList<>();
+
+                    BufferedReader br2 = new BufferedReader(new FileReader(secondaryDriverFile));
+                    String linea2 = br.readLine();
+                    while (linea2 != null)
+                    {
+                        String[] partes = linea.split(",");
+                        Long secondaryLicenceLong = Long.parseLong(partes[0]);
+                        Licence secondaryLicence = secondaryLicences.get(secondaryLicenceLong);
+                        secondaryDriver.add(secondaryLicence);
+
+
+                        linea = br2.readLine();  
+                    }
+                    br2.close();  
 
 
 
-                //información rental
-                BufferedReader br1 = new BufferedReader(new FileReader(infoFile));
-		        String linea1 = br1.readLine();
-		        while (linea1 != null)
-                {
-                    String[] partes = linea1.split(",");
-                    String login = partes[0];
-                    String plate2 = partes[1];
-                    int baseCharge = Integer.parseInt(partes[2]);
-                    String rentedFromStr = partes[3];
-                    String returnToStr = partes[4];
-                    String strPickUpDateTime = partes[5];
-                    String strReturnDateTime = partes[6];
+                    //información rental
+                    BufferedReader br1 = new BufferedReader(new FileReader(infoFile));
+                    String linea1 = br1.readLine();
+                    while (linea1 != null)
+                    {
+                        String[] partes = linea1.split(",");
+                        String login = partes[0];
+                        String plate2 = partes[1];
+                        int baseCharge = Integer.parseInt(partes[2]);
+                        String rentedFromStr = partes[3];
+                        String returnToStr = partes[4];
+                        String strPickUpDateTime = partes[5];
+                        String strReturnDateTime = partes[6];
 
-                    //cambiar String a Calendar
-                    DateFormat formatter= new SimpleDateFormat("yy-MM-dd:HH-mm");
-                    Calendar pickUpDateTime = Calendar.getInstance();
-                    Calendar returnDateTime = Calendar.getInstance();
+                        //cambiar String a Calendar
+                        DateFormat formatter= new SimpleDateFormat("yy-MM-dd:HH-mm");
+                        Calendar pickUpDateTime = Calendar.getInstance();
+                        Calendar returnDateTime = Calendar.getInstance();
 
-                    Date pickUpDateTimeDate = (Date)formatter.parse(strPickUpDateTime);
-                    Date returnDateTimeDate = (Date)formatter.parse(strReturnDateTime);
+                        Date pickUpDateTimeDate = (Date)formatter.parse(strPickUpDateTime);
+                        Date returnDateTimeDate = (Date)formatter.parse(strReturnDateTime);
 
-                    pickUpDateTime.setTime(pickUpDateTimeDate);
-                    returnDateTime.setTime(returnDateTimeDate);
+                        pickUpDateTime.setTime(pickUpDateTimeDate);
+                        returnDateTime.setTime(returnDateTimeDate);
 
                     //encuentra la información y la convierte en objeto
                     Client renter = clients.get(login);
@@ -531,10 +531,12 @@ public class RentalLoader {
                     if (rentals.get(car).equals(null)) rentals.put(car, new ArrayList<Rental>()); 
                     rentals.get(car).add(newRental);
 
-                    linea1 = br1.readLine();  
+                        linea1 = br1.readLine();  
 
-                }
-                br1.close();  
+                    }
+                    br1.close();  
+
+                    }
 
                 }
 

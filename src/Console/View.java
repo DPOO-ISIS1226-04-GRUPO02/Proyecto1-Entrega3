@@ -1,7 +1,13 @@
 package Console;
 
 import java.util.Scanner;
+import java.util.Set;
+
+import Model.Client;
+
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -121,7 +127,6 @@ public class View {
 					String nationality = scan.nextLine();
 					System.out.println("Ingrese la ubicación de la foto de su identificación (en el computador): ");
 					String idPhotoPath = scan.nextLine(); 
-					// TODO: Retrieve the photo and move it to its corresponding folder
 
 					System.out.println("-- DATOS DE LA TARJETA DE CREDITO PARA EL PAGO --");
 					System.out.println("Ingrese el número de su tarjeta de crédito: ");
@@ -158,7 +163,6 @@ public class View {
 					licenceExpiration.set(calendarValues[0], calendarValues[1], calendarValues[2], 0, 0, 0);
 					System.out.println("Ingrese la ubicación de la foto de su licencia (en el computador): ");
 					String licencePhotoPath = scan.nextLine(); 
-					// TODO: Retrieve the photo and move it to its corresponding folder
 
 					CarRental.registerNewClient(name, phone, email, dateBirth, nationality, idPhotoPath, cardNumber, 
 						cardExpiration, cardCode, cardOwner, cardAddress, login, licenceNumber, licenceCountry, 
@@ -169,6 +173,64 @@ public class View {
 				break;
 			case 2:
 				// TODO: Call implemented option to reserve a car
+				System.out.println("Ingrese su nombre de usuario: ");
+				clientLogin = scan.nextLine();
+				Client client = CarRental.getClient(clientLogin);
+				ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
+				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
+				for (String elemento : categories){
+					int i = 1;
+					System.out.println(String.valueOf(i) + ". " + elemento);
+					i += 1;
+				}
+				int categoriaSelect = scan.nextInt();
+				String categoria = categories.get(categoriaSelect -1);
+				System.out.println("Ingrese el número de la sede en la que desea recoger su vehículo: ");
+				ArrayList<String> tiendas = new ArrayList<>(CarRental.getStores());
+				for (String tienda : tiendas){
+					int i = 1;
+					System.out.println(String.valueOf(i) + ". " + tienda);
+					i += 1;
+				}
+				int storeOriginSelect = scan.nextInt();
+				String storeOrigin = tiendas.get(storeOriginSelect -1);
+				System.out.println("Ingrese el número de la sede en la que desea devolver su vehículo: ");
+				for (String tienda : tiendas){
+					int i = 1;
+					System.out.println(String.valueOf(i) + ". " + tienda);
+					i += 1;
+				}
+				int storeDestinySelect = scan.nextInt();
+				String storeDestiny = tiendas.get(storeDestinySelect -1);
+				Calendar fechaInicio = null;
+				Calendar fechaFin = null;
+				try {
+					System.out.println("Ingrese la fecha y hora aproximada en la que desea recoger su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-15:09-30): ");
+					String fechaI = scan.nextLine();
+					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-21:21-30): ");
+					String fechaF = scan.nextLine();
+					Calendar calendar = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd:HH-mm");
+		
+					// Convertir la fecha de recogida en un objeto Calendar
+					fechaInicio = Calendar.getInstance();
+					fechaInicio.setTime(sdf.parse(fechaI));
+		
+					// Convertir la fecha de devolución en un objeto Calendar
+					fechaFin = Calendar.getInstance();
+					fechaFin.setTime(sdf.parse(fechaF));
+		
+				} catch (java.text.ParseException e) {
+					System.out.println("Error: Formato de fecha incorrecto.");
+					fechaInicio = null;
+					fechaFin = null;
+				}
+			
+				if (fechaInicio != null && fechaFin != null){
+					CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, fechaFin);
+
+				}
+				
 				break;
 			case 3:
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
