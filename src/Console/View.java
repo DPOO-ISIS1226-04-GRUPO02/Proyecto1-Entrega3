@@ -369,8 +369,18 @@ public class View {
 				CarRental.reserveCar(plate2, originStore, destinationStore, days2);
 				break;
 			case 10:
-				
+				System.out.println("Ingrese la placa del carro que desea inhabilitar: ");
+				String plate3 = scan.nextLine();
+				while (!CarRental.carExists(plate3)) {
+					System.out.println("Este vehículo no se ha encontrado. Ingrese otra placa o 'stop' para salir: ");
+					plate3 = scan.nextLine();
+					if (plate3.equals("stop")) break abc;
+				}
+				if (CarRental.getCar(plate3).getStatus() == (byte) 3) System.out.println("Este vehículo ya está inactivo.");
+				else CarRental.changeVehicleStatus(plate3, (byte) 3);
+				break;
 			case 11:
+				
 			case 12:
 			case 13:
 			case 14:

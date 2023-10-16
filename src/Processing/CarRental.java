@@ -66,7 +66,7 @@ public class CarRental {
 
 	}
 
-	private static Car getCar(String plate) {
+	public static Car getCar(String plate) {
 
 		return cars.get(plate);
 
@@ -232,7 +232,8 @@ public class CarRental {
 		while (!found && i < categoryList.size()) {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
-			if (status == 0) {
+			Calendar availableIn = getCar(plate).getAvailableDate();
+			if (status == (byte) 0 && availableIn.after(Calendar.getInstance())) {
 				found = true;
 				reservation = getCar(plate);
 				reservation.setStatus((byte)1);
