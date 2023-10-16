@@ -21,6 +21,7 @@ import Model.Insurance;
 import Model.Licence;
 import Model.Payment;
 import Model.Rental;
+import Model.Store;
 
 public class RentalWriter {
 
@@ -126,6 +127,39 @@ public class RentalWriter {
 
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void changeStoreInformation(Store store) {
+        String filePath = "data/stores/store.txt";
+        try {
+            FileWriter fw = new FileWriter(filePath);
+            fw.write("");
+            fw.close();
+            FileWriter fileWriter = new FileWriter(filePath, true);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            String OpformattedDate = dateFormat.format(store.getOpHour().getTime());
+            String ClformattedDate = dateFormat.format(store.getCloseHour().getTime());
+            stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(OpformattedDate).append(",").append(ClformattedDate).append(",")
+                    .append(String.valueOf(store.opDays()));
+
+            ArrayList<String> plates = new ArrayList<>();
+            for (ArrayList<String> valueList : store.getInventory().values()) {
+                plates.addAll(valueList);
+            }
+            for (String plate: plates){
+                stringBuilder.append(",").append(plate);
+            }
+
+            fileWriter.write(stringBuilder.toString());
+            fileWriter.close();
+
+            System.out.println("Información de la tienda modificada con éxito.");
 
         } catch (IOException ex) {
             ex.printStackTrace();
