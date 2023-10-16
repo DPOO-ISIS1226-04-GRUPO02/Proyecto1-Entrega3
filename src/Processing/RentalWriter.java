@@ -166,6 +166,45 @@ public class RentalWriter {
         }
     }
 
+    public static void addStore(Store store) {
+        // Especifica la ruta de la carpeta stores dentro de la carpeta data
+        String folderPath = "data/stores/";
+
+        // Crea un directorio si no existe
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        // Crea un archivo con el nombre de la tienda en la carpeta stores
+        String filePath = folderPath + store.getName() + ".txt";
+        try {
+            FileWriter fileWriter = new FileWriter(filePath);
+            StringBuilder stringBuilder = new StringBuilder();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+            String OpformattedDate = dateFormat.format(store.getOpHour().getTime());
+            String ClformattedDate = dateFormat.format(store.getCloseHour().getTime());
+            stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(OpformattedDate).append(",").append(ClformattedDate).append(",")
+                    .append(String.valueOf(store.opDays()));
+
+            ArrayList<String> plates = new ArrayList<>();
+            for (ArrayList<String> valueList : store.getInventory().values()) {
+                plates.addAll(valueList);
+            }
+            for (String plate: plates){
+                stringBuilder.append(",").append(plate);
+            }
+
+            fileWriter.write(stringBuilder.toString());
+            fileWriter.close();
+
+            System.out.println("Información de la tienda modificada con éxito.");
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     public static void addClient(Client client) {
         String username = client.getLogin();
         String folderPath = "data/clients/" + username;
