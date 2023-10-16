@@ -231,6 +231,7 @@ public class CarRental {
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
 				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
+			RentalWriter.newRental(newRental);
 			System.out.println("Reserva creada exitosamente");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
