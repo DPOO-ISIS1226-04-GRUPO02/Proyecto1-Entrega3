@@ -68,7 +68,7 @@ public class RentalWriter {
                 }
                 String sourceImagePath2 = licence.getPhotoPath();
                 Path source2 = Paths.get(sourceImagePath2);
-                Path target2 = Paths.get(folderPath + "/licence.jpg");
+                Path target2 = Paths.get(folderPath + "/license.jpg");
 
                 try {
                     Files.copy(source2, target2);
@@ -150,5 +150,108 @@ public class RentalWriter {
                 
 
     }
-}
+    public static void changeClientInformation (Client person){
+        String username = person.getLogin();
+        String filePath = "data/clients/" + username + "/clientInfo.txt";
+        try {
+        File file = new File(filePath);
+        FileWriter fr = new FileWriter(file, false);
+        fr.write("");
+        fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateString = dateFormat.format(person.getDateBirth().getTime());
+            String content = person.getName() + ',' + person.getPhone() + ',' + person.getEmail() + ',' + dateString + ',' + person.getNationality() + ',' + person.getLogin();
+            bufferedWriter.write(content);
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String id = "data/clients" + username + "/identification.jpg";
+        String identification = person.getIdPhotoPath();
+        try {
+            File fotoId = new File(id);
+            fotoId.delete();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        Path source = Paths.get(identification);
+        Path target = Paths.get("data/clients" + username + "/identification.jpg");
+
+        try {
+            Files.copy(source, target);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filePath2 = "data/clients/" + username + "/licenceInfo.txt";
+        try {
+        File file = new File(filePath);
+        FileWriter fr = new FileWriter(file, false);
+        fr.write("");
+        fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(filePath2, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            Licence licence = person.getLicence();
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM");
+            String dateString2 = dateFormat2.format(licence.getExpiration().getTime());
+            String content2 = licence.getNumber() + ',' + licence.getCountry() + ',' + dateString2;
+            bufferedWriter.write(content2);
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String li = "data/clients" + username + "/license.jpg";
+        String licence = person.getLicence().getPhotoPath();
+        try {
+            File fotoId = new File(li);
+            fotoId.delete();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        Path source2 = Paths.get(licence);
+        Path target2 = Paths.get("data/clients" + username + "/license.jpg");
+
+        try {
+            Files.copy(source2, target2);
+        } catch (IOException e) {
+            e.printStackTrace();
+    }
+
+    String filePath3 = "data/clients/" + username + "/paymentInfo.txt";
+        try {
+        File file = new File(filePath3);
+        FileWriter fr = new FileWriter(file, false);
+        fr.write("");
+        fr.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            Payment payment = person.getPayment();
+            SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM");
+            String dateString3 = dateFormat3.format(payment.getExpiration().getTime());
+            String content3 = payment.getNumber() + ',' + dateString3 + ',' + String.valueOf(payment.getCode()) + ',' + payment.getOwner() + ',' + payment.getAddress();
+            bufferedWriter.write(content3);
+            bufferedWriter.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+}}
+
+
 
