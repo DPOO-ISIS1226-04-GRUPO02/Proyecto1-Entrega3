@@ -1,1 +1,0 @@
-Vehículo entregado con daño,60,Daño en la parte trasera del vehículo

@@ -1,9 +1,0 @@
-Compacto,50
-Sedán,60
-Lujoso,100
-Eléctrico,80
-Deportivo,90
-Todoterreno,70
-SUV,75
-Minivan,85
-Superdeportivo,150
