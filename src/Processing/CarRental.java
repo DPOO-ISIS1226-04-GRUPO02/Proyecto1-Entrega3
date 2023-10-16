@@ -248,13 +248,15 @@ public class CarRental {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
 			Calendar availableIn = getCar(plate).getAvailableDate();
-			if (status == (byte) 0 && availableIn.after(Calendar.getInstance())) {
+			if (status == (byte) 0 && availableIn.before(pickUpdateTime)) {
 				found = true;
 				reservation = getCar(plate);
 				reservation.setStatus((byte)1);
 			}
+			i += 1;
 		}
-		if (reservation.equals(null)) {
+		Car reservation2 = reservation;
+		if (reservation == null) {
 			System.out.println(String.format(
 				"No se ha encontrado un carro de esta categoría en la tienda %s. Seleccione otra, por favor.", 
 				origin));

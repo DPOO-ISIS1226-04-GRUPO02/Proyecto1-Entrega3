@@ -79,6 +79,7 @@ public class UserSelection {
 		
 		try {
 			CarRental.loadCarRental();
+			
 		} catch (ParseException pe) {
 			System.out.println("Se ha encontrado un problema con el formato de carga de los archivos: " + pe);
 		} catch (IOException ioe) {

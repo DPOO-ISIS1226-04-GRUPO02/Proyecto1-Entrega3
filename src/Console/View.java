@@ -39,7 +39,6 @@ public class View {
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				selection = scan.nextInt();
-				scan.close();
 				if (0 <= selection && selection <= 2) runOptions(selection);
 				break;
 			case 1:
@@ -49,7 +48,6 @@ public class View {
 				System.out.println("3. Confirmar recogida de un carro");
 				System.out.println("4. Confirmar devolución de un carro");
 				selection = scan.nextInt();
-				scan.close();
 				if (0 <= selection && selection <= 4) runOptions(selection);
 				break;
 			case 2:
@@ -60,7 +58,6 @@ public class View {
 				System.out.println("4. Confirmar devolución de un carro");
 				System.out.println("5. Registrar nuevo empleado");
 				selection = scan.nextInt();
-				scan.close();
 				if (0 <= selection && selection <= 5) runOptions(selection);
 				break;
 			case 3:
@@ -80,12 +77,12 @@ public class View {
 				System.out.println("13. Habilitar/Inhabilitar un seguro");
 				System.out.println("14. Generar historial de alquileres para un carro");
 				selection = scan.nextInt();
-				scan.close();
 				if (0 <= selection && selection <= 14) runOptions(selection);
 				break;
-		}
+		}scan.close();
 		if (selection == 0) return false;
 		else return true;
+		
 		
 	}
 
@@ -94,7 +91,6 @@ public class View {
 		Scanner scan = new Scanner(System.in);
 		String clientLogin;
 		List<String> usernames = Arrays.asList(Users.getUsernames());
-		if (selection == 0) selection = scan.nextInt();
 		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
 		abc: switch (selection) {	
 			case 0:
@@ -178,7 +174,7 @@ public class View {
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
 				for (String elemento : categories){
 					int i = 1;
-					System.out.println(String.valueOf(i) + ". " + elemento);
+					System.out.println(i + ". " + elemento);
 					i += 1;
 				}
 				int categoriaSelect = scan.nextInt();
@@ -187,7 +183,7 @@ public class View {
 				ArrayList<String> tiendas = new ArrayList<>(CarRental.getStores());
 				for (String tienda : tiendas){
 					int i = 1;
-					System.out.println(String.valueOf(i) + ". " + tienda);
+					System.out.println(i + ". " + tienda);
 					i += 1;
 				}
 				int storeOriginSelect = scan.nextInt();
@@ -195,7 +191,7 @@ public class View {
 				System.out.println("Ingrese el número de la sede en la que desea devolver su vehículo: ");
 				for (String tienda : tiendas){
 					int i = 1;
-					System.out.println(String.valueOf(i) + ". " + tienda);
+					System.out.println(i + ". " + tienda);
 					i += 1;
 				}
 				int storeDestinySelect = scan.nextInt();
@@ -203,6 +199,7 @@ public class View {
 				Calendar fechaInicio = null;
 				Calendar fechaFin = null;
 				try {
+					scan.nextLine();
 					System.out.println("Ingrese la fecha y hora aproximada en la que desea recoger su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-15:09-30): ");
 					String fechaI = scan.nextLine();
 					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-21:21-30): ");
@@ -227,7 +224,7 @@ public class View {
 					System.out.println("Ingrese la cantidad de licencias secundarias que va a registrar: ");
 					int n = scan.nextInt();
 					try {
-						CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, 
+						CarRental.reserveCar(client.getLogin(), categoria, storeOrigin, storeDestiny, fechaInicio, 
 							fechaFin, n);
 					} catch (ParseException pe) {
 						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
