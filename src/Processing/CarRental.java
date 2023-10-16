@@ -33,7 +33,7 @@ public class CarRental {
 
 	public static void loadCarRental() throws IOException, ParseException {
 
-		//clients = RentalLoader.loadClients();
+		clients = RentalLoader.loadClients();
 		cars = RentalLoader.loadCars();
 		stores = RentalLoader.loadStores();
 		categories = RentalLoader.loadCategories();
