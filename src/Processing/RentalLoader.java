@@ -425,33 +425,39 @@ public class RentalLoader {
 
                 for (File dateFolder : dateFolders)
                 {
-                    ArrayList<Extra> extras = new ArrayList<Extra>();
-                    if (dateFolder.isDirectory()) {
+                    if (dateFolder.isDirectory()) 
+                    {
 
-                        //lee la carpeta extra
-                        File extraFolder = new File(dateFolder, "extra");
-                        File[] extraFiles = extraFolder.listFiles();
+                    //lee la carpeta extra
+                    File extraFolder = new File(dateFolder, "extra");
+                    File[] extraFiles = extraFolder.listFiles();
+                    ArrayList<Extra> extras= new ArrayList<>();
 
-                        for (File extraFile: extraFiles) {
-                            BufferedReader br = new BufferedReader(new FileReader(extraFile));
-                            String linea = br.readLine();
-                            while (linea != null) {
-                                String[] partes = linea.split(",");
-                                String extraType = partes[0];
-                                int cost = Integer.parseInt(partes[1]); 
-                                String specification = partes[2]; 
-                                Extra newExtra = new Extra(extraType, cost, specification); 
-                                extras.add(newExtra); 
-                                linea = br.readLine();  
-                            }
-                            br.close();
+                    for (File extraFile: extraFiles)
+                    {
+                        BufferedReader br = new BufferedReader(new FileReader(extraFile));
+                        String linea = br.readLine();
+                        while (linea != null)
+                        {
+                            String[] partes = linea.split(",");
+                            String extraType = partes[0];
+                            int cost = Integer.parseInt(partes[1]); 
+                            String specification = partes[2]; 
+
+                            Extra newExtra = new Extra(extraType, cost, specification); 
+                            extras.add(newExtra); 
+
+                            linea = br.readLine();  
                         }
+                        br.close();
 
                     }
 
-                    File infoFile= new File(dateFolder, "info.txt");
-                    File insuranceFile = new File (dateFolder, "insurance.txt");
-                    File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt");
+                    }
+
+                File infoFile= new File(dateFolder, "info.txt");
+                File insuranceFile = new File (dateFolder, "insurance.txt");
+                File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt");
 
                     //información insurance
                     ArrayList<Insurance> insurancesRental = new ArrayList<>();
@@ -487,6 +493,8 @@ public class RentalLoader {
                     }
                     br2.close();  
 
+
+
                     //información rental
                     BufferedReader br1 = new BufferedReader(new FileReader(infoFile));
                     String linea1 = br1.readLine();
@@ -512,16 +520,16 @@ public class RentalLoader {
                         pickUpDateTime.setTime(pickUpDateTimeDate);
                         returnDateTime.setTime(returnDateTimeDate);
 
-                        //encuentra la información y la convierte en objeto
-                        Client renter = clients.get(login);
-                        Car car = cars.get(plate2);
-                        Store rentedFrom= stores.get(rentedFromStr);
-                        Store returnTo = stores.get(returnToStr);
+                    //encuentra la información y la convierte en objeto
+                    Client renter = clients.get(login);
+                    Car car = cars.get(plate2);
+                    Store rentedFrom= stores.get(rentedFromStr);
+                    Store returnTo = stores.get(returnToStr);
 
-                        Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, 
-                            pickUpDateTime, returnDateTime, secondaryDriver, extras);
-                        if (rentals.get(car).equals(null)) rentals.put(car, new ArrayList<Rental>()); 
-                        rentals.get(car).add(newRental);
+                    Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, 
+                        pickUpDateTime, returnDateTime, secondaryDriver, extras);
+                    if (rentals.get(car).equals(null)) rentals.put(car, new ArrayList<Rental>()); 
+                    rentals.get(car).add(newRental);
 
                         linea1 = br1.readLine();  
 
