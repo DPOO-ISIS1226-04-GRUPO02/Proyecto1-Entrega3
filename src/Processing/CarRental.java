@@ -55,7 +55,7 @@ public class CarRental {
 		RentalWriter.addClient(person);	
 	}
 
-	private static Client getClient(String login) {
+	public static Client getClient(String login) {
 
 		return clients.get(login);
 
@@ -107,6 +107,9 @@ public class CarRental {
 
 		return categories.keySet();
 
+	}
+	public static Set<String> getStores() {
+		return stores.keySet();
 	}
 
 	public static Set<Insurance> getInsurances() {
@@ -221,14 +224,14 @@ public class CarRental {
 
 	}
 
-	public static void reserveCar(String renter, String category, int base, String origin, String destination,
-		Calendar pickUpdateTime, Calendar returnDateTime, Licence secondaryLicence){
-		
+	public static void reserveCar(String renter, String category, String origin, String destination,
+		Calendar pickUpdateTime, Calendar returnDateTime){
 		Store originStore = getStore(origin);
 		Store destinationStore = getStore(destination);
 		Client person = getClient(renter);
 		ArrayList<String> categoryList = originStore.getInventory().get(category);
 		int i = 0;
+		int base = 0;
 		boolean found = false;
 		Car reservation = null;
 		while (!found && i < categoryList.size()) {
@@ -247,9 +250,11 @@ public class CarRental {
 			return;
 		}
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
+			base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
-				destinationStore, pickUpdateTime, returnDateTime, secondaryLicence, new ArrayList<Extra>());
+				destinationStore, pickUpdateTime, returnDateTime, new ArrayList<Licence>(), new ArrayList<Extra>());
 			person.setActiveRental(newRental);
+			System.out.println("Reserva creada exitosamente");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
 		}
@@ -303,7 +308,7 @@ public class CarRental {
 
 	}
 	public static void registerCar(Byte status, String brand, String plate, String model, String color, boolean isAutomatic, String category, int availableIn, String store){
-		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn);
+		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn, (byte) 0);
 		carro.setStatus(status);
 		cars.put(carro.getPlate(), carro);
 		Store st = stores.get(store);
