@@ -18,12 +18,12 @@ public class Rental {
     private Calendar returnDateTime;
     private ArrayList<Extra> extras;
 
-    public Rental(Client renter, Car car, int base, ArrayList<Insurance> insurances, Store origin, Store destination, Calendar pickUpDateTime,
-        Calendar returnDateTime, ArrayList<Licence> secondaryDriver, ArrayList<Extra> extras) {
+    public Rental(Client renter, Car car, int base, ArrayList<Insurance> insurances, Store origin, Store destination, 
+        Calendar pickUpDateTime, Calendar returnDateTime, ArrayList<Licence> secondaryDriver, ArrayList<Extra> extras) {
 
         this.active = false;
         this.renter = renter;
-        this.secondaryDriver = new ArrayList<Licence>();
+        this.secondaryDriver = secondaryDriver;
         this.car = car;
         this.baseCharge = base;
         this.insurances = insurances;
@@ -82,6 +82,12 @@ public class Rental {
     public Store getOrigin() {
 
         return rentedFrom;
+
+    }
+
+    public void setOrigin(Store origin) {
+
+        this.rentedFrom = origin;
 
     }
 

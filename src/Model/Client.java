@@ -15,8 +15,8 @@ public class Client {
     private String login;
     private Rental active = null;
 
-    public Client(String name, long phone, String email, Calendar dateBirth, String nationality, String idPhotoPath, Licence licence, 
-        Payment payment,  String login) {
+    public Client(String name, long phone, String email, Calendar dateBirth, String nationality, 
+        String idPhotoPath, Licence licence, Payment payment, String login) {
         
         this.fullName = name;
         this.phoneNumber = phone;
@@ -108,8 +108,14 @@ public class Client {
 
     }
 
+<<<<<<< HEAD
    public void setLicence(Licence licence) {
     this.licence = licence;
+=======
+    public void setLicence(Licence licence) {
+        
+        this.licence = licence;
+>>>>>>> 07f528a6ce675096dd51ca252dbea82056a3e92c
 
     }
 

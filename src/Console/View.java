@@ -1,7 +1,6 @@
 package Console;
 
 import java.util.Scanner;
-import java.util.Set;
 
 import Model.Client;
 
@@ -172,7 +171,6 @@ public class View {
 				}
 				break;
 			case 2:
-				// TODO: Call implemented option to reserve a car
 				System.out.println("Ingrese su nombre de usuario: ");
 				clientLogin = scan.nextLine();
 				Client client = CarRental.getClient(clientLogin);
@@ -209,7 +207,6 @@ public class View {
 					String fechaI = scan.nextLine();
 					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-21:21-30): ");
 					String fechaF = scan.nextLine();
-					Calendar calendar = Calendar.getInstance();
 					SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd:HH-mm");
 		
 					// Convertir la fecha de recogida en un objeto Calendar
@@ -226,17 +223,22 @@ public class View {
 					fechaFin = null;
 				}
 			
+				System.out.println("Ingrese el número de conductore secundarios que desea registrar: ");
+				int n = scan.nextInt();
 				if (fechaInicio != null && fechaFin != null){
-					CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, fechaFin);
-
+					try {
+						CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, 
+							fechaFin, n);
+					} catch (ParseException pe) {
+						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
+					}
 				}
-				
 				break;
 			case 3:
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
 				clientLogin = scan.nextLine();
 				try {
-				CarRental.confirmPickUp(clientLogin, Users.loadUser(login, password).getWorkplace());
+					CarRental.confirmPickUp(clientLogin, Users.loadUser(login, password).getWorkplace());
 				} catch (ParseException pe) {
 					System.out.println("Se ha encontrado un error con el formato de la fecha " + pe);
 				}
