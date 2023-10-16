@@ -422,8 +422,9 @@ public class View {
 					plate4 = scan.nextLine();
 					if (plate4.equals("stop")) break abc;
 				}
-				CarRental.getPastRentals(CarRental.getCar(plate4));
-				// TODO: Print past rentals information
+				String result = CarRental.getPastRentals(CarRental.getCar(plate4));
+				System.out.println(result);
+				break;
 			default:
 				System.out.println("Option not found.");
 				break;
