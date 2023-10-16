@@ -1,0 +1,55 @@
+Toyota,ABC123,Corolla,Rojo,2023-10-16,1,Compacto,0
+Honda,XYZ456,Civic,Azul,2023-10-17,0,Compacto,0
+Ford,DEF789,Focus,Plateado,2023-10-18,1,Compacto,0
+Chevrolet,GHI101,Malibu,Negro,2023-10-19,0,Sedán,0
+Volkswagen,JKL234,Golf,Blanco,2023-10-20,1,Compacto,0
+Nissan,MNO567,Sentra,Gris,2023-10-21,0,Sedán,0
+BMW,PQR890,Serie 3,Azul,2023-10-22,1,Lujoso,0
+Mercedes-Benz,STU123,Clase C,Plateado,2023-10-23,1,Lujoso,0
+Audi,VWX459,A4,Negro,2023-10-24,0,Lujoso,0
+Hyundai,YZA789,Elantra,Rojo,2023-10-25,1,Sedán,0
+Kia,BCD345,Forte,Blanco,2023-10-16,0,Sedán,0
+Subaru,EFG678,Impreza,Verde,2023-10-17,1,Compacto,0
+Mazda,HIJ901,Mazda3,Azul,2023-10-18,0,Compacto,0
+Tesla,KLM234,Model 3,Rojo,2023-10-19,1,Eléctrico,0
+Dodge,NOP567,Charger,Negro,2023-10-20,0,Deportivo,0
+Jeep,QRS890,Wrangler,Verde,2023-10-21,1,Todoterreno,0
+GMC,TUV123,Terrain,Gris,2023-10-22,0,SUV,0
+Chrysler,WXY456,300,Blanco,2023-10-23,1,Sedán,0
+Acura,ZAB789,TLX,Plateado,2023-10-24,0,Lujoso,0
+Subaru,CDE345,Outback,Azul,2023-10-25,1,SUV,0
+Toyota,FGH679,Camry,Rojo,2023-10-16,0,Sedán,0
+Honda,IJK901,Accord,Negro,2023-10-17,1,Sedán,0
+Ford,LMN234,Mustang,Amarillo,2023-10-18,0,Deportivo,0
+Chevrolet,OPQ569,Cruze,Gris,2023-10-19,1,Compacto,0
+Volkswagen,RST890,Passat,Blanco,2023-10-20,0,Sedán,0
+Nissan,UVW123,Altima,Plateado,2023-10-21,1,Sedán,0
+BMW,XYZ457,Serie 5,Azul,2023-10-22,0,Lujoso,0
+Mercedes-Benz,ABC789,Clase E,Negro,2023-10-23,1,Lujoso,0
+Audi,DEF345,A6,Rojo,2023-10-24,0,Lujoso,0
+Hyundai,GHI678,Sonata,Gris,2023-10-25,1,Sedán,0
+Kia,JKL901,Optima,Blanco,2023-10-16,0,Sedán,0
+Subaru,MNO234,Legacy,Plateado,2023-10-17,1,Sedán,0
+Mazda,PQR567,Mazda6,Azul,2023-10-18,0,Compacto,0
+Tesla,STU890,Model S,Rojo,2023-10-19,1,Eléctrico,0
+Dodge,VWX123,Challenger,Negro,2023-10-20,0,Deportivo,0
+Jeep,YZA456,Grand Cherokee,Verde,2023-10-21,1,SUV,0
+GMC,BCD789,Acadia,Gris,2023-10-22,0,SUV,0
+Chrysler,EFG345,Pacifica,Plateado,2023-10-23,1,Minivan,0
+Acura,HIJ678,RDX,Negro,2023-10-24,0,SUV,0
+Subaru,KLM901,Crosstrek,Naranja,2023-10-25,1,SUV,0
+Toyota,NOP234,4Runner,Gris,2023-10-16,0,Todoterreno,0
+Honda,QRS567,HR-V,Verde,2023-10-17,1,SUV,0
+Ford,TUV890,Escape,Plateado,2023-10-18,0,SUV,0
+Chevrolet,WXY123,Equinox,Rojo,2023-10-19,1,SUV,0
+Volkswagen,ZAB456,Tiguan,Blanco,2023-10-20,0,SUV,0
+Nissan,CDE789,Rogue,Negro,2023-10-21,1,SUV,0
+BMW,FGH678,X3,Azul,2023-10-22,0,SUV,0
+Mercedes-Benz,IJK903,GLC,Plateado,2023-10-23,1,SUV,0
+Audi,LMN235,Q5,Gris,2023-10-24,0,SUV,0
+Hyundai,OPQ567,Tucson,Rojo,2023-10-25,1,SUV,0
+Ferrari,FER001,488 Spider,Rojo,2023-10-16,1,Deportivo,0
+Ferrari,FER002,812 Superfast,Amarillo,2023-10-17,1,Deportivo,0
+Ferrari,FER003,F8 Tributo,Blanco,2023-10-18,1,Deportivo,0
+Ferrari,FER004,Portofino,Azul,2023-10-19,1,Deportivo,0
+Ferrari,FER005,LaFerrari,Negro,2023-10-20,1,Superdeportivo,0

@@ -1,0 +1,13 @@
+c1.juan.perez,cliente1,0,null
+c2.maria.rodriguez,cliente2,0,null
+c3.carlos.gomez,cliente3,0,null
+c4.ana.lopez,cliente4,0,null
+c5.jorge.martinez,cliente5,0,null
+e1.laura.sanchez,empleado1,1,Galetto Cars Fontibón
+e2.roberto.fernandez,empleado2,1,Galetto Cars Chapinero
+e3.carmen.torres,empleado3,1,Galetto Cars Usaquén
+e4.alejandro.ramirez,empleado4,1,Galetto Cars Teusaquillo
+e5.patricia.herrera,empleado5,1,Galetto Cars Suba
+l1.daniel.gonzalez,localmanager1,2,Galetto Cars Kennedy
+l2.ana.vargas,localmanager2,2,Galetto Cars Engativá
+g3.g1.miguel.lopez,generalmanager1,3,null
