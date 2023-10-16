@@ -81,7 +81,7 @@ public class RentalWriter {
                 String[] parts = linea.split(",");
                 if (parts[1].equals(car.getPlate())) {
                     // Se encontró la línea correspondiente a la placa, se modifica la información
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     String formattedDate = dateFormat.format(car.getAvailableDate().getTime());
                     byte aut = 0;
                     if (car.isAutomatic()){
