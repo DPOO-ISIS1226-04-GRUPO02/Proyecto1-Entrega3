@@ -29,9 +29,8 @@ public class View {
 		
 	}
 	
-	public boolean optionSelection() {
+	public boolean optionSelection(Scanner scan) {
 		
-		Scanner scan = new Scanner(System.in);
 		int selection = 0;
 		switch (access) {
 			case 0:
@@ -39,8 +38,7 @@ public class View {
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				selection = scan.nextInt();
-				scan.close();
-				if (0 <= selection && selection <= 2) runOptions(selection);
+				if (0 <= selection && selection <= 2) runOptions(selection, scan);
 				break;
 			case 1:
 				System.out.println("0. Salir de la aplicación");
@@ -49,8 +47,7 @@ public class View {
 				System.out.println("3. Confirmar recogida de un carro");
 				System.out.println("4. Confirmar devolución de un carro");
 				selection = scan.nextInt();
-				scan.close();
-				if (0 <= selection && selection <= 4) runOptions(selection);
+				if (0 <= selection && selection <= 4) runOptions(selection, scan);
 				break;
 			case 2:
 				System.out.println("0. Salir de la aplicación");
@@ -60,8 +57,7 @@ public class View {
 				System.out.println("4. Confirmar devolución de un carro");
 				System.out.println("5. Registrar nuevo empleado");
 				selection = scan.nextInt();
-				scan.close();
-				if (0 <= selection && selection <= 5) runOptions(selection);
+				if (0 <= selection && selection <= 5) runOptions(selection, scan);
 				break;
 			case 3:
 				System.out.println("0. Salir de la aplicación");
@@ -80,21 +76,19 @@ public class View {
 				System.out.println("13. Habilitar/Inhabilitar un seguro");
 				System.out.println("14. Generar historial de alquileres para un carro");
 				selection = scan.nextInt();
-				scan.close();
-				if (0 <= selection && selection <= 14) runOptions(selection);
+				if (0 <= selection && selection <= 14) runOptions(selection, scan);
 				break;
 		}
 		if (selection == 0) return false;
 		else return true;
 		
+		
 	}
 
-	private void runOptions(int selection) {
+	private void runOptions(int selection, Scanner scan) {
 
-		Scanner scan = new Scanner(System.in);
 		String clientLogin;
 		List<String> usernames = Arrays.asList(Users.getUsernames());
-		if (selection == 0) selection = scan.nextInt();
 		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
 		abc: switch (selection) {	
 			case 0:
@@ -172,30 +166,34 @@ public class View {
 				}
 				break;
 			case 2:
+				scan.nextLine();
 				System.out.println("Ingrese su nombre de usuario: ");
 				clientLogin = scan.nextLine();
 				Client client = CarRental.getClient(clientLogin);
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
+				int i = 1;
 				for (String elemento : categories){
-					int i = 1;
-					System.out.println(String.valueOf(i) + ". " + elemento);
+					
+					System.out.println(i + ". " + elemento);
 					i += 1;
 				}
 				int categoriaSelect = scan.nextInt();
 				String categoria = categories.get(categoriaSelect -1);
 				System.out.println("Ingrese el número de la sede en la que desea recoger su vehículo: ");
 				ArrayList<String> tiendas = new ArrayList<>(CarRental.getStores());
+				i = 1;
 				for (String tienda : tiendas){
-					int i = 1;
-					System.out.println(String.valueOf(i) + ". " + tienda);
+					
+					System.out.println(i + ". " + tienda);
 					i += 1;
 				}
 				int storeOriginSelect = scan.nextInt();
 				String storeOrigin = tiendas.get(storeOriginSelect -1);
 				System.out.println("Ingrese el número de la sede en la que desea devolver su vehículo: ");
+				i = 1;
 				for (String tienda : tiendas){
-					int i = 1;
-					System.out.println(String.valueOf(i) + ". " + tienda);
+					
+					System.out.println(i + ". " + tienda);
 					i += 1;
 				}
 				int storeDestinySelect = scan.nextInt();
@@ -203,9 +201,10 @@ public class View {
 				Calendar fechaInicio = null;
 				Calendar fechaFin = null;
 				try {
-					System.out.println("Ingrese la fecha y hora aproximada en la que desea recoger su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-15:09-30): ");
+					scan.nextLine();
+					System.out.println("Ingrese la fecha y hora aproximada en la que desea recoger su vehículo en formato yy-MM-dd:HH-mm (ej: 23-10-15:09-30): ");
 					String fechaI = scan.nextLine();
-					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-21:21-30): ");
+					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 23-10-21:21-30): ");
 					String fechaF = scan.nextLine();
 					SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd:HH-mm");
 		
@@ -227,7 +226,7 @@ public class View {
 					System.out.println("Ingrese la cantidad de licencias secundarias que va a registrar: ");
 					int n = scan.nextInt();
 					try {
-						CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, 
+						CarRental.reserveCar(client.getLogin(), categoria, storeOrigin, storeDestiny, fechaInicio, 
 							fechaFin, n);
 					} catch (ParseException pe) {
 						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
@@ -304,15 +303,16 @@ public class View {
 					break;
 				}
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
+				i = 1;
 				for (String elemento : categories){
-					int i = 1;
+				
 					System.out.println(String.valueOf(i) + ". " + elemento);
 					i += 1;
 				}
 				String category = categories.get(scan.nextInt() - 1);
 				ArrayList<String> stores = new ArrayList<>(CarRental.getStores());
+				i = 1;
 				for (String store : stores){
-					int i = 1;
 					System.out.println(String.valueOf(i) + ". " + store);
 					i += 1;
 				}
@@ -400,8 +400,8 @@ public class View {
 				break;
 			case 13:
 				System.out.println("Escoga el nombre del seguro que desea cambiar de estado: ");
+				i = 1;
 				for (String ins: CarRental.getInsurances()) {
-					int i = 1;
 					System.out.println(String.format("%-2d. %s", i, ins));
 					i++;
 				}
@@ -428,8 +428,7 @@ public class View {
 			default:
 				System.out.println("Option not found.");
 				break;
-		}
-		scan.close();
+		} scan.nextInt();
 
 	}
 

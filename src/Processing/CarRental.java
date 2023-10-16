@@ -248,13 +248,14 @@ public class CarRental {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
 			Calendar availableIn = getCar(plate).getAvailableDate();
-			if (status == (byte) 0 && availableIn.after(Calendar.getInstance())) {
+			if (status == (byte) 0 && availableIn.before(pickUpdateTime)) {
 				found = true;
 				reservation = getCar(plate);
 				reservation.setStatus((byte)1);
 			}
+			i += 1;
 		}
-		if (reservation.equals(null)) {
+		if (reservation == null) {
 			System.out.println(String.format(
 				"No se ha encontrado un carro de esta categoría en la tienda %s. Seleccione otra, por favor.", 
 				origin));
@@ -267,6 +268,7 @@ public class CarRental {
 				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
 			RentalWriter.newRental(newRental);
+			RentalWriter.changeCarInformation(reservation);
 			System.out.println("Reserva creada exitosamente");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");

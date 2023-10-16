@@ -32,19 +32,19 @@ public class UserSelection {
 		while (loop) {
 			switch (scan.nextInt()) {
 				case 1:
-					login(); break;
+					login(scan); break;
 				case 2:
-					register(); break;
+					register(scan); break;
 				case 3:
 					loop = false; break;
 				default:
 					System.out.println("Ingrese un número entre 1 y 3."); break;
 			}
 		}
-		
+		scan.close();
 	}
 	
-	private static void login() {
+	private static void login(Scanner scan) {
 		scan.nextLine();
 		System.out.print("Ingrese su nombre de usuario: ");
 		String username = scan.nextLine();
@@ -52,11 +52,11 @@ public class UserSelection {
 		String password = scan.nextLine();
 		User current = Users.loadUser(username, password);
 		if (current.equals(null)) System.out.println("Ingreso incorrecto!");
-		else initializeView(current);
+		else initializeView(current, scan);
 		
 	}
 	
-	private static void register() {
+	private static void register(Scanner scan) {
 		
 		boolean user = true;
 		String username = "";
@@ -71,11 +71,11 @@ public class UserSelection {
 		System.out.print("Ingrese una contraseña para su cuenta: ");
 		String password = scan.nextLine();
 		User current = Users.registerNewUser(username, password, 0, null);
-		initializeView(current);
+		initializeView(current, scan);
 		
 	}
 	
-	private static void initializeView(User current) {
+	private static void initializeView(User current, Scanner scan) {
 		
 		try {
 			CarRental.loadCarRental();
@@ -86,7 +86,7 @@ public class UserSelection {
 		}
 		View initialized = new View(current.getAccess(), current.getUsername(), current.getPassword());
 		boolean truth = true;
-		while (truth) truth = initialized.optionSelection();
+		while (truth) truth = initialized.optionSelection(scan);
 		
 	}
 

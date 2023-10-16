@@ -81,7 +81,7 @@ public class RentalWriter {
                 String[] parts = linea.split(",");
                 if (parts[1].equals(car.getPlate())) {
                     // Se encontró la línea correspondiente a la placa, se modifica la información
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd");
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     String formattedDate = dateFormat.format(car.getAvailableDate().getTime());
                     byte aut = 0;
                     if (car.isAutomatic()){
@@ -296,7 +296,7 @@ public class RentalWriter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
         String dateReturnString = dateFormat.format(rental.getReturn().getTime());
-        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin() + ',' + rental.getDestination() + ',' + datePickString + ',' + dateReturnString;
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getLocation() + ',' + rental.getDestination().getLocation() + ',' + datePickString + ',' + dateReturnString;
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.append(content);
             bufferedWriter.newLine();
