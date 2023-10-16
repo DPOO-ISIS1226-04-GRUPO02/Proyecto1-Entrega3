@@ -534,9 +534,7 @@ public class RentalLoader {
                         linea1 = br1.readLine();  
 
                     }
-                    br1.close();  
-
-                    }
+                    br1.close();
 
                 }
 

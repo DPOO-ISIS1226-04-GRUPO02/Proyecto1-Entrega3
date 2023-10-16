@@ -1,7 +1,6 @@
 package Console;
 
 import java.util.Scanner;
-import java.util.Set;
 
 import Model.Client;
 
@@ -14,6 +13,7 @@ import java.util.List;
 
 import Processing.CarRental;
 import Processing.Users;
+import Model.Licence;
 
 public class View {
 	
@@ -172,7 +172,6 @@ public class View {
 				}
 				break;
 			case 2:
-				// TODO: Call implemented option to reserve a car
 				System.out.println("Ingrese su nombre de usuario: ");
 				clientLogin = scan.nextLine();
 				Client client = CarRental.getClient(clientLogin);
@@ -209,7 +208,6 @@ public class View {
 					String fechaI = scan.nextLine();
 					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-21:21-30): ");
 					String fechaF = scan.nextLine();
-					Calendar calendar = Calendar.getInstance();
 					SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd:HH-mm");
 		
 					// Convertir la fecha de recogida en un objeto Calendar
@@ -226,11 +224,32 @@ public class View {
 					fechaFin = null;
 				}
 			
-				if (fechaInicio != null && fechaFin != null){
-					CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, fechaFin);
-
+				System.out.println("Ingrese uno (1) si habrá un segundo conductor; (0) en caso contrario: ");
+				int second = scan.nextInt();
+				Licence licence = null;
+				if (second == 1) {
+					System.out.println("Ingrese el número de la licencia: ");
+					long licenceNumber = scan.nextLong();
+					System.out.println("Ingrese el país en que se expidió la licencia: ");
+					String licenceCountry = scan.nextLine();
+					System.out.println("Ingrese la fecha de expiración de su licencia (dd/mm/aaaa): ");
+					String licenceExpiratioString = scan.nextLine();
+					int i = 0;
+					Integer[] calendarValues = {0, 0, 0};
+					for (String value: licenceExpiratioString.split("/")) {
+						calendarValues[i] = Integer.parseInt(value);
+						i += 1;
+					}
+					Calendar licenceExpiration = Calendar.getInstance();
+					licenceExpiration.set(calendarValues[0], calendarValues[1], calendarValues[2], 0, 0, 0);
+					System.out.println("Ingrese la ubicación de la foto de su licencia (en el computador): ");
+					String licencePhotoPath = scan.nextLine(); 
+					licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
 				}
-				
+				if (fechaInicio != null && fechaFin != null){
+					CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, fechaFin, 
+						licence);
+				}
 				break;
 			case 3:
 				System.out.println("Ingrese el nombre de usuario del cliente: ");

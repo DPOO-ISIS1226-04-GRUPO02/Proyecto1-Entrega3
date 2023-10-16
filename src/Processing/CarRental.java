@@ -44,9 +44,9 @@ public class CarRental {
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
 		String login, long licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
 
-		Payment payment = new Payment(licenceNumber, licenceExpiration, cardCode, cardOwner, cardAddress);
-		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, payment, login);
-		person.setLicence(newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null));
+		Payment payment = new Payment(cardNumber, cardExpiration, cardCode, cardOwner, cardAddress);
+		Licence licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
+		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, licence, payment, login);
 		
 		clients.put(login, person);
 		RentalWriter.addClient(person);	
@@ -187,7 +187,8 @@ public class CarRental {
 				licenceExpiration.set(calendarValues[0], calendarValues[1], calendarValues[2], 0, 0, 0);
 				System.out.println("Ingrese la ubicación de la foto de su licencia (en el computador): ");
 				String licencePhotoPath = scan.nextLine(); 
-				newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, login);
+				Licence licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
+				if (clientExists(login)) getClient(login).setLicence(licence);
 				break;
 			default:
 				System.out.println("Option not found.");
@@ -198,23 +199,14 @@ public class CarRental {
 
 	}
 
-	public static Licence newLicence(long licenceNumber, String licenceCountry, Calendar licenceExpiration, 
-		String licencePhotoPath, String login) {
-			
-		Licence created = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
-		if (clientExists(login)) getClient(login).setLicence(created);
-		return created;
-
-	}
-
 	public static void reserveCar(String renter, String category, String origin, String destination,
-		Calendar pickUpdateTime, Calendar returnDateTime){
+		Calendar pickUpdateTime, Calendar returnDateTime, Licence licence) {
+
 		Store originStore = getStore(origin);
 		Store destinationStore = getStore(destination);
 		Client person = getClient(renter);
 		ArrayList<String> categoryList = originStore.getInventory().get(category);
 		int i = 0;
-		int base = 0;
 		boolean found = false;
 		Car reservation = null;
 		while (!found && i < categoryList.size()) {
@@ -233,9 +225,9 @@ public class CarRental {
 			return;
 		}
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
-			base = categories.get(category);
+			int base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
-				destinationStore, pickUpdateTime, returnDateTime, new ArrayList<Licence>(), new ArrayList<Extra>());
+				destinationStore, pickUpdateTime, returnDateTime, licence, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
 			System.out.println("Reserva creada exitosamente");
 		} else {
@@ -256,7 +248,6 @@ public class CarRental {
 				System.out.println("Esta categoría no existe en esta tienda. Intente de nuevo o escriba 'stop para salir: ");
 				category = scan.nextLine();
 			}
-			int base = categories.get(category);
 			System.out.println("Ingrese el nombre de la tienda al que se va a devolver el carro: ");
 			String destination = scan.nextLine();
 			while (!storeExists(destination)) {
@@ -285,9 +276,9 @@ public class CarRental {
 				licenceExpiration.setTime(licenceExpDate);
 				System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
 				String licencePhotoPath = scan.nextLine();
-				newLicence = newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null);
+				newLicence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
 			}
-			reserveCar(login, category, base, workplace, destination, Calendar.getInstance(), returnDate, newLicence);
+			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, newLicence);
 		}
 		scan.close();
 
