@@ -2,8 +2,6 @@ package Console;
 
 import java.util.Scanner;
 
-import Model.Client;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -167,9 +165,6 @@ public class View {
 				break;
 			case 2:
 				scan.nextLine();
-				System.out.println("Ingrese su nombre de usuario: ");
-				clientLogin = scan.nextLine();
-				Client client = CarRental.getClient(clientLogin);
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
 				int i = 1;
 				for (String elemento : categories){
@@ -226,7 +221,7 @@ public class View {
 					System.out.println("Ingrese la cantidad de licencias secundarias que va a registrar: ");
 					int n = scan.nextInt();
 					try {
-						CarRental.reserveCar(client.getLogin(), categoria, storeOrigin, storeDestiny, fechaInicio, 
+						CarRental.reserveCar(login, categoria, storeOrigin, storeDestiny, fechaInicio, 
 							fechaFin, n);
 					} catch (ParseException pe) {
 						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
