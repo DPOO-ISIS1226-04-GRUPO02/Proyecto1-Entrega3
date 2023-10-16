@@ -434,7 +434,6 @@ public class RentalLoader {
                     //lee la carpeta extra
 
                     File extraFolder = new File(dateFolder, "extra");
-                    ArrayList<Extra> extras= new ArrayList<>();
                     if (extraFolder.exists())
 
                     {
@@ -465,12 +464,6 @@ public class RentalLoader {
                        extras= null;
                     }
                     
-
-                    }
-                    else
-                    {
-                       extras= null;
-                    }
                     
 
                     }
