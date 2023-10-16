@@ -23,6 +23,7 @@ import Model.Licence;
 import Model.Payment;
 import Model.Rental;
 import Model.Store;
+import Model.User;
 
 public class RentalWriter {
 
@@ -528,6 +529,19 @@ public class RentalWriter {
             } catch (IOException ex){
                 ex.printStackTrace();
             }
+        }
+    }
+
+    public static void newUser(User user) {
+        String filePath = "data/users.txt";
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
+            String userEntry = user.getUsername() + "," + user.getPassword() + "," + String.valueOf(user.getAccess()) + "," + user.getWorkplace() + System.lineSeparator();
+            fileWriter.write(userEntry);
+            fileWriter.close();
+            System.out.println("Nuevo usuario agregado con éxito.");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
     }
 
