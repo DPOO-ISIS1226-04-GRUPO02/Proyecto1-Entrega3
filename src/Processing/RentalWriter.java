@@ -100,45 +100,52 @@ public class RentalWriter {
 
         if (!folder.exists()) {
             boolean result = folder.mkdirs();
-            if (result) {
-                String filePath = folderPath + "/info.txt";
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
-                String datePickString = dateFormat.format(rental.getPickUp().getTime());
-                String dateReturnString = dateFormat.format(rental.getReturn().getTime());
-                String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin() + ',' + rental.getDestination() + ',' + datePickString + ',' + dateReturnString;
-                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
-                    bufferedWriter.append(content);
-                    bufferedWriter.newLine();
-                    System.out.println("\nInformación del usuario guardada con éxito.");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String filePath2 = folderPath + "/insurance.txt";
-                ArrayList<Insurance> insurances = rental.getInsurances();
-                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath2, true))) {
-                    for (Insurance insurance : insurances) {
-                    bufferedWriter.append(insurance.getName());
-                    bufferedWriter.newLine();
-                    }
-                } 
-                
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String filePath3 = folderPath + "/insurance.txt";
-                ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
-                try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
-                    for (Licence lic : secondaryLicences) {
-                    bufferedWriter.append(String.valueOf(lic.getNumber()));
-                    bufferedWriter.newLine();
-                    }
-                } 
-                
-                catch (IOException e) {
-                    e.printStackTrace();
-                }    
-            }
+            
         }
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(rental.getPickUp().getTime());
+        folderPath = folderPath + "/" + date;
+        File folder2 = new File(folderPath);
+        folder2.mkdirs();
+        String filePath = folderPath + "/info.txt";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
+        String datePickString = dateFormat.format(rental.getPickUp().getTime());
+        String dateReturnString = dateFormat.format(rental.getReturn().getTime());
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin() + ',' + rental.getDestination() + ',' + datePickString + ',' + dateReturnString;
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
+            bufferedWriter.append(content);
+            bufferedWriter.newLine();
+            System.out.println("\nInformación del usuario guardada con éxito.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filePath2 = folderPath + "/insurance.txt";
+        ArrayList<Insurance> insurances = rental.getInsurances();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath2, true))) {
+            for (Insurance insurance : insurances) {
+            bufferedWriter.append(insurance.getName());
+            bufferedWriter.newLine();
+            }
+        } 
+        
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        String filePath3 = folderPath + "/insurance.txt";
+        ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
+            for (Licence lic : secondaryLicences) {
+            bufferedWriter.append(String.valueOf(lic.getNumber()));
+            bufferedWriter.newLine();
+            }
+        } 
+        
+        catch (IOException e) {
+            e.printStackTrace();
+        }    
+            
+        
+        
 
                 
 

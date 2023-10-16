@@ -13,6 +13,7 @@ import java.util.Set;
 
 import Model.Car;
 import Model.Store;
+import Model.User;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
@@ -27,6 +28,7 @@ public class CarRental {
 	private static HashMap<String, Store> stores;
 	private static HashMap<String, Integer> categories;
 	private static HashMap<String, Insurance> insurances;
+	private static HashMap<Long, Licence> secondaryLicences;
 	private static HashMap<Car, ArrayList<Rental>> rentals;
 
 	public static void loadCarRental() throws IOException, ParseException {
@@ -36,6 +38,7 @@ public class CarRental {
 		stores = RentalLoader.loadStores();
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
+		secondaryLicences = RentalLoader.loadSecondaryLicence();
 		rentals = RentalLoader.loadRentals();
 
 	}
@@ -44,9 +47,9 @@ public class CarRental {
 		String idPhotoPath, long cardNumber, Calendar cardExpiration, short cardCode, String cardOwner, String cardAddress, 
 		String login, long licenceNumber, String licenceCountry, Calendar licenceExpiration, String licencePhotoPath) {
 
-		Payment payment = new Payment(cardNumber, cardExpiration, cardCode, cardOwner, cardAddress);
-		Licence licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
-		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, licence, payment, login);
+		Payment payment = new Payment(licenceNumber, licenceExpiration, cardCode, cardOwner, cardAddress);
+		Client person = new Client(name, phone, email, dateBirth, nationality, idPhotoPath, null, payment, login);
+		person.setLicence(newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null));
 		
 		clients.put(login, person);
 		RentalWriter.addClient(person);	
@@ -187,8 +190,7 @@ public class CarRental {
 				licenceExpiration.set(calendarValues[0], calendarValues[1], calendarValues[2], 0, 0, 0);
 				System.out.println("Ingrese la ubicación de la foto de su licencia (en el computador): ");
 				String licencePhotoPath = scan.nextLine(); 
-				Licence licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
-				if (clientExists(login)) getClient(login).setLicence(licence);
+				newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, login);
 				break;
 			default:
 				System.out.println("Option not found.");
@@ -199,14 +201,23 @@ public class CarRental {
 
 	}
 
-	public static void reserveCar(String renter, String category, String origin, String destination,
-		Calendar pickUpdateTime, Calendar returnDateTime, int n) throws ParseException {
+	public static Licence newLicence(long licenceNumber, String licenceCountry, Calendar licenceExpiration, 
+		String licencePhotoPath, String login) {
+			
+		Licence created = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
+		if (clientExists(login)) getClient(login).setLicence(created);
+		return created;
 
+	}
+
+	public static void reserveCar(String renter, String category, String origin, String destination,
+		Calendar pickUpdateTime, Calendar returnDateTime){
 		Store originStore = getStore(origin);
 		Store destinationStore = getStore(destination);
 		Client person = getClient(renter);
 		ArrayList<String> categoryList = originStore.getInventory().get(category);
 		int i = 0;
+		int base = 0;
 		boolean found = false;
 		Car reservation = null;
 		while (!found && i < categoryList.size()) {
@@ -224,11 +235,10 @@ public class CarRental {
 				origin));
 			return;
 		}
-		ArrayList<Licence> licences = createLicences(n);
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
-			int base = categories.get(category);
+			base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
-				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
+				destinationStore, pickUpdateTime, returnDateTime, new ArrayList<Licence>(), new ArrayList<Extra>());
 			person.setActiveRental(newRental);
 			System.out.println("Reserva creada exitosamente");
 		} else {
@@ -237,68 +247,19 @@ public class CarRental {
 		
 	}
 
-	public static ArrayList<Licence> createLicences(int n) throws ParseException {
-
-		Scanner scan = new Scanner(System.in);
-		ArrayList<Licence> licences = new ArrayList<Licence>();
-		for (int j = 0; j < n; j++) {
-			System.out.println(String.format("Ingrese los datos de la licencia del conductor #%d.", j+2));
-			System.out.println("Ingrese el número de la licencia: ");
-			long licenceNumber = scan.nextLong();
-			System.out.println("Ingrese el país en que se expidió esta licencia: ");
-			String licenceCountry = scan.nextLine();
-			System.out.println("Ingrese la fecha de expiración de la licencia (AAAA-MM-DD): ");
-			String licenceExpString = scan.nextLine();
-			Calendar licenceExpiration = Calendar.getInstance();
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-			Date licenceExpDate = (Date) formatter.parse(licenceExpString);
-			licenceExpiration.setTime(licenceExpDate);
-			System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
-			String licencePhotoPath = scan.nextLine();
-			licences.add(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
-		}
-		scan.close();
-		return licences;
-
-	}
-
-	public static void confirmPickUp(String login, String workplace) throws ParseException {
-
+	public static void confirmPickUp(String login, ArrayList<Licence> secondaryDriver, String employeeLogin, 
+		String employeePassword) {
 		Client person = getClient(login);
-		Scanner scan = new Scanner(System.in);
-
-		if (person.getActiveRental().equals(null)) {
-			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
-			String category = scan.nextLine();
-			while (!categories.containsKey(category)) {
-				System.out.println("Esta categoría no existe en esta tienda. Intente de nuevo o escriba 'stop para salir: ");
-				category = scan.nextLine();
-			}
-			System.out.println("Ingrese el nombre de la tienda al que se va a devolver el carro: ");
-			String destination = scan.nextLine();
-			while (!storeExists(destination)) {
-				System.out.println("Tienda no encontrada. Ingrese el nombre de nuevo o 'stop' para salir: ");
-				destination = scan.nextLine();
-			}
-			System.out.println("Ingrese la fecha en que se planea devolver el vehículo (AAAA-MM-DD): ");
-			String returnDateString = scan.nextLine();
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        	Calendar returnDate = Calendar.getInstance();
-            Date returnDate2 = (Date)formatter.parse(returnDateString);
-			returnDate.setTime(returnDate2);
-			System.out.println("Ingrese el número de segundos conductores que desea registrar: ");
-			int n = scan.nextInt();
-			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, n);
-		}
-		scan.close();
-
 		Rental rental = person.getActiveRental();
+
 		rental.setActive(true);
 		Car car = rental.getCar();
 		car.setStatus((byte)2);
-		Store origin = getStore(workplace);
-		rental.setPickUp(Calendar.getInstance());
-		rental.setOrigin(origin);
+		if ( secondaryDriver.size() > 0){
+			for (Licence licence : secondaryDriver) {
+				rental.getSecondaryDriver().add(licence);
+			}
+		}
 		
 	}
 
@@ -333,37 +294,22 @@ public class CarRental {
 		}
 
 	}
-
-	public static void registerCar(Byte status, String brand, String plate, String model, String color, 
-		boolean isAutomatic, String category, int availableIn, String store) {
-
+	public static void registerCar(Byte status, String brand, String plate, String model, String color, boolean isAutomatic, String category, int availableIn, String store){
 		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn, (byte) 0);
 		carro.setStatus(status);
 		cars.put(carro.getPlate(), carro);
 		Store st = stores.get(store);
 		((st.getInventory()).get(category)).add(plate);
-
 	} 
-
-	public static void newStore(String name, String location, Calendar openingTime, Calendar closingTime, 
-		byte OpeningDays) {
-
+	public static void newStore(String name, String location, Calendar openingTime, Calendar closingTime, byte OpeningDays){
 		HashMap <String, ArrayList<String>> inventory = new HashMap<String, ArrayList<String>>();
 		Store store = new Store(name, location, openingTime, closingTime, OpeningDays, inventory);
 		stores.put(name, store);
-
 	}
-
-	public static void changeVehicleStatus(String plate, byte status) {
-
+	public static void changeVehicleStatus(String plate, byte status){
 		(cars.get(plate)).setStatus(status);
-
 	}
-
-	public static ArrayList<Rental> getPastRentals(Car car) {
-
+	public static ArrayList<Rental> getPastRentals(Car car){
 		return rentals.get(car);
-
 	}
-
 }

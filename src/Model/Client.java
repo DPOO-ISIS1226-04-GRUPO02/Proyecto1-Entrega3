@@ -108,9 +108,14 @@ public class Client {
 
     }
 
+<<<<<<< HEAD
+   public void setLicence(Licence licence) {
+    this.licence = licence;
+=======
     public void setLicence(Licence licence) {
         
         this.licence = licence;
+>>>>>>> 07f528a6ce675096dd51ca252dbea82056a3e92c
 
     }
 
