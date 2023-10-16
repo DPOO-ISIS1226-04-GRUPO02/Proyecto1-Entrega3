@@ -358,7 +358,7 @@ public class RentalWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String id = "data/clients" + username + "/identification.jpg";
+        String id = "data/clients/" + username + "/identification.jpg";
         String identification = person.getIdPhotoPath();
         try {
             File fotoId = new File(id);
@@ -367,7 +367,7 @@ public class RentalWriter {
             e.printStackTrace();
         }
         Path source = Paths.get(identification);
-        Path target = Paths.get("data/clients" + username + "/identification.jpg");
+        Path target = Paths.get("data/clients/" + username + "/identification.jpg");
 
         try {
             Files.copy(source, target);
@@ -397,7 +397,7 @@ public class RentalWriter {
             e.printStackTrace();
         }
 
-        String li = "data/clients" + username + "/license.jpg";
+        String li = "data/clients/" + username + "/license.jpg";
         String licence = person.getLicence().getPhotoPath();
         try {
             File fotoId = new File(li);
@@ -406,7 +406,7 @@ public class RentalWriter {
             e.printStackTrace();
         }
         Path source2 = Paths.get(licence);
-        Path target2 = Paths.get("data/clients" + username + "/license.jpg");
+        Path target2 = Paths.get("data/clients/" + username + "/license.jpg");
 
         try {
             Files.copy(source2, target2);
