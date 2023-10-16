@@ -75,14 +75,6 @@ public class CarRental {
 
 	}
 
-	private static boolean carExists(String plate) {
-
-		Car car = getCar(plate);
-		if (car.equals(null)) return false;
-		else return true;
-
-	}
-
 	public static Store getStore(String storeName) {
 
 		return stores.get(storeName);
@@ -95,13 +87,7 @@ public class CarRental {
 		if (store.equals(null)) return false;
 		else return true;
 
-	}
-
-	private static int getPriceCategory(String category) {
-
-		return categories.get(category);
-
-	}
+		}
 
 	public static Set<String> getCategories() {
 
@@ -299,6 +285,7 @@ public class CarRental {
 			car.setStatus((byte) 0);
 			destination.addCar(car);
 			resultingString += String.format("El total final del alquiler es de %8d", total);
+			System.out.println(resultingString);
 		}
 
 	}

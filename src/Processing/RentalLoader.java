@@ -48,10 +48,8 @@ public class RentalLoader {
                 String location= partes[1] ;
                 String  strOpeningTime = partes[2];
                 String strClosingTime = partes[3];
-                byte openingDays= Byte.parseByte(partes[4]);
+                byte openingDays = (byte) Integer.parseInt(partes[4], 2);
                 
-
-
                 //cambiar hora string a calendar
                 DateFormat formatter = new SimpleDateFormat("HH:mm");
                 Calendar openingTime = Calendar.getInstance();
@@ -63,7 +61,6 @@ public class RentalLoader {
                 openingTime.setTime(openingDate);
                 closingTime.setTime(closingDate);
 
-                
                 ArrayList<String> platesCarsInventory = new ArrayList<>();
                 for (int i=5; i< partes.length; i++)
                 {
