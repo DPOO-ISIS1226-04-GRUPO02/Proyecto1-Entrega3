@@ -38,6 +38,7 @@ public class CarRental {
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
 		rentals = RentalLoader.loadRentals();
+		secondaryLicences = RentalLoader.loadSecondaryLicence();
 
 	}
 
