@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import Model.Car;
@@ -107,6 +108,28 @@ public class RentalWriter {
             ex.printStackTrace();
         }
         
+    }
+
+    public static void addCar(Car car) {
+        String filePath = "data/cars.txt";
+        try {
+            FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd");
+            String formattedDate = dateFormat.format(car.getAvailableDate().getTime());
+            byte aut = 0;
+            if (car.isAutomatic()){
+                aut = (byte) 1;
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(car.getBrand()).append(",").append(car.getPlate()).append(",").append(car.getModel()).append(",").append(car.getColor()).append(",").append(formattedDate).append(",").append(String.valueOf(aut)).append(",")
+                            .append(car.getCategory()).append(",").append(String.valueOf(car.getStatus())).append(System.lineSeparator());
+
+            fileWriter.write(stringBuilder.toString());
+            fileWriter.close();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public static void addClient(Client client) {
