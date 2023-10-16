@@ -280,9 +280,9 @@ public class CarRental {
 				System.out.println("Tienda no encontrada. Ingrese el nombre de nuevo o 'stop' para salir: ");
 				destination = scan.nextLine();
 			}
-			System.out.println("Ingrese la fecha en que se planea devolver el vehículo (AAAA-MM-DD): ");
+			System.out.println("Ingrese la fecha en que se planea devolver el vehículo (AAAA-MM-DD:HH-MM): ");
 			String returnDateString = scan.nextLine();
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd:HH-mm");
         	Calendar returnDate = Calendar.getInstance();
             Date returnDate2 = (Date)formatter.parse(returnDateString);
 			returnDate.setTime(returnDate2);
@@ -334,12 +334,12 @@ public class CarRental {
 
 	}
 
-	public static void registerCar(Byte status, String brand, String plate, String model, String color, 
+	public static void registerCar(String brand, String plate, String model, String color, 
 		boolean isAutomatic, String category, int availableIn, String store) {
 
 		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn, (byte) 0);
-		carro.setStatus(status);
-		cars.put(carro.getPlate(), carro);
+		carro.setStatus((byte) 0);
+		cars.put(plate, carro);
 		Store st = stores.get(store);
 		((st.getInventory()).get(category)).add(plate);
 

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.InputMismatchException;
 import java.util.List;
 
 import Processing.CarRental;
@@ -95,6 +96,7 @@ public class View {
 		String clientLogin;
 		List<String> usernames = Arrays.asList(Users.getUsernames());
 		if (selection == 0) selection = scan.nextInt();
+		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
 		switch (selection) {	
 			case 0:
 				System.out.println("Gracias por usar la aplicación.");
@@ -174,7 +176,6 @@ public class View {
 				System.out.println("Ingrese su nombre de usuario: ");
 				clientLogin = scan.nextLine();
 				Client client = CarRental.getClient(clientLogin);
-				ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
 				for (String elemento : categories){
 					int i = 1;
@@ -287,8 +288,66 @@ public class View {
 				Users.registerNewUser(managerLogin, managerPassword, 2, storeName);
 				break;
 			case 7:
-				
+				System.out.println("Ingrese la marca del carro que va a registrar: ");
+				String brand = scan.nextLine();
+				System.out.println("Ingrese la placa del carro: ");
+				String plate = scan.nextLine();
+				System.out.println("Ingrese el modelo del carro: ");
+				String model = scan.nextLine();
+				System.out.println("Ingrese el color del carro: ");
+				String color = scan.nextLine();
+				boolean isAutomatic = false;
+				try {
+					System.out.println("Ingrese 'true' si el carro es automático o 'false' si es manual: ");
+					isAutomatic = scan.nextBoolean();
+				} catch (InputMismatchException ime) {
+					System.out.println("El valor booleano ingresado no es válido " + ime);
+					break;
+				}
+				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
+				for (String elemento : categories){
+					int i = 1;
+					System.out.println(String.valueOf(i) + ". " + elemento);
+					i += 1;
+				}
+				String category = categories.get(scan.nextInt() - 1);
+				ArrayList<String> stores = new ArrayList<>(CarRental.getStores());
+				for (String store : stores){
+					int i = 1;
+					System.out.println(String.valueOf(i) + ". " + store);
+					i += 1;
+				}
+				String store = stores.get(scan.nextInt() - 1);
+				CarRental.registerCar(brand, plate, model, color, isAutomatic, category, 0, store);
+				break;
 			case 8:
+				System.out.println("Ingrese el nombre para la nueva tienda: ");
+				String name = scan.nextLine();
+				while (!CarRental.getStores().contains(name)) {
+					System.out.println("Ya existe una tienda por este nombre. Por favor ingrese otro: ");
+					name = scan.nextLine();
+				}
+				System.out.println("Ingrese el nombre de la ubicación de la nueva tienda: ");
+				String location = scan.nextLine();
+				Calendar openingTime = Calendar.getInstance();
+				Calendar closingTime = Calendar.getInstance();
+				try {
+					System.out.println("Ingrese la hora de aprtura de la nueva tienda (HH:MM en formato 24h): ");
+					String openingTimeString = scan.nextLine();
+					System.out.println("Ingrese la hora de cierre de la nueva tienda (HH:MM en formato 24h): ");
+					String closingTimeString = scan.nextLine();
+					SimpleDateFormat simple = new SimpleDateFormat("HH:mm");
+					openingTime.setTime(simple.parse(openingTimeString));
+					closingTime.setTime(simple.parse(closingTimeString));
+				} catch (ParseException pe) {
+					System.out.println("Error en el formato de las horas de apertura y cierre " + pe);
+					break;
+				}
+				System.out.println("Ingrese los días de apertura de la tienda, tal que uno (1) representa abierto y cero (0) cerrado.");
+				System.out.println("Ejemplo: 1011100 -> Lunes, Miercoles, Jueves, Viernes.");
+				byte openingDays = Byte.parseByte(scan.nextLine(), 2);
+				CarRental.newStore(name, location, openingTime, closingTime, openingDays);
+				break;
 			case 9:
 			case 10:
 			case 11:
