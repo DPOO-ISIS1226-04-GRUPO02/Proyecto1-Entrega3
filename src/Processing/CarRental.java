@@ -412,14 +412,11 @@ public class CarRental {
 		return rentals.get(car);
 
 	}
-	public static void setTariffs(String category, int value){
-		categories.put(category, value);
-		RentalWriter.changeTariffs(category, value);
-	}
 
 	public static void setTariff(String category, int amount) {
 
 		categories.put(category, amount);
+		RentalWriter.changeTariffs(category, amount);
 
 	}
 
