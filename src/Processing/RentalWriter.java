@@ -17,6 +17,7 @@ import java.util.HashMap;
 
 import Model.Car;
 import Model.Client;
+import Model.Extra;
 import Model.Insurance;
 import Model.Licence;
 import Model.Payment;
@@ -288,6 +289,9 @@ public class RentalWriter {
         folderPath = folderPath + "/" + date;
         File folder2 = new File(folderPath);
         folder2.mkdirs();
+        String folderPathe = folderPath + "/" + date + "/extra";
+        File folder3 = new File(folderPathe);
+        folder3.mkdirs();
         String filePath = folderPath + "/info.txt";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
@@ -312,7 +316,7 @@ public class RentalWriter {
         catch (IOException e) {
             e.printStackTrace();
         }
-        String filePath3 = folderPath + "/insurance.txt";
+        String filePath3 = folderPath + "/secondarDriver.txt";
         ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
             for (Licence lic : secondaryLicences) {
@@ -432,7 +436,102 @@ public class RentalWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-}}
+}
+
+    public static void changeRentalInformation(Rental rental){
+        String plate = rental.getCar().getPlate();
+        String folderPath = "data/rentals/" + plate;
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(rental.getPickUp().getTime());
+        folderPath = folderPath + "/" + date;
+        String filePath = folderPath + "info.txt";
+        try{
+        FileWriter fw = new FileWriter(filePath);
+        fw.write("");
+        fw.close();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
+        String datePickString = dateFormat.format(rental.getPickUp().getTime());
+        String dateReturnString = dateFormat.format(rental.getReturn().getTime());
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin() + ',' + rental.getDestination() + ',' + datePickString + ',' + dateReturnString;
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
+            bufferedWriter.append(content);
+            bufferedWriter.newLine();
+            System.out.println("\nInformación del usuario actualizada con éxito.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        filePath = folderPath + "insurance.txt";
+        try{
+        FileWriter fw = new FileWriter(filePath);
+        fw.write("");
+        fw.close();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
+            ArrayList<Insurance> insurances = rental.getInsurances();
+            for (Insurance insurance : insurances) {
+            bufferedWriter.append(insurance.getName());
+            bufferedWriter.newLine();
+            }
+        } 
+        
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        filePath = folderPath + "secondaryDriver.txt";
+        try{
+        FileWriter fw = new FileWriter(filePath);
+        fw.write("");
+        fw.close();
+        ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
+        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
+            for (Licence lic : secondaryLicences) {
+            bufferedWriter.append(String.valueOf(lic.getNumber()));
+            bufferedWriter.newLine();
+            }
+        } 
+        
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        filePath = folderPath + "/extra";
+        File directory = new File(filePath);
+        File[] files = directory.listFiles();
+        if (files.length>0){
+            for (File file: files){
+                file.delete();
+            }
+        }
+        ArrayList<Extra> extras = rental.getExtras();
+        for (int i = 0; i < extras.size() ; i++){
+            Extra extra = extras.get(i);
+            String txtfilePath = filePath + "/extra" + i + ".txt";
+            String content = extra.getType() + "," + String.valueOf(extra.getCost()) + "," + extra.getSpecification(); 
+            try {
+                FileWriter fwtxt = new FileWriter (txtfilePath);
+                fwtxt.write(content);
+                fwtxt.close();
+
+            } catch (IOException ex){
+                ex.printStackTrace();
+            }
+        }
+    }
+
+}
 
 
 
