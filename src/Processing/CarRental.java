@@ -40,6 +40,7 @@ public class CarRental {
 		insurances = RentalLoader.loadInsurances();
 		secondaryLicences = RentalLoader.loadSecondaryLicence();
 		rentals = RentalLoader.loadRentals();
+		rentals.keySet();
 
 	}
 

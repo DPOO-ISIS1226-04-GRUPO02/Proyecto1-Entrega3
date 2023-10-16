@@ -90,7 +90,7 @@ public class RentalLoader {
                  }
                  
                     
-                 
+                }
 
 
 
@@ -99,10 +99,11 @@ public class RentalLoader {
                 stores.put(name, newStore);
 
 
+                
+
+
+                
                 linea = br.readLine();
-
-
-                }
                 }
                 br.close();
             }
@@ -147,6 +148,7 @@ public class RentalLoader {
         HashMap<String, Integer> categories = new HashMap<String, Integer>();
         BufferedReader br = new BufferedReader(new FileReader("./data/categories.txt"));
 		String linea = br.readLine();
+        while (linea != null)
         {
              String[] partes = linea.split(",");
              String category = partes[0];
@@ -336,7 +338,7 @@ public class RentalLoader {
     public static HashMap<String, Insurance> loadInsurances() throws IOException {
 
         HashMap<String, Insurance> insurances = new HashMap<String, Insurance>();
-        BufferedReader br = new BufferedReader(new FileReader(".data/insurances.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("./data/insurances.txt"));
 		String linea = br.readLine();
 		while (linea != null)
         {
@@ -429,10 +431,13 @@ public class RentalLoader {
                     {
 
                     //lee la carpeta extra
-                    File extraFolder = new File(dateFolder, "extra");
-                    File[] extraFiles = extraFolder.listFiles();
-                    ArrayList<Extra> extras= new ArrayList<>();
 
+                    File extraFolder = new File(dateFolder, "extra");
+                    ArrayList<Extra> extras= new ArrayList<>();
+                    if (extraFolder.exists())
+
+                    {
+                    File[] extraFiles = extraFolder.listFiles();
                     for (File extraFile: extraFiles)
                     {
                         BufferedReader br = new BufferedReader(new FileReader(extraFile));
@@ -453,6 +458,13 @@ public class RentalLoader {
 
                     }
 
+                    }
+                    else
+                    {
+                       extras= null;
+                    }
+                    
+
                     File infoFile= new File(dateFolder, "info.txt");
                     File insuranceFile = new File (dateFolder, "insurance.txt");
                     File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt");
@@ -460,6 +472,8 @@ public class RentalLoader {
                     //información insurance
                     ArrayList<Insurance> insurancesRental = new ArrayList<>();
 
+                    if (insuranceFile.exists())
+                    {
                     BufferedReader br = new BufferedReader(new FileReader(insuranceFile));
                     String linea = br.readLine();
                     while (linea != null)
@@ -473,23 +487,38 @@ public class RentalLoader {
                         linea = br.readLine();  
                     }
                     br.close();  
+                    }
+                    else
+                    {
+                        insurancesRental = null;
+                    }
 
-                    //información secondary driver
+                   
+
                     ArrayList<Licence> secondaryDriver = new ArrayList<>();
 
+                    //información secondary driver
+                    if (secondaryDriverFile.exists()) 
+                    {
+
                     BufferedReader br2 = new BufferedReader(new FileReader(secondaryDriverFile));
-                    String linea2 = br.readLine();
+                    String linea2 = br2.readLine();
                     while (linea2 != null)
                     {
-                        String[] partes = linea.split(",");
+                        String[] partes = linea2.split(",");
                         Long secondaryLicenceLong = Long.parseLong(partes[0]);
                         Licence secondaryLicence = secondaryLicences.get(secondaryLicenceLong);
                         secondaryDriver.add(secondaryLicence);
 
 
-                        linea = br2.readLine();  
+                        linea2 = br2.readLine();  
                     }
                     br2.close();  
+                    }   
+                    else 
+                    {
+                        secondaryDriver = null;
+                    }
 
 
 
@@ -525,7 +554,10 @@ public class RentalLoader {
                         Store returnTo = stores.get(returnToStr);
 
                         Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras);
-                        if (rentals.get(car).equals(null)) rentals.put(car, new ArrayList<Rental>()); 
+                        if (rentals.get(car)==null)
+                        {
+                            rentals.put(car, new ArrayList<Rental>()); 
+                        }
                         rentals.get(car).add(newRental);
 
                         linea1 = br1.readLine();  

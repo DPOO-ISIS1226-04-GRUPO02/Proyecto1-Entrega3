@@ -1,1 +1,1 @@
-c3.carlos.gomez,456789123,DEF789,50,Galetto Cars Usaquén,Galetto Cars Usaquén,2023-10-23:10:00,2023-10-28:17:00
+c3.carlos.gomez,DEF789,50,Galetto Cars Usaquén,Galetto Cars Usaquén,2023-10-23:10-00,2023-10-28:17-00
