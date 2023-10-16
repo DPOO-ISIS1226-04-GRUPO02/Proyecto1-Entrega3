@@ -407,9 +407,22 @@ public class CarRental {
 
 	}
 
-	public static ArrayList<Rental> getPastRentals(Car car) {
+	public static String getPastRentals(Car car) {
 
-		return rentals.get(car);
+		ArrayList<Rental> listRentals = rentals.get(car);
+		String result = "";
+		int i = 1;
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		for (Rental rental: listRentals) {
+			result += String.format("Renta #%d", i);
+        	String formattedDateOut = simpleDateFormat.format(rental.getPickUp().getTime());
+			result += String.format("\n\tFecha de inicio de la renta: %s", formattedDateOut);
+			String formattedDateIn = simpleDateFormat.format(rental.getReturn().getTime());
+			result += String.format("\n\tFecha de finalización de la renta: %s", formattedDateIn);
+			result += String.format("\n\tCosto total de la renta: %8d$", rental.getFinalCharge());
+			result += "\n\n";
+		}
+		return result;
 
 	}
 
