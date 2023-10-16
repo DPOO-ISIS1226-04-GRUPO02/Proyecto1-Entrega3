@@ -67,9 +67,17 @@ public class CarRental {
 
 	}
 
-	private static Car getCar(String plate) {
+	public static Car getCar(String plate) {
 
 		return cars.get(plate);
+
+	}
+
+	public static boolean carExists(String plate) {
+
+		Car car = getCar(plate);
+		if (car.equals(null)) return false;
+		else return true;
 
 	}
 
@@ -79,7 +87,19 @@ public class CarRental {
 
 	}
 
-	private static boolean storeExists(String name) {
+	public static String getStoreByPlate(String plate) {
+
+		for (String storeString: stores.keySet()) {
+			Store store = getStore(storeString);
+			for (String category: categories.keySet()) {
+				if (store.getInventory().get(category).contains(plate)) return storeString;
+			}
+		}
+		return null;
+
+	}
+
+	public static boolean storeExists(String name) {
 
 		Store store = getStore(name);
 		if (store.equals(null)) return false;
@@ -213,7 +233,8 @@ public class CarRental {
 		while (!found && i < categoryList.size()) {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
-			if (status == 0) {
+			Calendar availableIn = getCar(plate).getAvailableDate();
+			if (status == (byte) 0 && availableIn.after(Calendar.getInstance())) {
 				found = true;
 				reservation = getCar(plate);
 				reservation.setStatus((byte)1);
@@ -231,11 +252,21 @@ public class CarRental {
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
 				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
-			System.out.println("Reserva creada exitosamente");
+			System.out.println("Reserva creada exitosamente!");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
 		}
 		
+	}
+
+	public static void reserveCar(String plate, String origin, String destination, int days) {
+
+		Calendar returnCalendar = Calendar.getInstance();
+		returnCalendar.add(Calendar.DAY_OF_MONTH, days);
+		Rental rental = new Rental(null, getCar(plate), days, null, getStore(origin), getStore(destination), 
+			Calendar.getInstance(), returnCalendar, null, null);
+		rental.getCar().setAvailableTime(days);
+
 	}
 
 	public static ArrayList<Licence> createLicences(int n) throws ParseException {
@@ -281,9 +312,9 @@ public class CarRental {
 				System.out.println("Tienda no encontrada. Ingrese el nombre de nuevo o 'stop' para salir: ");
 				destination = scan.nextLine();
 			}
-			System.out.println("Ingrese la fecha en que se planea devolver el vehículo (AAAA-MM-DD): ");
+			System.out.println("Ingrese la fecha en que se planea devolver el vehículo (AAAA-MM-DD:HH-MM): ");
 			String returnDateString = scan.nextLine();
-			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd:HH-mm");
         	Calendar returnDate = Calendar.getInstance();
             Date returnDate2 = (Date)formatter.parse(returnDateString);
 			returnDate.setTime(returnDate2);
@@ -335,12 +366,12 @@ public class CarRental {
 
 	}
 
-	public static void registerCar(Byte status, String brand, String plate, String model, String color, 
+	public static void registerCar(String brand, String plate, String model, String color, 
 		boolean isAutomatic, String category, int availableIn, String store) {
 
 		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn, (byte) 0);
-		carro.setStatus(status);
-		cars.put(carro.getPlate(), carro);
+		carro.setStatus((byte) 0);
+		cars.put(plate, carro);
 		Store st = stores.get(store);
 		((st.getInventory()).get(category)).add(plate);
 
