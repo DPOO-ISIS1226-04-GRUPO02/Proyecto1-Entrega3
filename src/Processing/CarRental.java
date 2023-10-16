@@ -217,6 +217,7 @@ public class CarRental {
 
 		}
 		scan.close();
+		RentalWriter.changeClientInformation(client);
 
 	}
 
