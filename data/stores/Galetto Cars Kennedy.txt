@@ -1,1 +1,1 @@
-Galetto Cars Kennedy,Avenida Ciudad de Cali # 46-20,10:00,19:00,1101111,XYZ456,ABC789,DEF345,GHI678,JKL901
+Galetto Cars Kennedy,Avenida Ciudad de Cali # 46-20,10:00,19:00,1101111,IJK901,HIJ901,FER002,KLM901,NOP234
