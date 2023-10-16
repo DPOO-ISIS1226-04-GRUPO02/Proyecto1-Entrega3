@@ -538,6 +538,7 @@ public class RentalLoader {
                         String returnToStr = partes[4];
                         String strPickUpDateTime = partes[5];
                         String strReturnDateTime = partes[6];
+                        boolean active = Boolean.parseBoolean(partes[7]);
 
                         //cambiar String a Calendar
                         DateFormat formatter= new SimpleDateFormat("yy-MM-dd:HH-mm");
@@ -550,20 +551,26 @@ public class RentalLoader {
                         pickUpDateTime.setTime(pickUpDateTimeDate);
                         returnDateTime.setTime(returnDateTimeDate);
 
-                    //encuentra la información y la convierte en objeto
-                    Client renter = clients.get(login);
-                    Car car = cars.get(plate2);
-                    Store rentedFrom= stores.get(rentedFromStr);
-                    Store returnTo = stores.get(returnToStr);
 
-                        Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras);
-                        if (rentals.get(car)==null)
-                        {
-                            rentals.put(car, new ArrayList<Rental>()); 
-                        }
-                        rentals.get(car).add(newRental);
+                        //encuentra la información y la convierte en objeto
+                        Client renter = clients.get(login);
+                        Car car = cars.get(plate2);
+                        Store rentedFrom= stores.get(rentedFromStr);
+                        Store returnTo = stores.get(returnToStr);
 
-                        linea1 = br1.readLine();  
+                            Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras, active);
+                            if (rentals.get(car)==null)
+                            {
+                                rentals.put(car, new ArrayList<Rental>()); 
+                            }
+                            rentals.get(car).add(newRental);
+
+                            if (active==true)
+                            {
+                             renter.setActiveRental(newRental);
+                            }
+
+                            linea1 = br1.readLine();  
 
                     }
                     br1.close();
