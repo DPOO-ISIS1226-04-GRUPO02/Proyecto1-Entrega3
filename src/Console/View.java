@@ -90,6 +90,7 @@ public class View {
 		String clientLogin;
 		List<String> usernames = Arrays.asList(Users.getUsernames());
 		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
+		while (selection != 0) {
 		abc: switch (selection) {	
 			case 0:
 				System.out.println("Gracias por usar la aplicación.");
@@ -234,6 +235,7 @@ public class View {
 				}
 				break;
 			case 3:
+				scan.nextLine();
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
 				clientLogin = scan.nextLine();
 				try {
@@ -243,6 +245,7 @@ public class View {
 				}
 				break;
 			case 4:
+				scan.nextLine();
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
 				clientLogin = scan.nextLine();
 				System.out.println("¿En cuánto tiempo estará el vehículo listo para volver a ser" +
@@ -256,6 +259,7 @@ public class View {
 				CarRental.confirmReturn(clientLogin, days, comments, extraCharges, login, password);
 				break;
 			case 5:
+				scan.nextLine();
 				System.out.println("Ingrese el nombre de usuario para el nuevo empleado: ");
 				String employeeLogin = scan.nextLine();
 				while (usernames.contains(employeeLogin)) {
@@ -268,6 +272,7 @@ public class View {
 				Users.registerNewUser(employeeLogin, employeePassword, 1, login, password);
 				break;
 			case 6:
+				scan.nextLine();
 				System.out.println("Ingrese un nombre de usuario para la cuenta del gerente: ");
 				String managerLogin = scan.nextLine();
 				while (usernames.contains(managerLogin)) {
@@ -279,13 +284,14 @@ public class View {
 				String managerPassword = scan.nextLine();
 				System.out.println("Ingrese el nombre de la tienda al que va a pertenecer este gerente: ");
 				String storeName = scan.nextLine();
-				while (CarRental.getStore(storeName).equals(null)) {
+				while (CarRental.getStore(storeName) == null) {
 					System.out.println("Esta tienda no se ha encontrado. Ingrese el nombre nuevamente: ");
 					storeName = scan.nextLine();
 				}
 				Users.registerNewUser(managerLogin, managerPassword, 2, storeName);
 				break;
 			case 7:
+				scan.nextLine();
 				System.out.println("Ingrese la marca del carro que va a registrar: ");
 				String brand = scan.nextLine();
 				System.out.println("Ingrese la placa del carro: ");
@@ -320,6 +326,7 @@ public class View {
 				CarRental.registerCar(brand, plate, model, color, isAutomatic, category, 0, store);
 				break;
 			case 8:
+				scan.nextLine();
 				System.out.println("Ingrese el nombre para la nueva tienda: ");
 				String name = scan.nextLine();
 				while (!CarRental.getStores().contains(name)) {
@@ -348,6 +355,7 @@ public class View {
 				CarRental.newStore(name, location, openingTime, closingTime, openingDays);
 				break;
 			case 9:
+				scan.nextLine();
 				System.out.println("Ingrese la placa del carro que desea cambiar de sede: ");
 				String plate2 = scan.nextLine();
 				while (!CarRental.carExists(plate2)) {
@@ -368,6 +376,7 @@ public class View {
 				CarRental.reserveCar(plate2, originStore, destinationStore, days2);
 				break;
 			case 10:
+				scan.nextLine();
 				System.out.println("Ingrese la placa del carro que desea inhabilitar: ");
 				String plate3 = scan.nextLine();
 				while (!CarRental.carExists(plate3)) {
@@ -379,12 +388,14 @@ public class View {
 				else CarRental.changeVehicleStatus(plate3, (byte) 3);
 				break;
 			case 11:
+				scan.nextLine();
 				for (String cat: categories) {
 					System.out.println(String.format("Ingrese el nuevo precio para la categoría '%s': ", cat));
 					CarRental.setTariff(cat, scan.nextInt());
 				}
 				break;
 			case 12:
+				scan.nextLine();
 				System.out.println("Ingrese el nombre del seguro que desea añadir: ");
 				String insuranceName = scan.nextLine();
 				while (CarRental.insuranceExists(insuranceName)) {
@@ -399,6 +410,7 @@ public class View {
 				CarRental.addInsurance(insuranceName, insuranceCost, specs);
 				break;
 			case 13:
+				scan.nextLine();
 				System.out.println("Escoga el nombre del seguro que desea cambiar de estado: ");
 				i = 1;
 				for (String ins: CarRental.getInsurances()) {
@@ -415,6 +427,7 @@ public class View {
 				}
 				break;
 			case 14:
+				scan.nextLine();
 				System.out.println("Ingrese la placa del carro del que desea consultar el historial: ");
 				String plate4 = scan.nextLine();
 				while (!CarRental.carExists(plate4)) {
@@ -428,8 +441,12 @@ public class View {
 			default:
 				System.out.println("Option not found.");
 				break;
-		} scan.nextInt();
+		} 
+		scan.nextLine();
+		System.out,println("Ingrese una opción: ");
+		selection = scan.nextInt();
 
+		}
 	}
 
 }

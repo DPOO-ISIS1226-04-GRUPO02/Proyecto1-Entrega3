@@ -102,7 +102,7 @@ public class CarRental {
 	public static boolean storeExists(String name) {
 
 		Store store = getStore(name);
-		if (store.equals(null)) return false;
+		if (store == null) return false;
 		else return true;
 
 		}
@@ -244,7 +244,7 @@ public class CarRental {
 		int i = 0;
 		boolean found = false;
 		Car reservation = null;
-		while (!found && i < categoryList.size()) {
+		while (categoryList != null && (!found && i < categoryList.size())) {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
 			Calendar availableIn = getCar(plate).getAvailableDate();
@@ -317,10 +317,10 @@ public class CarRental {
 		Client person = getClient(login);
 		Scanner scan = new Scanner(System.in);
 
-		if (person.getActiveRental().equals(null)) {
+		if (person.getActiveRental()== null) {
 			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
 			String category = scan.nextLine();
-			while (!categories.containsKey(category)) {
+			while (!categories.containsKey(category) && category != "stop") {
 				System.out.println("Esta categoría no existe en esta tienda. Intente de nuevo o escriba 'stop para salir: ");
 				category = scan.nextLine();
 			}
