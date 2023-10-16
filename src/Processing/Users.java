@@ -22,6 +22,7 @@ public class Users {
 
 		User created = new User(login, password, access, workplace);
 		logins.put(password, created);
+		RentalWriter.newUser(created);
 		return created;
 
 	}
@@ -41,6 +42,7 @@ public class Users {
 		User created = new User(login, password, access, workplace);
 		logins.put(login, created);
 		scan.close();
+		RentalWriter.newUser(user);
 		return created;
 		
 	}

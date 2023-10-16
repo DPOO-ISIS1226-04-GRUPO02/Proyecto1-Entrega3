@@ -438,7 +438,7 @@ public class View {
 				break;
 		} 
 		scan.nextLine();
-		System.out,println("Ingrese una opción: ");
+		System.out.println("Ingrese una opción: ");
 		selection = scan.nextInt();
 
 		}

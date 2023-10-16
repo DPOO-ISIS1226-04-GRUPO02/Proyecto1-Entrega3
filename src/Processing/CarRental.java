@@ -265,7 +265,7 @@ public class CarRental {
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
 			int base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
-				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
+				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>(), true);
 			person.setActiveRental(newRental);
 			RentalWriter.newRental(newRental);
 			RentalWriter.changeCarInformation(reservation);
@@ -281,7 +281,7 @@ public class CarRental {
 		Calendar returnCalendar = Calendar.getInstance();
 		returnCalendar.add(Calendar.DAY_OF_MONTH, days);
 		Rental rental = new Rental(null, getCar(plate), days, null, getStore(origin), getStore(destination), 
-			Calendar.getInstance(), returnCalendar, null, null);
+			Calendar.getInstance(), returnCalendar, null, null, true);
 		rental.getCar().setAvailableTime(days);
 		RentalWriter.newRental(rental);
 
