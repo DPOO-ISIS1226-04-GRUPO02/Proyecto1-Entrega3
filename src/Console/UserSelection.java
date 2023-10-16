@@ -45,10 +45,10 @@ public class UserSelection {
 	}
 	
 	private static void login() {
-		
+		scan.nextLine();
 		System.out.print("Ingrese su nombre de usuario: ");
 		String username = scan.nextLine();
-		System.out.print("Ingrese su contraseña: ");
+		System.out.print("\nIngrese su contraseña: ");
 		String password = scan.nextLine();
 		User current = Users.loadUser(username, password);
 		if (current.equals(null)) System.out.println("Ingreso incorrecto!");

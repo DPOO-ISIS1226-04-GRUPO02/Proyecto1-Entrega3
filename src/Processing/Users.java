@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 import Model.User;
 
@@ -14,6 +15,7 @@ public class Users {
 	public static void loadUsers() throws IOException, ParseException {
 
 		logins = RentalLoader.usersInformation();
+		HashMap<String, User> x = logins;
 
 	}
 	
@@ -53,10 +55,15 @@ public class Users {
 	}
 	
 	public static String[] getUsernames() {
-		
-		return (String[]) logins.keySet().toArray();
-		
-	}
+    Set<String> keySet = logins.keySet(); // Obtener el conjunto de claves como un conjunto de cadenas
+    String[] usernames = new String[keySet.size()]; // Crear una matriz de cadenas del tamaño del conjunto
+    int index = 0;
+    for (String username : keySet) { // Iterar sobre el conjunto y agregar cada nombre de usuario a la matriz
+        usernames[index] = username;
+        index++;
+    }
+    return usernames; // Devolver la matriz de nombres de usuario
+}
 
 	public static HashMap<String, User> getUsers() {
 
