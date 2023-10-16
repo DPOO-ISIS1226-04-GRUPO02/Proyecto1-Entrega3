@@ -15,7 +15,7 @@ public class Car {
 
 
     public Car(String brand, String plate, String model, String color, boolean isAutomatic, String category, 
-        int availableIn) {
+        int availableIn, byte status) {
 
         this.brand = brand;
         this.plate = plate;
@@ -24,6 +24,7 @@ public class Car {
         this.isAutomatic = isAutomatic;
         this.category = category;
         this.availableIn = availableIn;
+        this.status = status;
 
     }
 

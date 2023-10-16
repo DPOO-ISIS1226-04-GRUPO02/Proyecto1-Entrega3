@@ -301,6 +301,9 @@ public class RentalLoader {
             boolean isAutomatic = Boolean.parseBoolean(partes[5]);
             String strAvailableIn = partes[4];
             String category = partes[6];
+            int statusInt = Integer.parseInt(partes[7]);
+
+            byte status = (byte)statusInt;
 
             // cambiar fecha string a Calendar
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -311,7 +314,7 @@ public class RentalLoader {
 
             long daysBetween = ChronoUnit.DAYS.between(availableIn.toInstant(), Calendar.getInstance().toInstant());
 
-            Car newCar = new Car(brand, plate, model, color, isAutomatic, category, (int) daysBetween);
+            Car newCar = new Car(brand, plate, model, color, isAutomatic, category, (int) daysBetween, status);
             cars.put(plate, newCar);
 
             linea = br.readLine();
@@ -400,7 +403,7 @@ public class RentalLoader {
 
         //HashMaps información
         HashMap<String, Client> clients = loadClients();
-        HashMap<Long, Licence> secondaryLicence = loadSecondaryLicence();
+        HashMap<Long, Licence> secondaryLicences = loadSecondaryLicence();
         HashMap<String, Car> cars = loadCars();
         HashMap<String, Insurance> insurances = loadInsurances();
         HashMap<String, Store> stores = loadStores();
@@ -413,39 +416,47 @@ public class RentalLoader {
 
         for (File plateFolder: plateFolders)
         {   
-
             if (plateFolder.isDirectory())
             {   
-                //lee la carpeta extra
-                File extraFolder = new File(plateFolder, "extra");
-                File[] extraFiles = extraFolder.listFiles();
-                ArrayList<Extra> extras= new ArrayList<>();
+                String plate = plateFolder.getName();
 
-                for (File extraFile: extraFiles)
+                File[] dateFolders = plateFolder.listFiles();
+
+                for (File dateFolder : dateFolders)
                 {
-                    BufferedReader br = new BufferedReader(new FileReader(extraFile));
-                    String linea = br.readLine();
-                    while (linea != null)
+                    if (dateFolder.isDirectory()) 
                     {
-                        String[] partes = linea.split(",");
-                        String extraType = partes[0];
-                        int cost = Integer.parseInt(partes[1]); 
-                        String specification = partes[2]; 
 
-                        Extra newExtra = new Extra(extraType, cost, specification); 
-                        extras.add(newExtra); 
+                    //lee la carpeta extra
+                    File extraFolder = new File(dateFolder, "extra");
+                    File[] extraFiles = extraFolder.listFiles();
+                    ArrayList<Extra> extras= new ArrayList<>();
 
-                        linea = br.readLine();  
+                    for (File extraFile: extraFiles)
+                    {
+                        BufferedReader br = new BufferedReader(new FileReader(extraFile));
+                        String linea = br.readLine();
+                        while (linea != null)
+                        {
+                            String[] partes = linea.split(",");
+                            String extraType = partes[0];
+                            int cost = Integer.parseInt(partes[1]); 
+                            String specification = partes[2]; 
+
+                            Extra newExtra = new Extra(extraType, cost, specification); 
+                            extras.add(newExtra); 
+
+                            linea = br.readLine();  
+                        }
+                        br.close();
+
                     }
-                    br.close();
 
-                }
-            
+                    }
 
-
-                
-                File infoFile= new File(plateFolder, "info.txt");
-                File insuranceFile = new File (plateFolder, "insurance.txt");
+                File infoFile= new File(dateFolder, "info.txt");
+                File insuranceFile = new File (dateFolder, "insurance.txt");
+                File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt")
 
                 //información insurance
                 ArrayList<Insurance> insurancesRental = new ArrayList<>();
@@ -464,6 +475,23 @@ public class RentalLoader {
                 }
                 br.close();  
 
+                //información secondary driver
+                ArrayList<Licence> secondaryDriver = new ArrayList<>();
+
+                BufferedReader br2 = new BufferedReader(new FileReader(secondaryDriverFile));
+		        String linea2 = br.readLine();
+		        while (linea2 != null)
+                {
+                    String[] partes = linea.split(",");
+                    String secondaryLicenceStr = partes[0];
+                    Licence secondaryLicence = secondaryLicences.get(secondaryLicenceStr);
+                    secondaryDriver.add(secondaryLicence);
+
+
+                    linea = br2.readLine();  
+                }
+                br2.close();  
+
 
 
                 //información rental
@@ -473,13 +501,12 @@ public class RentalLoader {
                 {
                     String[] partes = linea1.split(",");
                     String login = partes[0];
-                    long secondaryLicenceNum = Long.parseLong(partes[1]);
-                    String plate= partes[2];
-                    int baseCharge = Integer.parseInt(partes[3]);
-                    String rentedFromStr = partes[4];
-                    String returnToStr = partes[5];
-                    String strPickUpDateTime = partes[6];
-                    String strReturnDateTime = partes[7];
+                    String plate= partes[1];
+                    int baseCharge = Integer.parseInt(partes[2]);
+                    String rentedFromStr = partes[3];
+                    String returnToStr = partes[4];
+                    String strPickUpDateTime = partes[5];
+                    String strReturnDateTime = partes[6];
 
                     //cambiar String a Calendar
                     DateFormat formatter= new SimpleDateFormat("yy-MM-dd:HH-mm");
@@ -494,7 +521,6 @@ public class RentalLoader {
 
                     //encuentra la información y la convierte en objeto
                     Client renter = clients.get(login);
-                    Licence secondaryDriver= secondaryLicence.get(secondaryLicenceNum);
                     Car car = cars.get(plate);
                     Store rentedFrom= stores.get(rentedFromStr);
                     Store returnTo = stores.get(returnToStr);
@@ -508,14 +534,14 @@ public class RentalLoader {
                 }
                 br1.close();  
 
-
                 }
 
-                }
+            }
+
+        }
             
 
         return rentals;
-    
 
     }
 
