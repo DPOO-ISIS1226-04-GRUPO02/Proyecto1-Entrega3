@@ -13,7 +13,6 @@ import java.util.Set;
 
 import Model.Car;
 import Model.Store;
-import Model.User;
 import Model.Client;
 import Model.Insurance;
 import Model.Licence;
@@ -28,17 +27,15 @@ public class CarRental {
 	private static HashMap<String, Store> stores;
 	private static HashMap<String, Integer> categories;
 	private static HashMap<String, Insurance> insurances;
-	private static HashMap<Long, Licence> secondaryLicences;
 	private static HashMap<Car, ArrayList<Rental>> rentals;
 
 	public static void loadCarRental() throws IOException, ParseException {
 
-		//clients = RentalLoader.loadClients();
+		clients = RentalLoader.loadClients();
 		cars = RentalLoader.loadCars();
 		stores = RentalLoader.loadStores();
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
-		secondaryLicences = RentalLoader.loadSecondaryLicence();
 		rentals = RentalLoader.loadRentals();
 
 	}
@@ -242,19 +239,60 @@ public class CarRental {
 		
 	}
 
-	public static void confirmPickUp(String login, ArrayList<Licence> secondaryDriver, String employeeLogin, 
-		String employeePassword) {
-		Client person = getClient(login);
-		Rental rental = person.getActiveRental();
+	public static void confirmPickUp(String login, String workplace) throws ParseException {
 
+		Client person = getClient(login);
+		Scanner scan = new Scanner(System.in);
+
+		if (person.getActiveRental().equals(null)) {
+			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
+			String category = scan.nextLine();
+			while (!categories.containsKey(category)) {
+				System.out.println("Esta categoría no existe en esta tienda. Intente de nuevo o escriba 'stop para salir: ");
+				category = scan.nextLine();
+			}
+			int base = categories.get(category);
+			System.out.println("Ingrese el nombre de la tienda al que se va a devolver el carro: ");
+			String destination = scan.nextLine();
+			while (!storeExists(destination)) {
+				System.out.println("Tienda no encontrada. Ingrese el nombre de nuevo o 'stop' para salir: ");
+				destination = scan.nextLine();
+			}
+			System.out.println("Ingrese la fecha en que se planea devolver el vehículo (AAAA-MM-DD): ");
+			String returnDateString = scan.nextLine();
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        	Calendar returnDate = Calendar.getInstance();
+            Date returnDate2 = (Date)formatter.parse(returnDateString);
+			returnDate.setTime(returnDate2);
+			System.out.println("¿Habrá un segundo conductor? Ingrese uno (1) para sí, cero (0) para no: ");
+			int second = scan.nextInt();
+			Licence newLicence = null;
+			if (second == 1) {
+				System.out.println("Ingrese los datos de la licencia de la segunda persona.");
+				System.out.println("Ingrese el número de la licencia: ");
+				long licenceNumber = scan.nextLong();
+				System.out.println("Ingrese el país en que se expidió esta licencia: ");
+				String licenceCountry = scan.nextLine();
+				System.out.println("Ingrese la fecha de expiración de la licencia (AAAA-MM-DD): ");
+				String licenceExpString = scan.nextLine();
+				Calendar licenceExpiration = Calendar.getInstance();
+				Date licenceExpDate = (Date) formatter.parse(licenceExpString);
+				licenceExpiration.setTime(licenceExpDate);
+				System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
+				String licencePhotoPath = scan.nextLine();
+				newLicence = newLicence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath, null);
+			}
+			reserveCar(login, category, base, workplace, destination, Calendar.getInstance(), returnDate, newLicence);
+		}
+		scan.close();
+
+		Rental rental = person.getActiveRental();
 		rental.setActive(true);
 		Car car = rental.getCar();
 		car.setStatus((byte)2);
-		if ( secondaryDriver.size() > 0){
-			for (Licence licence : secondaryDriver) {
-				rental.getSecondaryDriver().add(licence);
-			}
-		}
+		Store origin = getStore(workplace);
+		rental.setPickUp(Calendar.getInstance());
+		rental.setOrigin(origin);
 		
 	}
 
@@ -289,22 +327,37 @@ public class CarRental {
 		}
 
 	}
-	public static void registerCar(Byte status, String brand, String plate, String model, String color, boolean isAutomatic, String category, int availableIn, String store){
-		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn);
+
+	public static void registerCar(Byte status, String brand, String plate, String model, String color, 
+		boolean isAutomatic, String category, int availableIn, String store) {
+
+		Car carro = new Car(brand, plate, model, color, isAutomatic, category, availableIn, (byte) 0);
 		carro.setStatus(status);
 		cars.put(carro.getPlate(), carro);
 		Store st = stores.get(store);
 		((st.getInventory()).get(category)).add(plate);
+
 	} 
-	public static void newStore(String name, String location, Calendar openingTime, Calendar closingTime, byte OpeningDays){
+
+	public static void newStore(String name, String location, Calendar openingTime, Calendar closingTime, 
+		byte OpeningDays) {
+
 		HashMap <String, ArrayList<String>> inventory = new HashMap<String, ArrayList<String>>();
 		Store store = new Store(name, location, openingTime, closingTime, OpeningDays, inventory);
 		stores.put(name, store);
+
 	}
-	public static void changeVehicleStatus(String plate, byte status){
+
+	public static void changeVehicleStatus(String plate, byte status) {
+
 		(cars.get(plate)).setStatus(status);
+
 	}
-	public static ArrayList<Rental> getPastRentals(Car car){
+
+	public static ArrayList<Rental> getPastRentals(Car car) {
+
 		return rentals.get(car);
+
 	}
+
 }

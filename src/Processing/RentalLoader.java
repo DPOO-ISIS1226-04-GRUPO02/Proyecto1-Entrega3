@@ -261,7 +261,8 @@ public class RentalLoader {
                     Date dateBirthDate = (Date)formatter.parse(strDateBirth);
                     dateBirth.setTime(dateBirthDate);
 
-                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newPayment, login);
+                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newPayment, 
+                        login);
                     newClient.setLicence(CarRental.newLicence(number, country, expirationLicence, photoPath, login));
                     clients.put(login, newClient);
 
@@ -355,7 +356,7 @@ public class RentalLoader {
 
     }
 
-    public static HashMap<Long, Licence> loadSecondaryLicence() throws IOException, ParseException
+    private static HashMap<Long, Licence> loadSecondaryLicence() throws IOException, ParseException
     {
         HashMap<Long, Licence> secondaryLicence = new HashMap<Long, Licence>();
 
@@ -456,7 +457,7 @@ public class RentalLoader {
 
                 File infoFile= new File(dateFolder, "info.txt");
                 File insuranceFile = new File (dateFolder, "insurance.txt");
-                File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt")
+                File secondaryDriverFile = new File(dateFolder, "secondaryDriver.txt");
 
                 //información insurance
                 ArrayList<Insurance> insurancesRental = new ArrayList<>();
@@ -501,7 +502,7 @@ public class RentalLoader {
                 {
                     String[] partes = linea1.split(",");
                     String login = partes[0];
-                    String plate= partes[1];
+                    String plate2 = partes[1];
                     int baseCharge = Integer.parseInt(partes[2]);
                     String rentedFromStr = partes[3];
                     String returnToStr = partes[4];
@@ -521,11 +522,12 @@ public class RentalLoader {
 
                     //encuentra la información y la convierte en objeto
                     Client renter = clients.get(login);
-                    Car car = cars.get(plate);
+                    Car car = cars.get(plate2);
                     Store rentedFrom= stores.get(rentedFromStr);
                     Store returnTo = stores.get(returnToStr);
 
-                    Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras);
+                    Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, 
+                        pickUpDateTime, returnDateTime, secondaryDriver, extras);
                     if (rentals.get(car).equals(null)) rentals.put(car, new ArrayList<Rental>()); 
                     rentals.get(car).add(newRental);
 
