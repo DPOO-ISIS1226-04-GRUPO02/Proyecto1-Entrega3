@@ -362,7 +362,7 @@ public class CarRental {
 			Store destination = getStore(Users.loadUser(employeeLogin, employeePassword).getWorkplace());
 			if (!destination.equals(rental.getDestination())) 
 				rental.addExtra("Devuelto a tienda distinta", 
-				0000 /* TODO: Change value */,
+				30,
 				"El carro fue devuelto a una tienda distinta de la que fue inicialmente planeada.");
 			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
 			ArrayList<Extra> extras = rental.getExtras();
