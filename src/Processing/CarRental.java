@@ -255,7 +255,6 @@ public class CarRental {
 			}
 			i += 1;
 		}
-		Car reservation2 = reservation;
 		if (reservation == null) {
 			System.out.println(String.format(
 				"No se ha encontrado un carro de esta categoría en la tienda %s. Seleccione otra, por favor.", 
@@ -269,6 +268,7 @@ public class CarRental {
 				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
 			RentalWriter.newRental(newRental);
+			RentalWriter.changeCarInformation(reservation);
 			System.out.println("Reserva creada exitosamente");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");

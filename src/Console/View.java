@@ -29,9 +29,8 @@ public class View {
 		
 	}
 	
-	public boolean optionSelection() {
+	public boolean optionSelection(Scanner scan) {
 		
-		Scanner scan = new Scanner(System.in);
 		int selection = 0;
 		switch (access) {
 			case 0:
@@ -39,7 +38,7 @@ public class View {
 				System.out.println("1. Agregar o cambiar información personal");
 				System.out.println("2. Reservar un carro");
 				selection = scan.nextInt();
-				if (0 <= selection && selection <= 2) runOptions(selection);
+				if (0 <= selection && selection <= 2) runOptions(selection, scan);
 				break;
 			case 1:
 				System.out.println("0. Salir de la aplicación");
@@ -48,7 +47,7 @@ public class View {
 				System.out.println("3. Confirmar recogida de un carro");
 				System.out.println("4. Confirmar devolución de un carro");
 				selection = scan.nextInt();
-				if (0 <= selection && selection <= 4) runOptions(selection);
+				if (0 <= selection && selection <= 4) runOptions(selection, scan);
 				break;
 			case 2:
 				System.out.println("0. Salir de la aplicación");
@@ -58,7 +57,7 @@ public class View {
 				System.out.println("4. Confirmar devolución de un carro");
 				System.out.println("5. Registrar nuevo empleado");
 				selection = scan.nextInt();
-				if (0 <= selection && selection <= 5) runOptions(selection);
+				if (0 <= selection && selection <= 5) runOptions(selection, scan);
 				break;
 			case 3:
 				System.out.println("0. Salir de la aplicación");
@@ -77,18 +76,17 @@ public class View {
 				System.out.println("13. Habilitar/Inhabilitar un seguro");
 				System.out.println("14. Generar historial de alquileres para un carro");
 				selection = scan.nextInt();
-				if (0 <= selection && selection <= 14) runOptions(selection);
+				if (0 <= selection && selection <= 14) runOptions(selection, scan);
 				break;
-		}scan.close();
+		}
 		if (selection == 0) return false;
 		else return true;
 		
 		
 	}
 
-	private void runOptions(int selection) {
+	private void runOptions(int selection, Scanner scan) {
 
-		Scanner scan = new Scanner(System.in);
 		String clientLogin;
 		List<String> usernames = Arrays.asList(Users.getUsernames());
 		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
@@ -168,6 +166,7 @@ public class View {
 				}
 				break;
 			case 2:
+				scan.nextLine();
 				System.out.println("Ingrese su nombre de usuario: ");
 				clientLogin = scan.nextLine();
 				Client client = CarRental.getClient(clientLogin);
@@ -425,8 +424,7 @@ public class View {
 			default:
 				System.out.println("Option not found.");
 				break;
-		}
-		scan.close();
+		} scan.nextInt();
 
 	}
 
