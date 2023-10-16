@@ -133,8 +133,9 @@ public class CarRental {
 	}
  
 	public static void addInsurance(String name, int cost, String specs) {
-
-		insurances.put(name, new Insurance(name, cost, specs, true));
+		Insurance insurance = new Insurance(name, cost, specs, true);
+		insurances.put(name, insurance);
+		RentalWriter.newInsurance(insurance);
 
 	}
 
@@ -346,7 +347,7 @@ public class CarRental {
 		Store origin = getStore(workplace);
 		rental.setPickUp(Calendar.getInstance());
 		rental.setOrigin(origin);
-		
+		RentalWriter.changeRentalInformation(rental);
 	}
 
 	public static void confirmReturn(String login, int days, String comments, int extraCharges, String employeeLogin, 
@@ -377,6 +378,7 @@ public class CarRental {
 			destination.addCar(car);
 			resultingString += String.format("El total final del alquiler es de %8d", total);
 			System.out.println(resultingString);
+			RentalWriter.changeRentalInformation(rental);
 		}
 
 	}
@@ -389,6 +391,7 @@ public class CarRental {
 		cars.put(plate, carro);
 		Store st = stores.get(store);
 		((st.getInventory()).get(category)).add(plate);
+		RentalWriter.addCar(carro);
 
 	} 
 
@@ -398,12 +401,16 @@ public class CarRental {
 		HashMap <String, ArrayList<String>> inventory = new HashMap<String, ArrayList<String>>();
 		Store store = new Store(name, location, openingTime, closingTime, OpeningDays, inventory);
 		stores.put(name, store);
+		RentalWriter.addStore(store);
 
 	}
 
 	public static void changeVehicleStatus(String plate, byte status) {
 
-		(cars.get(plate)).setStatus(status);
+		Car car = cars.get(plate);
+		(car).setStatus(status);
+		RentalWriter.changeCarInformation(car);
+
 
 	}
 

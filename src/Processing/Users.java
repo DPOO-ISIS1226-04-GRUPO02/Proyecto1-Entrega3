@@ -15,7 +15,6 @@ public class Users {
 	public static void loadUsers() throws IOException, ParseException {
 
 		logins = RentalLoader.usersInformation();
-		HashMap<String, User> x = logins;
 
 	}
 	
