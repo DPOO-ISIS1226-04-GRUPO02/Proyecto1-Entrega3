@@ -29,33 +29,40 @@ public class RentalWriter {
      */
     public static void changeTariffs(String category, int value) {
         String filePath = "data/categories.txt";
+        boolean categoryFound = false;
         try {
             FileReader fileReader = new FileReader(filePath);
-            
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String linea;
 
             StringBuilder stringBuilder = new StringBuilder();
-            while ((linea = bufferedReader.readLine()) != null){
+            while ((linea = bufferedReader.readLine()) != null) {
                 String[] parts = linea.split(",");
-                if (parts[0].equals(category)){
+                if (parts[0].equals(category)) {
                     stringBuilder.append(parts[0]).append(",").append(value).append(System.lineSeparator());
+                    categoryFound = true;
                 } else {
-                    stringBuilder.append(linea).append(System.lineSeparator());  
+                    stringBuilder.append(linea).append(System.lineSeparator());
                 }
             }
+
             bufferedReader.close();
+
+            // If category is not found, add it to the end of the file
+            if (!categoryFound) {
+                stringBuilder.append(category).append(",").append(value).append(System.lineSeparator());
+            }
+
             FileWriter fileWriter = new FileWriter(filePath);
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
 
-        } catch (FileNotFoundException ex){
+        } catch (FileNotFoundException ex) {
             ex.printStackTrace();
-        } catch (IOException ex){
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
-
-        }
+    }
     
 
     public static void addClient(Client client) {
