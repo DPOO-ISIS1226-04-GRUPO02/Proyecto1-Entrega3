@@ -37,7 +37,6 @@ public class CarRental {
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
 		rentals = RentalLoader.loadRentals();
-		rentals.keySet();
 
 	}
 
@@ -306,6 +305,7 @@ public class CarRental {
 			System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
 			String licencePhotoPath = scan.nextLine();
 			licences.add(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
+			// TODO: Add new licences to files with RentalWriter
 		}
 		scan.close();
 		return licences;
@@ -315,9 +315,9 @@ public class CarRental {
 	public static void confirmPickUp(String login, String workplace) throws ParseException {
 
 		Client person = getClient(login);
-		Scanner scan = new Scanner(System.in);
 
 		if (person.getActiveRental()== null) {
+			Scanner scan = new Scanner(System.in);
 			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
 			String category = scan.nextLine();
 			while (!categories.containsKey(category) && category != "stop") {
@@ -338,9 +338,9 @@ public class CarRental {
 			returnDate.setTime(returnDate2);
 			System.out.println("Ingrese el número de segundos conductores que desea registrar: ");
 			int n = scan.nextInt();
+			scan.close();
 			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, n);
 		}
-		scan.close();
 
 		Rental rental = person.getActiveRental();
 		rental.setActive(true);
@@ -412,7 +412,6 @@ public class CarRental {
 		Car car = cars.get(plate);
 		(car).setStatus(status);
 		RentalWriter.changeCarInformation(car);
-
 
 	}
 
