@@ -126,7 +126,7 @@ public class RentalWriter {
                     e.printStackTrace();
                 }
                 String filePath3 = folderPath + "/insurance.txt";
-                Licence secondaryLicences = rental.getSecondaryDriver();
+                ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
                 try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
                     for (Licence lic : secondaryLicences) {
                     bufferedWriter.append(String.valueOf(lic.getNumber()));

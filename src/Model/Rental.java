@@ -8,7 +8,7 @@ public class Rental {
 
     private boolean active;
     private Client renter;
-    private Licence secondaryDriver;
+    private ArrayList<Licence> secondaryDriver;
     private Car car;
     private int baseCharge;
     private ArrayList<Insurance> insurances;
@@ -19,7 +19,7 @@ public class Rental {
     private ArrayList<Extra> extras;
 
     public Rental(Client renter, Car car, int base, ArrayList<Insurance> insurances, Store origin, Store destination, 
-        Calendar pickUpDateTime, Calendar returnDateTime, Licence secondaryDriver, ArrayList<Extra> extras) {
+        Calendar pickUpDateTime, Calendar returnDateTime, ArrayList<Licence> secondaryDriver, ArrayList<Extra> extras) {
 
         this.active = false;
         this.renter = renter;
@@ -53,7 +53,7 @@ public class Rental {
 
     }
 
-    public Licence getSecondaryDriver() {
+    public ArrayList<Licence> getSecondaryDriver() {
 
         return secondaryDriver;
 
@@ -88,7 +88,7 @@ public class Rental {
     public void setOrigin(Store origin) {
 
         this.rentedFrom = origin;
-        
+
     }
 
     public Store getDestination() {

@@ -13,7 +13,6 @@ import java.util.List;
 
 import Processing.CarRental;
 import Processing.Users;
-import Model.Licence;
 
 public class View {
 	
@@ -224,31 +223,15 @@ public class View {
 					fechaFin = null;
 				}
 			
-				System.out.println("Ingrese uno (1) si habrá un segundo conductor; (0) en caso contrario: ");
-				int second = scan.nextInt();
-				Licence licence = null;
-				if (second == 1) {
-					System.out.println("Ingrese el número de la licencia: ");
-					long licenceNumber = scan.nextLong();
-					System.out.println("Ingrese el país en que se expidió la licencia: ");
-					String licenceCountry = scan.nextLine();
-					System.out.println("Ingrese la fecha de expiración de su licencia (dd/mm/aaaa): ");
-					String licenceExpiratioString = scan.nextLine();
-					int i = 0;
-					Integer[] calendarValues = {0, 0, 0};
-					for (String value: licenceExpiratioString.split("/")) {
-						calendarValues[i] = Integer.parseInt(value);
-						i += 1;
-					}
-					Calendar licenceExpiration = Calendar.getInstance();
-					licenceExpiration.set(calendarValues[0], calendarValues[1], calendarValues[2], 0, 0, 0);
-					System.out.println("Ingrese la ubicación de la foto de su licencia (en el computador): ");
-					String licencePhotoPath = scan.nextLine(); 
-					licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
-				}
+				System.out.println("Ingrese el número de conductore secundarios que desea registrar: ");
+				int n = scan.nextInt();
 				if (fechaInicio != null && fechaFin != null){
-					CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, fechaFin, 
-						licence);
+					try {
+						CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, 
+							fechaFin, n);
+					} catch (ParseException pe) {
+						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
+					}
 				}
 				break;
 			case 3:

@@ -200,7 +200,7 @@ public class CarRental {
 	}
 
 	public static void reserveCar(String renter, String category, String origin, String destination,
-		Calendar pickUpdateTime, Calendar returnDateTime, Licence licence) {
+		Calendar pickUpdateTime, Calendar returnDateTime, int n) throws ParseException {
 
 		Store originStore = getStore(origin);
 		Store destinationStore = getStore(destination);
@@ -224,16 +224,42 @@ public class CarRental {
 				origin));
 			return;
 		}
+		ArrayList<Licence> licences = createLicences(n);
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
 			int base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
-				destinationStore, pickUpdateTime, returnDateTime, licence, new ArrayList<Extra>());
+				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
 			System.out.println("Reserva creada exitosamente");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
 		}
 		
+	}
+
+	public static ArrayList<Licence> createLicences(int n) throws ParseException {
+
+		Scanner scan = new Scanner(System.in);
+		ArrayList<Licence> licences = new ArrayList<Licence>();
+		for (int j = 0; j < n; j++) {
+			System.out.println(String.format("Ingrese los datos de la licencia del conductor #%d.", j+2));
+			System.out.println("Ingrese el número de la licencia: ");
+			long licenceNumber = scan.nextLong();
+			System.out.println("Ingrese el país en que se expidió esta licencia: ");
+			String licenceCountry = scan.nextLine();
+			System.out.println("Ingrese la fecha de expiración de la licencia (AAAA-MM-DD): ");
+			String licenceExpString = scan.nextLine();
+			Calendar licenceExpiration = Calendar.getInstance();
+			DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			Date licenceExpDate = (Date) formatter.parse(licenceExpString);
+			licenceExpiration.setTime(licenceExpDate);
+			System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
+			String licencePhotoPath = scan.nextLine();
+			licences.add(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
+		}
+		scan.close();
+		return licences;
+
 	}
 
 	public static void confirmPickUp(String login, String workplace) throws ParseException {
@@ -260,25 +286,9 @@ public class CarRental {
         	Calendar returnDate = Calendar.getInstance();
             Date returnDate2 = (Date)formatter.parse(returnDateString);
 			returnDate.setTime(returnDate2);
-			System.out.println("¿Habrá un segundo conductor? Ingrese uno (1) para sí, cero (0) para no: ");
-			int second = scan.nextInt();
-			Licence newLicence = null;
-			if (second == 1) {
-				System.out.println("Ingrese los datos de la licencia de la segunda persona.");
-				System.out.println("Ingrese el número de la licencia: ");
-				long licenceNumber = scan.nextLong();
-				System.out.println("Ingrese el país en que se expidió esta licencia: ");
-				String licenceCountry = scan.nextLine();
-				System.out.println("Ingrese la fecha de expiración de la licencia (AAAA-MM-DD): ");
-				String licenceExpString = scan.nextLine();
-				Calendar licenceExpiration = Calendar.getInstance();
-				Date licenceExpDate = (Date) formatter.parse(licenceExpString);
-				licenceExpiration.setTime(licenceExpDate);
-				System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
-				String licencePhotoPath = scan.nextLine();
-				newLicence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
-			}
-			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, newLicence);
+			System.out.println("Ingrese el número de segundos conductores que desea registrar: ");
+			int n = scan.nextInt();
+			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, n);
 		}
 		scan.close();
 
