@@ -171,8 +171,9 @@ public class View {
 				clientLogin = scan.nextLine();
 				Client client = CarRental.getClient(clientLogin);
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
+				int i = 1;
 				for (String elemento : categories){
-					int i = 1;
+					
 					System.out.println(i + ". " + elemento);
 					i += 1;
 				}
@@ -180,16 +181,18 @@ public class View {
 				String categoria = categories.get(categoriaSelect -1);
 				System.out.println("Ingrese el número de la sede en la que desea recoger su vehículo: ");
 				ArrayList<String> tiendas = new ArrayList<>(CarRental.getStores());
+				i = 1;
 				for (String tienda : tiendas){
-					int i = 1;
+					
 					System.out.println(i + ". " + tienda);
 					i += 1;
 				}
 				int storeOriginSelect = scan.nextInt();
 				String storeOrigin = tiendas.get(storeOriginSelect -1);
 				System.out.println("Ingrese el número de la sede en la que desea devolver su vehículo: ");
+				i = 1;
 				for (String tienda : tiendas){
-					int i = 1;
+					
 					System.out.println(i + ". " + tienda);
 					i += 1;
 				}
@@ -199,9 +202,9 @@ public class View {
 				Calendar fechaFin = null;
 				try {
 					scan.nextLine();
-					System.out.println("Ingrese la fecha y hora aproximada en la que desea recoger su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-15:09-30): ");
+					System.out.println("Ingrese la fecha y hora aproximada en la que desea recoger su vehículo en formato yy-MM-dd:HH-mm (ej: 23-10-15:09-30): ");
 					String fechaI = scan.nextLine();
-					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 2023-10-21:21-30): ");
+					System.out.println("Ingrese la fecha y hora aproximada en la que desea devolver su vehículo en formato yy-MM-dd:HH-mm (ej: 23-10-21:21-30): ");
 					String fechaF = scan.nextLine();
 					SimpleDateFormat sdf = new SimpleDateFormat("yy-MM-dd:HH-mm");
 		
@@ -300,15 +303,16 @@ public class View {
 					break;
 				}
 				System.out.println("Ingrese el número de la categoría de vehículo que desea alquilar: ");
+				i = 1;
 				for (String elemento : categories){
-					int i = 1;
+				
 					System.out.println(String.valueOf(i) + ". " + elemento);
 					i += 1;
 				}
 				String category = categories.get(scan.nextInt() - 1);
 				ArrayList<String> stores = new ArrayList<>(CarRental.getStores());
+				i = 1;
 				for (String store : stores){
-					int i = 1;
 					System.out.println(String.valueOf(i) + ". " + store);
 					i += 1;
 				}
@@ -396,8 +400,8 @@ public class View {
 				break;
 			case 13:
 				System.out.println("Escoga el nombre del seguro que desea cambiar de estado: ");
+				i = 1;
 				for (String ins: CarRental.getInsurances()) {
-					int i = 1;
 					System.out.println(String.format("%-2d. %s", i, ins));
 					i++;
 				}
