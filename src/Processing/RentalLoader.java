@@ -418,6 +418,7 @@ public class RentalLoader {
 
         for (File plateFolder: plateFolders)
         {   
+            ArrayList<Extra> extras= new ArrayList<>();
             if (plateFolder.isDirectory())
             {   
 
@@ -431,7 +432,6 @@ public class RentalLoader {
                     //lee la carpeta extra
                     File extraFolder = new File(dateFolder, "extra");
                     File[] extraFiles = extraFolder.listFiles();
-                    ArrayList<Extra> extras= new ArrayList<>();
 
                     for (File extraFile: extraFiles)
                     {
