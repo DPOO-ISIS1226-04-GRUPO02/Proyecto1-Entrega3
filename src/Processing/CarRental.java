@@ -112,25 +112,37 @@ public class CarRental {
 		return categories.keySet();
 
 	}
+
 	public static Set<String> getStores() {
+
 		return stores.keySet();
-	}
-
-	public static Set<Insurance> getInsurances() {
-
-		return (Set<Insurance>) insurances.values();
 
 	}
 
+	public static boolean insuranceExists(String name) {
+
+		if (insurances.keySet().contains(name)) return true;
+		else return false;
+
+	}
+
+	public static Set<String> getInsurances() {
+
+		return insurances.keySet();
+
+	}
+ 
 	public static void addInsurance(String name, int cost, String specs) {
 
 		insurances.put(name, new Insurance(name, cost, specs, true));
 
 	}
 
-	public static void changeInsuranceStatus(String name, boolean status) {
+	public static boolean changeInsuranceStatus(String name) {
 
-		insurances.get(name).setActive(status);
+		boolean truth = insurances.get(name).isActive();
+		insurances.get(name).setActive(!truth);
+		return !truth;
 		
 	}
 
@@ -395,6 +407,12 @@ public class CarRental {
 	public static ArrayList<Rental> getPastRentals(Car car) {
 
 		return rentals.get(car);
+
+	}
+
+	public static void setTariff(String category, int amount) {
+
+		categories.put(category, amount);
 
 	}
 

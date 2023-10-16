@@ -78,11 +78,10 @@ public class View {
 				System.out.println("11. Cambiar tarifas diarias por categoría");
 				System.out.println("12. Añadir seguro");
 				System.out.println("13. Habilitar/Inhabilitar un seguro");
-				System.out.println("14. Cambiar información de una tienda");
-				System.out.println("15. Generar historial de alquileres para un carro");
+				System.out.println("14. Generar historial de alquileres para un carro");
 				selection = scan.nextInt();
 				scan.close();
-				if (0 <= selection && selection <= 15) runOptions(selection);
+				if (0 <= selection && selection <= 14) runOptions(selection);
 				break;
 		}
 		if (selection == 0) return false;
@@ -380,12 +379,51 @@ public class View {
 				else CarRental.changeVehicleStatus(plate3, (byte) 3);
 				break;
 			case 11:
-				
+				for (String cat: categories) {
+					System.out.println(String.format("Ingrese el nuevo precio para la categoría '%s': ", cat));
+					CarRental.setTariff(cat, scan.nextInt());
+				}
+				break;
 			case 12:
+				System.out.println("Ingrese el nombre del seguro que desea añadir: ");
+				String insuranceName = scan.nextLine();
+				while (CarRental.insuranceExists(insuranceName)) {
+					System.out.println("Un seguro por este nombre ya existe. Ingrese otro nombre o 'stop' para salir: ");
+					insuranceName = scan.nextLine();
+					if (insuranceName.equals("stop")) break abc;
+				}
+				System.out.println("Ingrese el costo diario de este seguro: ");
+				int insuranceCost = scan.nextInt();
+				System.out.println("Ingrese las especificaciones para este seguro: ");
+				String specs = scan.nextLine();
+				CarRental.addInsurance(insuranceName, insuranceCost, specs);
+				break;
 			case 13:
+				System.out.println("Escoga el nombre del seguro que desea cambiar de estado: ");
+				for (String ins: CarRental.getInsurances()) {
+					int i = 1;
+					System.out.println(String.format("%-2d. %s", i, ins));
+					i++;
+				}
+				ArrayList<String> insurances = new ArrayList<String>(CarRental.getInsurances());
+				String insuranceNam = insurances.get(scan.nextInt() - 1);
+				System.out.println(String.format("¿Está seguro de cambiar el estado del seguro %s? (1 para sí; 2 para no): ", insuranceNam));
+				if (scan.nextLine().equals("1")) {
+					boolean truth = CarRental.changeInsuranceStatus(insuranceNam);
+					if (truth) System.out.println("Cambiado a activo.");
+					else System.out.println("Cambiado a inactivo.");
+				}
+				break;
 			case 14:
-			case 15:
-				// TODO: Add the rest of the general manger options
+				System.out.println("Ingrese la placa del carro del que desea consultar el historial: ");
+				String plate4 = scan.nextLine();
+				while (!CarRental.carExists(plate4)) {
+					System.out.println("Este carro no está registrado en el sistema! Ingrese la placa de neuvo o 'stop' para salir: ");
+					plate4 = scan.nextLine();
+					if (plate4.equals("stop")) break abc;
+				}
+				CarRental.getPastRentals(CarRental.getCar(plate4));
+				// TODO: Print past rentals information
 			default:
 				System.out.println("Option not found.");
 				break;
