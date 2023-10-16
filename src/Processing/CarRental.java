@@ -28,6 +28,7 @@ public class CarRental {
 	private static HashMap<String, Integer> categories;
 	private static HashMap<String, Insurance> insurances;
 	private static HashMap<Car, ArrayList<Rental>> rentals;
+	private static HashMap<Long, Licence> secondaryLicences;
 
 	public static void loadCarRental() throws IOException, ParseException {
 
@@ -304,7 +305,9 @@ public class CarRental {
 			licenceExpiration.setTime(licenceExpDate);
 			System.out.println("Ingrese la ubicación de la licencia en el computador (.png únicamente): ");
 			String licencePhotoPath = scan.nextLine();
-			licences.add(new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath));
+			Licence licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
+			licences.add(licence);
+			secondaryLicences.put(licenceNumber, licence);
 			// TODO: Add new licences to files with RentalWriter
 		}
 		scan.close();

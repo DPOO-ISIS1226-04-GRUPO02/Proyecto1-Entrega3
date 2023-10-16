@@ -316,7 +316,7 @@ public class RentalWriter {
         catch (IOException e) {
             e.printStackTrace();
         }
-        String filePath3 = folderPath + "/secondarDriver.txt";
+        String filePath3 = folderPath + "/secondaryDriver.txt";
         ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
             for (Licence lic : secondaryLicences) {
