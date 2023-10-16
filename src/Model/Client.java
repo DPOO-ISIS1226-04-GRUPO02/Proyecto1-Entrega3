@@ -108,10 +108,10 @@ public class Client {
 
     }
 
-//   public void setLicence(Licence licence) {
-//     this.licence = licence;
+   public void setLicence(Licence licence) {
+    this.licence = licence;
 
-//    }
+    }
 
     public String getLogin() {
 
