@@ -250,11 +250,21 @@ public class CarRental {
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
 				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>());
 			person.setActiveRental(newRental);
-			System.out.println("Reserva creada exitosamente");
+			System.out.println("Reserva creada exitosamente!");
 		} else {
 			System.out.println("No se ha podido iniciar la reserva correctamente. Revise los datos que ha ingresado. ");
 		}
 		
+	}
+
+	public static void reserveCar(String plate, String origin, String destination, int days) {
+
+		Calendar returnCalendar = Calendar.getInstance();
+		returnCalendar.add(Calendar.DAY_OF_MONTH, days);
+		Rental rental = new Rental(null, getCar(plate), days, null, getStore(origin), getStore(destination), 
+			Calendar.getInstance(), returnCalendar, null, null);
+		rental.getCar().setAvailableTime(days);
+
 	}
 
 	public static ArrayList<Licence> createLicences(int n) throws ParseException {

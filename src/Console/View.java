@@ -364,7 +364,9 @@ public class View {
 					destinationStore = scan.nextLine();
 					if (destinationStore.equals("stop")) break abc;
 				}
-				// TODO: Implement the option to change a car from store in CarRental
+				System.out.println("Ingrese la cantidad de días que se demorará el cambio de sedes: ");
+				int days2 = scan.nextInt();
+				CarRental.reserveCar(plate2, originStore, destinationStore, days2);
 				break;
 			case 10:
 				
