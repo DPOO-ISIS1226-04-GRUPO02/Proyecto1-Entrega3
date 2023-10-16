@@ -19,7 +19,7 @@ public class Rental {
     private ArrayList<Extra> extras;
 
     public Rental(Client renter, Car car, int base, ArrayList<Insurance> insurances, Store origin, Store destination, Calendar pickUpDateTime,
-        Calendar returnDateTime, Licence secondaryDriver, ArrayList<Extra> extras) {
+        Calendar returnDateTime, ArrayList<Licence> secondaryDriver, ArrayList<Extra> extras) {
 
         this.active = false;
         this.renter = renter;
