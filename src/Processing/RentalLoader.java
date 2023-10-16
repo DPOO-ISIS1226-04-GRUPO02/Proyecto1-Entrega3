@@ -261,8 +261,10 @@ public class RentalLoader {
                     Date dateBirthDate = (Date)formatter.parse(strDateBirth);
                     dateBirth.setTime(dateBirthDate);
 
-                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newPayment, login);
-                    newClient.setLicence(CarRental.newLicence(number, country, expirationLicence, photoPath, login));
+                    Licence newlicence= new Licence(number, country, expirationLicence, photoPath);
+
+                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newlicence, newPayment, login);
+                    
                     clients.put(login, newClient);
 
                     linea1 = br1.readLine();
