@@ -99,7 +99,7 @@ public class RentalWriter {
         File folder = new File(folderPath);
 
         if (!folder.exists()) {
-            boolean result = folder.mkdirs();
+            folder.mkdirs();
             
         }
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

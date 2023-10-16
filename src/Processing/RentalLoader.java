@@ -357,7 +357,7 @@ public class RentalLoader {
 
     }
 
-    private static HashMap<Long, Licence> loadSecondaryLicence() throws IOException, ParseException
+    public static HashMap<Long, Licence> loadSecondaryLicence() throws IOException, ParseException
     {
         HashMap<Long, Licence> secondaryLicence = new HashMap<Long, Licence>();
 

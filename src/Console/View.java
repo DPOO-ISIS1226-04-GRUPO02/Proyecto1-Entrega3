@@ -223,12 +223,10 @@ public class View {
 					fechaFin = null;
 				}
 			
-				System.out.println("Ingrese el número de conductore secundarios que desea registrar: ");
-				int n = scan.nextInt();
 				if (fechaInicio != null && fechaFin != null){
 					try {
 						CarRental.reserveCar(client.getName(), categoria, storeOrigin, storeDestiny, fechaInicio, 
-							fechaFin, n);
+							fechaFin);
 					} catch (ParseException pe) {
 						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
 					}
