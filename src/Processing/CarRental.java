@@ -244,7 +244,7 @@ public class CarRental {
 		int i = 0;
 		boolean found = false;
 		Car reservation = null;
-		while (categoryList != null && (!found && i < categoryList.size())) {
+		while (person.getActiveRental() == null && categoryList != null && (!found && i < categoryList.size())) {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
 			Calendar availableIn = getCar(plate).getAvailableDate();
