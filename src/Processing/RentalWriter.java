@@ -510,12 +510,13 @@ public class RentalWriter {
         filePath = folderPath + separator + "extra";
         File directory = new File(filePath);
         File[] files = directory.listFiles();
-        if (files.length>0){
+        if (files != null && files.length>0){
             for (File file: files){
                 file.delete();
             }
         }
         ArrayList<Extra> extras = rental.getExtras();
+        if (extras != null && extras.size() > 0){
         for (int i = 0; i < extras.size() ; i++){
             Extra extra = extras.get(i);
             String txtfilePath = filePath + separator + "extra" + i + ".txt";
@@ -529,6 +530,7 @@ public class RentalWriter {
                 ex.printStackTrace();
             }
         }
+    }
     }
 
     public static void newUser(User user) {
