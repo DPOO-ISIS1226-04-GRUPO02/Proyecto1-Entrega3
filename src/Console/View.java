@@ -33,33 +33,36 @@ public class View {
 		while (selection != 0) {
 			switch (access) {
 				case 0:
-					System.out.println("0. Salir de la aplicación");
+					System.out.println("\n0. Salir de la aplicación");
 					System.out.println("1. Agregar o cambiar información personal");
 					System.out.println("2. Reservar un carro");
+					System.out.println("Ingrese una opción, por favor: ");
 					selection = scan.nextInt();
 					if (0 <= selection && selection <= 2) runOptions(selection, scan);
 					break;
 				case 1:
-					System.out.println("0. Salir de la aplicación");
+					System.out.println("\n0. Salir de la aplicación");
 					System.out.println("1. Agregar o cambiar información personal");
 					System.out.println("2. Reservar un carro");
 					System.out.println("3. Confirmar recogida de un carro");
 					System.out.println("4. Confirmar devolución de un carro");
+					System.out.println("Ingrese una opción, por favor: ");
 					selection = scan.nextInt();
 					if (0 <= selection && selection <= 4) runOptions(selection, scan);
 					break;
 				case 2:
-					System.out.println("0. Salir de la aplicación");
+					System.out.println("\n0. Salir de la aplicación");
 					System.out.println("1. Agregar o cambiar información personal");
 					System.out.println("2. Reservar un carro");
 					System.out.println("3. Confirmar recogida de un carro");
 					System.out.println("4. Confirmar devolución de un carro");
 					System.out.println("5. Registrar nuevo empleado");
+					System.out.println("Ingrese una opción, por favor: ");
 					selection = scan.nextInt();
 					if (0 <= selection && selection <= 5) runOptions(selection, scan);
 					break;
 				case 3:
-					System.out.println("0. Salir de la aplicación");
+					System.out.println("\n0. Salir de la aplicación");
 					System.out.println("1. Agregar o cambiar información personal");
 					System.out.println("2. Reservar un carro");
 					System.out.println("3. Confirmar recogida de un carro");
@@ -74,6 +77,7 @@ public class View {
 					System.out.println("12. Añadir seguro");
 					System.out.println("13. Habilitar/Inhabilitar un seguro");
 					System.out.println("14. Generar historial de alquileres para un carro");
+					System.out.println("Ingrese una opción, por favor: ");
 					selection = scan.nextInt();
 					if (0 <= selection && selection <= 14) runOptions(selection, scan);
 					break;

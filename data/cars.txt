@@ -17,7 +17,7 @@ Jeep,QRS890,Wrangler,Verde,2023-10-21,1,Todoterreno,0
 GMC,TUV123,Terrain,Gris,2023-10-22,0,SUV,0
 Chrysler,WXY456,300,Blanco,2023-10-23,1,Sedán,0
 Acura,ZAB789,TLX,Plateado,2023-10-24,0,Lujoso,0
-Subaru,CDE345,Outback,Azul,2023-10-25,1,SUV,0
+Subaru,CDE345,Outback,Azul,2023-10-10,0,SUV,1
 Toyota,FGH679,Camry,Rojo,2023-10-16,0,Sedán,0
 Honda,IJK901,Accord,Negro,2023-10-17,1,Sedán,0
 Ford,LMN234,Mustang,Amarillo,2023-10-18,0,Deportivo,0
