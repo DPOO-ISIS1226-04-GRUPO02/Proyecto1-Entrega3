@@ -356,7 +356,7 @@ public class CarRental {
 		RentalWriter.changeRentalInformation(rental);
 	}
 
-	public static ArrayList<Extra> registerExtras() {
+	private static ArrayList<Extra> registerExtras() {
 
 		boolean more = true;
 		ArrayList<Extra> extras = new ArrayList<Extra>();
@@ -456,6 +456,7 @@ public class CarRental {
 			result += String.format("\n\tCosto total de la renta: %8d$", rental.getFinalCharge());
 			result += "\n\n";
 		}
+		result += "Información completa de las rentas pasadas en ./data/rentals/" + car.getPlate();
 		return result;
 
 	}
