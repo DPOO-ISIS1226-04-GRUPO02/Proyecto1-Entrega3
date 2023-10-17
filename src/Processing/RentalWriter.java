@@ -444,7 +444,7 @@ public class RentalWriter {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(rental.getPickUp().getTime());
         folderPath = folderPath + separator + date;
-        String filePath = folderPath + "info.txt";
+        String filePath = folderPath + separator + "info.txt";
         try{
         FileWriter fw = new FileWriter(filePath);
         fw.write("");
@@ -465,7 +465,7 @@ public class RentalWriter {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        filePath = folderPath + "insurance.txt";
+        filePath = folderPath + separator + "insurance.txt";
         try{
         FileWriter fw = new FileWriter(filePath);
         fw.write("");
@@ -486,7 +486,7 @@ public class RentalWriter {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        filePath = folderPath + "secondaryDriver.txt";
+        filePath = folderPath + separator + "secondaryDriver.txt";
         try{
         FileWriter fw = new FileWriter(filePath);
         fw.write("");
