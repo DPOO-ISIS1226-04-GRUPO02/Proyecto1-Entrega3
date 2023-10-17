@@ -320,6 +320,16 @@ public class CarRental {
 	public static void confirmPickUp(String login, String workplace, Scanner scan) throws ParseException {
 
 		Client person = getClient(login);
+		if (workplace == null){
+			ArrayList<String> tiendas = new ArrayList<>(stores.keySet());
+			int i = 1;
+			for (String sede : tiendas){
+				System.out.println(i + ". " + sede);
+			}
+			System.out.println("Ingrese el número de la sede desde la que está haciendo la reserva: ");
+			int ref = scan.nextInt();
+			workplace = tiendas.get(ref - 1);
+		}
 
 		if (person.getActiveRental()== null) {
 			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
@@ -346,14 +356,17 @@ public class CarRental {
 		}
 
 		Rental rental = person.getActiveRental();
-		rental.setActive(true);
-		Car car = rental.getCar();
-		car.setStatus((byte)2);
-		Store origin = getStore(workplace);
-		rental.setPickUp(Calendar.getInstance());
-		rental.setOrigin(origin);
-		RentalWriter.changeRentalInformation(rental);
-		RentalWriter.changeCarInformation(car);
+		if (workplace == rental.getOrigin().getName()){
+			rental.setActive(true);
+			Car car = rental.getCar();
+			car.setStatus((byte)2);
+			RentalWriter.changeRentalInformation(rental);
+			RentalWriter.changeCarInformation(car);
+			System.out.println("Vehículo entregado");
+		}
+		else {
+			System.out.println("No puede confirmar entregas de una sede en la que no trabaja a menos que sea General Manager");
+		}
 	}
 
 	private static ArrayList<Extra> registerExtras(Scanner scan) {
