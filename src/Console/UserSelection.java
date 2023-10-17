@@ -85,8 +85,7 @@ public class UserSelection {
 			System.out.println("Se ha encontrado un problema con el acceso al directorio de archivos: " + ioe);
 		}
 		View initialized = new View(current.getAccess(), current.getUsername(), current.getPassword());
-		boolean truth = true;
-		while (truth) truth = initialized.optionSelection(scan);
+		initialized.optionSelection(scan);
 		
 	}
 

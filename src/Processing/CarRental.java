@@ -148,9 +148,8 @@ public class CarRental {
 		
 	}
 
-	public static void modifyClient(String login) {
+	public static void modifyClient(String login, Scanner scan) {
 
-		Scanner scan = new Scanner(System.in);
 		System.out.println("¿Qué desea modificar de su perfil?");
 		System.out.println("1. Nombre");
 		System.out.println("2. Teléfono");
@@ -230,13 +229,12 @@ public class CarRental {
 				break;
 
 		}
-		scan.close();
 		RentalWriter.changeClientInformation(client);
 
 	}
 
 	public static void reserveCar(String renter, String category, String origin, String destination,
-		Calendar pickUpDateTime, Calendar returnDateTime, int n) throws ParseException {
+		Calendar pickUpDateTime, Calendar returnDateTime, int n, Scanner scan) throws ParseException {
 
 		Store originStore = getStore(origin);
 		Store destinationStore = getStore(destination);
@@ -262,7 +260,7 @@ public class CarRental {
 				origin));
 			return;
 		}
-		ArrayList<Licence> licences = createLicences(n);
+		ArrayList<Licence> licences = createLicences(n, scan);
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
 			int base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
@@ -288,9 +286,8 @@ public class CarRental {
 
 	}
 
-	private static ArrayList<Licence> createLicences(int n) throws ParseException {
+	private static ArrayList<Licence> createLicences(int n, Scanner scan) throws ParseException {
 
-		Scanner scan = new Scanner(System.in);
 		ArrayList<Licence> licences = new ArrayList<Licence>();
 		for (int j = 0; j < n; j++) {
 			System.out.println(String.format("Ingrese los datos de la licencia del conductor #%d.", j+2));
@@ -311,17 +308,15 @@ public class CarRental {
 			secondaryLicences.put(licenceNumber, licence);
 			// TODO: Add new licences to files with RentalWriter
 		}
-		scan.close();
 		return licences;
 
 	}
 
-	public static void confirmPickUp(String login, String workplace) throws ParseException {
+	public static void confirmPickUp(String login, String workplace, Scanner scan) throws ParseException {
 
 		Client person = getClient(login);
 
 		if (person.getActiveRental()== null) {
-			Scanner scan = new Scanner(System.in);
 			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
 			String category = scan.nextLine();
 			while (!categories.containsKey(category) && category != "stop") {
@@ -342,8 +337,7 @@ public class CarRental {
 			returnDate.setTime(returnDate2);
 			System.out.println("Ingrese el número de segundos conductores que desea registrar: ");
 			int n = scan.nextInt();
-			scan.close();
-			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, n);
+			reserveCar(login, category, workplace, destination, Calendar.getInstance(), returnDate, n, scan);
 		}
 
 		Rental rental = person.getActiveRental();
@@ -356,11 +350,10 @@ public class CarRental {
 		RentalWriter.changeRentalInformation(rental);
 	}
 
-	private static ArrayList<Extra> registerExtras() {
+	private static ArrayList<Extra> registerExtras(Scanner scan) {
 
 		boolean more = true;
 		ArrayList<Extra> extras = new ArrayList<Extra>();
-		Scanner scan = new Scanner(System.in);
 		while (more) {
 			System.out.println("Ingrese el tipo de recargo siendo lo más compacto posible: ");
 			String type = scan.nextLine();
@@ -374,20 +367,19 @@ public class CarRental {
 			int response = scan.nextInt();
 			if (response == 2) more = false;
 		}
-		scan.close();
 		return extras;
 
 	}
 
 	public static void confirmReturn(String login, int days, int response, String employeeLogin, 
-		String employeePassword) {
+		String employeePassword, Scanner scan) {
 
 		Client person = getClient(login);
 		if (!person.getActiveRental().equals(null)) System.out.println("Este cliente no tiene una renta activa. ");
 		else {
 			Rental rental = person.getActiveRental();
 			ArrayList<Extra> extrasList = new ArrayList<Extra>();
-			if (response == 1) extrasList = registerExtras();
+			if (response == 1) extrasList = registerExtras(scan);
 			rental.setExtras(extrasList);
 			rental.setActive(false);
 			rental.setReturn(Calendar.getInstance());

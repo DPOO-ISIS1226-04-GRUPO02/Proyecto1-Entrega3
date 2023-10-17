@@ -25,13 +25,15 @@ import Model.Payment;
 
 public class RentalLoader {
 
+    private static String separator = File.separator;
+
     public static HashMap<String, Store> loadStores() throws IOException, ParseException {
 
         HashMap<String, Store> stores = new HashMap<String, Store>();
         HashMap<String, Car> cars = loadCars();
 
         //lectura de la carpeta con los distintos .txt"
-        String folderPath = ".\\data\\stores";
+        String folderPath = "." + separator + "data" + separator + "stores";
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 
@@ -120,7 +122,7 @@ public class RentalLoader {
     public static HashMap<String, User> usersInformation() throws IOException, ParseException {
 
         HashMap<String, User> users = new HashMap<String, User>();
-        BufferedReader br = new BufferedReader(new FileReader("./data/users.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("." + separator + "data" + separator + "users.txt"));
 		String linea = br.readLine();
 		while (linea != null)
         {
@@ -146,7 +148,7 @@ public class RentalLoader {
     public static HashMap<String, Integer> loadCategories() throws IOException {
 
         HashMap<String, Integer> categories = new HashMap<String, Integer>();
-        BufferedReader br = new BufferedReader(new FileReader("./data/categories.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("." + separator + "data" + separator + "categories.txt"));
 		String linea = br.readLine();
         while (linea != null)
         {
@@ -169,7 +171,7 @@ public class RentalLoader {
         HashMap<String, Client> clients = new HashMap<String, Client>();
 
         
-        String folderPath = ".\\data\\clients";
+        String folderPath = "." + separator + "data" + separator + "clients";
         File mainFolder = new File(folderPath);
         File[] clientFolders = mainFolder.listFiles();
     
@@ -229,7 +231,8 @@ public class RentalLoader {
                     number = Long.parseLong(partes[0]);
                     country = partes[1];
                     String strExpirationLicence = partes[2];
-                    photoPath= "./data/clients/"+logIn+"/licence.JPG";
+                    photoPath= "." + separator + "data" + separator + "clients" + separator + logIn + 
+                        separator + "licence.jpg";
 
                     //cambiar fecha string a Calendar
                     DateFormat formatter = new SimpleDateFormat("yy-MM");
@@ -253,7 +256,8 @@ public class RentalLoader {
                     String email = partes[2];
                     String strDateBirth = partes[3];
                     String nationality = partes[4];
-                    String idPhotopath = "./data/clients/"+logIn+"/identification.JPG";
+                    String idPhotopath = "." + separator + "data" + separator + "clients" + separator + logIn + 
+                        separator + "identification.jpg";
                     String login = partes[5];
 
                     //cambiar fecha string a Calendar
@@ -265,7 +269,8 @@ public class RentalLoader {
 
                     Licence newlicence= new Licence(number, country, expirationLicence, photoPath);
 
-                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, newlicence, newPayment, login);
+                    Client newClient = new Client(name, phone, email, dateBirth, nationality, idPhotopath, 
+                        newlicence, newPayment, login);
                     
                     clients.put(login, newClient);
 
@@ -293,7 +298,7 @@ public class RentalLoader {
         HashMap<String, Car> cars = new HashMap<String, Car>();
 
         
-        BufferedReader br = new BufferedReader(new FileReader("./data/cars.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("." + separator + "data" + separator + "cars.txt"));
 		String linea = br.readLine();
 		while (linea != null)
         {
@@ -338,7 +343,7 @@ public class RentalLoader {
     public static HashMap<String, Insurance> loadInsurances() throws IOException {
 
         HashMap<String, Insurance> insurances = new HashMap<String, Insurance>();
-        BufferedReader br = new BufferedReader(new FileReader("./data/insurances.txt"));
+        BufferedReader br = new BufferedReader(new FileReader("." + separator + "data" + separator + "insurances.txt"));
 		String linea = br.readLine();
 		while (linea != null)
         {
@@ -363,7 +368,7 @@ public class RentalLoader {
     {
         HashMap<Long, Licence> secondaryLicence = new HashMap<Long, Licence>();
 
-        String folderPath = ".\\data\\secondaryLicence";
+        String folderPath = "." + separator + "data" + separator + "secondaryLicence";
         File folder = new File(folderPath);
         File[] listOfFiles = folder.listFiles();
 
@@ -379,7 +384,8 @@ public class RentalLoader {
                 long number = Long.parseLong(partes[0]);
                 String country = partes[1];
                 String strExpirationLicence = partes[2];
-                String photoPath= "./data/secondaryLicence/"+number+"/licence.JPG";
+                String photoPath= "." + separator + "data" + separator + "secondaryLicence" + separator + 
+                    number + separator+ "licence.jpg";
 
                 //cambiar fecha string a Calendar
                 DateFormat formatter = new SimpleDateFormat("yy-MM");
@@ -414,7 +420,7 @@ public class RentalLoader {
 
         //carga de datos
         HashMap<Car, ArrayList<Rental>> rentals = new HashMap<Car, ArrayList<Rental>>();
-        String folderPath = ".\\data\\rentals";
+        String folderPath = "." + separator + "data" + separator + "rentals";
         File folder = new File(folderPath);
         File[] plateFolders = folder.listFiles();
 

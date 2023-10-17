@@ -27,59 +27,59 @@ public class View {
 		
 	}
 	
-	public boolean optionSelection(Scanner scan) {
+	public void optionSelection(Scanner scan) {
 		
-		int selection = 0;
-		switch (access) {
-			case 0:
-				System.out.println("0. Salir de la aplicación");
-				System.out.println("1. Agregar o cambiar información personal");
-				System.out.println("2. Reservar un carro");
-				selection = scan.nextInt();
-				if (0 <= selection && selection <= 2) runOptions(selection, scan);
-				break;
-			case 1:
-				System.out.println("0. Salir de la aplicación");
-				System.out.println("1. Agregar o cambiar información personal");
-				System.out.println("2. Reservar un carro");
-				System.out.println("3. Confirmar recogida de un carro");
-				System.out.println("4. Confirmar devolución de un carro");
-				selection = scan.nextInt();
-				if (0 <= selection && selection <= 4) runOptions(selection, scan);
-				break;
-			case 2:
-				System.out.println("0. Salir de la aplicación");
-				System.out.println("1. Agregar o cambiar información personal");
-				System.out.println("2. Reservar un carro");
-				System.out.println("3. Confirmar recogida de un carro");
-				System.out.println("4. Confirmar devolución de un carro");
-				System.out.println("5. Registrar nuevo empleado");
-				selection = scan.nextInt();
-				if (0 <= selection && selection <= 5) runOptions(selection, scan);
-				break;
-			case 3:
-				System.out.println("0. Salir de la aplicación");
-				System.out.println("1. Agregar o cambiar información personal");
-				System.out.println("2. Reservar un carro");
-				System.out.println("3. Confirmar recogida de un carro");
-				System.out.println("4. Confirmar devolución de un carro");
-				System.out.println("5. Registrar nuevo empleado");
-				System.out.println("6. Registrar nuevo gerente local");
-				System.out.println("7. Registrar un nuevo carro");
-				System.out.println("8. Registrar una nueva tienda");
-				System.out.println("9. Cambiar un carro de sede");
-				System.out.println("10. Inhabilitar renta de un carro");
-				System.out.println("11. Cambiar tarifas diarias por categoría");
-				System.out.println("12. Añadir seguro");
-				System.out.println("13. Habilitar/Inhabilitar un seguro");
-				System.out.println("14. Generar historial de alquileres para un carro");
-				selection = scan.nextInt();
-				if (0 <= selection && selection <= 14) runOptions(selection, scan);
-				break;
+		int selection = -1;
+		while (selection != 0) {
+			switch (access) {
+				case 0:
+					System.out.println("0. Salir de la aplicación");
+					System.out.println("1. Agregar o cambiar información personal");
+					System.out.println("2. Reservar un carro");
+					selection = scan.nextInt();
+					if (0 <= selection && selection <= 2) runOptions(selection, scan);
+					break;
+				case 1:
+					System.out.println("0. Salir de la aplicación");
+					System.out.println("1. Agregar o cambiar información personal");
+					System.out.println("2. Reservar un carro");
+					System.out.println("3. Confirmar recogida de un carro");
+					System.out.println("4. Confirmar devolución de un carro");
+					selection = scan.nextInt();
+					if (0 <= selection && selection <= 4) runOptions(selection, scan);
+					break;
+				case 2:
+					System.out.println("0. Salir de la aplicación");
+					System.out.println("1. Agregar o cambiar información personal");
+					System.out.println("2. Reservar un carro");
+					System.out.println("3. Confirmar recogida de un carro");
+					System.out.println("4. Confirmar devolución de un carro");
+					System.out.println("5. Registrar nuevo empleado");
+					selection = scan.nextInt();
+					if (0 <= selection && selection <= 5) runOptions(selection, scan);
+					break;
+				case 3:
+					System.out.println("0. Salir de la aplicación");
+					System.out.println("1. Agregar o cambiar información personal");
+					System.out.println("2. Reservar un carro");
+					System.out.println("3. Confirmar recogida de un carro");
+					System.out.println("4. Confirmar devolución de un carro");
+					System.out.println("5. Registrar nuevo empleado");
+					System.out.println("6. Registrar nuevo gerente local");
+					System.out.println("7. Registrar un nuevo carro");
+					System.out.println("8. Registrar una nueva tienda");
+					System.out.println("9. Cambiar un carro de sede");
+					System.out.println("10. Inhabilitar renta de un carro");
+					System.out.println("11. Cambiar tarifas diarias por categoría");
+					System.out.println("12. Añadir seguro");
+					System.out.println("13. Habilitar/Inhabilitar un seguro");
+					System.out.println("14. Generar historial de alquileres para un carro");
+					selection = scan.nextInt();
+					if (0 <= selection && selection <= 14) runOptions(selection, scan);
+					break;
+			}
+			scan.nextLine();
 		}
-		if (selection == 0) return false;
-		else return true;
-		
 		
 	}
 
@@ -88,7 +88,6 @@ public class View {
 		String clientLogin;
 		List<String> usernames = Arrays.asList(Users.getUsernames());
 		ArrayList<String> categories = new ArrayList<>(CarRental.getCategories());
-		while (selection != 0) {
 		abc: switch (selection) {	
 			case 0:
 				System.out.println("Gracias por usar la aplicación.");
@@ -161,7 +160,7 @@ public class View {
 						cardExpiration, cardCode, cardOwner, cardAddress, login, licenceNumber, licenceCountry, 
 						licenceExpiration, licencePhotoPath);
 				} else {		
-					CarRental.modifyClient(login);
+					CarRental.modifyClient(login, scan);
 				}
 				break;
 			case 2:
@@ -223,7 +222,7 @@ public class View {
 					int n = scan.nextInt();
 					try {
 						CarRental.reserveCar(login, categoria, storeOrigin, storeDestiny, fechaInicio, 
-							fechaFin, n);
+							fechaFin, n, scan);
 					} catch (ParseException pe) {
 						System.out.println("Se encontró un error en el formato de las fechas ingresadas! " + pe);
 					}
@@ -234,7 +233,7 @@ public class View {
 				System.out.println("Ingrese el nombre de usuario del cliente: ");
 				clientLogin = scan.nextLine();
 				try {
-					CarRental.confirmPickUp(clientLogin, Users.loadUser(login, password).getWorkplace());
+					CarRental.confirmPickUp(clientLogin, Users.loadUser(login, password).getWorkplace(), scan);
 				} catch (ParseException pe) {
 					System.out.println("Se ha encontrado un error con el formato de la fecha " + pe);
 				}
@@ -249,7 +248,7 @@ public class View {
 				System.out.println("¿Existen cargos extra por algún motivo? (rayón, multa, tardía, etc...)");
 				System.out.println("1. Sí\n2. No\nIngrese el número de su respuesta: ");
 				int response = scan.nextInt();
-				CarRental.confirmReturn(clientLogin, days, response, login, password);
+				CarRental.confirmReturn(clientLogin, days, response, login, password, scan);
 				break;
 			case 5:
 				scan.nextLine();
@@ -434,12 +433,9 @@ public class View {
 			default:
 				System.out.println("Option not found.");
 				break;
-		} 
-		scan.nextLine();
-		System.out.println("Ingrese una opción: ");
-		selection = scan.nextInt();
 
 		}
+
 	}
 
 }

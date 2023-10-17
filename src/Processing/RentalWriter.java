@@ -26,13 +26,14 @@ import Model.User;
 
 public class RentalWriter {
 
+    private static String separator = File.separator;
 
     /**
      * @param category
      * @param value
      */
     public static void changeTariffs(String category, int value) {
-        String filePath = "data/categories.txt";
+        String filePath = "data" + separator + "categories.txt";
         boolean categoryFound = false;
         try {
             FileReader fileReader = new FileReader(filePath);
@@ -70,7 +71,7 @@ public class RentalWriter {
     
 
     public static void changeCarInformation(Car car){
-        String filePath = "data/cars.txt";
+        String filePath = "data" + separator + "cars.txt";
         try {
             FileReader fileReader = new FileReader(filePath);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -113,7 +114,7 @@ public class RentalWriter {
     }
 
     public static void addCar(Car car) {
-        String filePath = "data/cars.txt";
+        String filePath = "data" + separator + "cars.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd");
@@ -135,7 +136,7 @@ public class RentalWriter {
     }
 
     public static void changeStoreInformation(Store store) {
-        String filePath = "data/stores/store.txt";
+        String filePath = "data" + separator + "stores" + separator + store.getName() + ".txt";
         try {
             FileWriter fw = new FileWriter(filePath);
             fw.write("");
@@ -169,7 +170,7 @@ public class RentalWriter {
 
     public static void addStore(Store store) {
         // Especifica la ruta de la carpeta stores dentro de la carpeta data
-        String folderPath = "data/stores/";
+        String folderPath = "data" + separator + "stores" + separator;
 
         // Crea un directorio si no existe
         File folder = new File(folderPath);
@@ -208,14 +209,14 @@ public class RentalWriter {
 
     public static void addClient(Client client) {
         String username = client.getLogin();
-        String folderPath = "data/clients/" + username;
+        String folderPath = "data" + separator + "clients" + separator + username + separator;
 
         File folder = new File(folderPath);
 
         if (!folder.exists()) {
             boolean result = folder.mkdirs();
             if (result) {
-                String filePath = folderPath + "/clientInfo.txt";
+                String filePath = folderPath + "clientInfo.txt";
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String dateString = dateFormat.format(client.getDateBirth().getTime());
                 String content = client.getName() + ',' + client.getPhone() + ',' + client.getEmail() + ',' + dateString + ',' + client.getNationality() + ',' + client.getLogin();
@@ -228,7 +229,7 @@ public class RentalWriter {
                 }
                 String sourceImagePath = client.getIdPhotoPath();
                 Path source = Paths.get(sourceImagePath);
-                Path target = Paths.get(folderPath + "/identification.jpg");
+                Path target = Paths.get(folderPath + "identification.jpg");
 
                 try {
                     Files.copy(source, target);
@@ -236,7 +237,7 @@ public class RentalWriter {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String filePath2 = folderPath + "/licenceInfo.txt";
+                String filePath2 = folderPath + "licenceInfo.txt";
                 Licence licence = client.getLicence();
                 SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM");
                 String dateString2 = dateFormat2.format(licence.getExpiration().getTime());
@@ -250,7 +251,7 @@ public class RentalWriter {
                 }
                 String sourceImagePath2 = licence.getPhotoPath();
                 Path source2 = Paths.get(sourceImagePath2);
-                Path target2 = Paths.get(folderPath + "/license.jpg");
+                Path target2 = Paths.get(folderPath + "license.jpg");
 
                 try {
                     Files.copy(source2, target2);
@@ -258,7 +259,7 @@ public class RentalWriter {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                String filePath3 = folderPath + "/paymentInfo.txt";
+                String filePath3 = folderPath + "paymentInfo.txt";
                 Payment payment = client.getPayment();
                 SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM");
                 String dateString3 = dateFormat3.format(payment.getExpiration().getTime());
@@ -276,7 +277,7 @@ public class RentalWriter {
     }
     public static void newRental(Rental rental){
         String plate = rental.getCar().getPlate();
-        String folderPath = "data/rentals/" + plate;
+        String folderPath = "data" + separator + "rentals" + separator + plate;
 
         File folder = new File(folderPath);
 
@@ -286,13 +287,12 @@ public class RentalWriter {
         }
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(rental.getPickUp().getTime());
-        folderPath = folderPath + "/" + date;
+        folderPath += separator + date;
         File folder2 = new File(folderPath);
         folder2.mkdirs();
-        String folderPathe = folderPath + "/" + date + "/extra";
-        File folder3 = new File(folderPathe);
+        File folder3 = new File(folderPath + separator + "extra");
         folder3.mkdirs();
-        String filePath = folderPath + "/info.txt";
+        String filePath = folderPath + separator + "info.txt";
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
         String dateReturnString = dateFormat.format(rental.getReturn().getTime());
@@ -304,7 +304,7 @@ public class RentalWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String filePath2 = folderPath + "/insurance.txt";
+        String filePath2 = folderPath + separator + "insurance.txt";
         ArrayList<Insurance> insurances = rental.getInsurances();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath2, true))) {
             for (Insurance insurance : insurances) {
@@ -316,7 +316,7 @@ public class RentalWriter {
         catch (IOException e) {
             e.printStackTrace();
         }
-        String filePath3 = folderPath + "/secondaryDriver.txt";
+        String filePath3 = folderPath + separator + "secondaryDriver.txt";
         ArrayList<Licence> secondaryLicences = rental.getSecondaryDriver();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
             for (Licence lic : secondaryLicences) {
@@ -337,7 +337,7 @@ public class RentalWriter {
     }
     public static void changeClientInformation (Client person){
         String username = person.getLogin();
-        String filePath = "data/clients/" + username + "/clientInfo.txt";
+        String filePath = "data" + separator + "clients" + separator + username + separator + "clientInfo.txt";
         try {
         File file = new File(filePath);
         FileWriter fr = new FileWriter(file, false);
@@ -358,7 +358,7 @@ public class RentalWriter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String id = "data/clients/" + username + "/identification.jpg";
+        String id = "data" + separator + "clients" + separator + username + separator + "identification.jpg";
         String identification = person.getIdPhotoPath();
         try {
             File fotoId = new File(id);
@@ -367,14 +367,14 @@ public class RentalWriter {
             e.printStackTrace();
         }
         Path source = Paths.get(identification);
-        Path target = Paths.get("data/clients/" + username + "/identification.jpg");
+        Path target = Paths.get("data" + separator + "clients" + separator + username + separator + "identification.jpg");
 
         try {
             Files.copy(source, target);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String filePath2 = "data/clients/" + username + "/licenceInfo.txt";
+        String filePath2 = "data" + separator + "clients" + separator + username + separator + "licenceInfo.txt";
         try {
         File file = new File(filePath);
         FileWriter fr = new FileWriter(file, false);
@@ -397,7 +397,7 @@ public class RentalWriter {
             e.printStackTrace();
         }
 
-        String li = "data/clients/" + username + "/license.jpg";
+        String li = "data" + separator + "clients" + separator + username + separator + "license.jpg";
         String licence = person.getLicence().getPhotoPath();
         try {
             File fotoId = new File(li);
@@ -406,7 +406,7 @@ public class RentalWriter {
             e.printStackTrace();
         }
         Path source2 = Paths.get(licence);
-        Path target2 = Paths.get("data/clients/" + username + "/license.jpg");
+        Path target2 = Paths.get("data" + separator + "clients" + separator + username + separator + "license.jpg");
 
         try {
             Files.copy(source2, target2);
@@ -414,7 +414,7 @@ public class RentalWriter {
             e.printStackTrace();
     }
 
-    String filePath3 = "data/clients/" + username + "/paymentInfo.txt";
+    String filePath3 = "data" + separator + "clients" + separator + username + separator + "paymentInfo.txt";
         try {
         File file = new File(filePath3);
         FileWriter fr = new FileWriter(file, false);
@@ -440,10 +440,10 @@ public class RentalWriter {
 
     public static void changeRentalInformation(Rental rental){
         String plate = rental.getCar().getPlate();
-        String folderPath = "data/rentals/" + plate;
+        String folderPath = "data" + separator + "rentals" + separator + plate;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(rental.getPickUp().getTime());
-        folderPath = folderPath + "/" + date;
+        folderPath = folderPath + separator + date;
         String filePath = folderPath + "info.txt";
         try{
         FileWriter fw = new FileWriter(filePath);
@@ -507,7 +507,7 @@ public class RentalWriter {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        filePath = folderPath + "/extra";
+        filePath = folderPath + separator + "extra";
         File directory = new File(filePath);
         File[] files = directory.listFiles();
         if (files.length>0){
@@ -518,7 +518,7 @@ public class RentalWriter {
         ArrayList<Extra> extras = rental.getExtras();
         for (int i = 0; i < extras.size() ; i++){
             Extra extra = extras.get(i);
-            String txtfilePath = filePath + "/extra" + i + ".txt";
+            String txtfilePath = filePath + separator + "extra" + i + ".txt";
             String content = extra.getType() + "," + String.valueOf(extra.getCost()) + "," + extra.getSpecification(); 
             try {
                 FileWriter fwtxt = new FileWriter (txtfilePath);
@@ -532,7 +532,7 @@ public class RentalWriter {
     }
 
     public static void newUser(User user) {
-        String filePath = "data/users.txt";
+        String filePath = "data" + separator + "users.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
             String userEntry = user.getUsername() + "," + user.getPassword() + "," + String.valueOf(user.getAccess()) + "," + user.getWorkplace() + System.lineSeparator();
@@ -545,7 +545,7 @@ public class RentalWriter {
     }
 
     public static void newInsurance(Insurance insurance) {
-        String filePath = "data/insurances.txt";
+        String filePath = "data" +separator + "insurances.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
             String insuranceEntry = insurance.getName() + "," + String.valueOf(insurance.getCost()) + "," + insurance.getSpecification() + "," + "0" + System.lineSeparator();
