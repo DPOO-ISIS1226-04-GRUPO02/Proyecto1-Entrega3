@@ -133,9 +133,9 @@ public class Rental {
 
     }
 
-    public void addExtra(String type, int cost, String specs) {
+    public void setExtras(ArrayList<Extra> extras) {
 
-        extras.add(extras.size(), new Extra(type, cost, specs));
+        this.extras = extras;
 
     }
 

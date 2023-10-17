@@ -246,12 +246,10 @@ public class View {
 				System.out.println("¿En cuánto tiempo estará el vehículo listo para volver a ser" +
 					"alquilado? (días): ");
 				int days = scan.nextInt();
-				System.out.println("¿Existen cargos extra por algún motivo? Descríbalos. Esto incluye si" +
-					"el carro está en mal estado, hubo un parte, etc: ");
-				String comments = scan.nextLine();
-				System.out.println("¿Cuánto es el recargo de?: ");
-				int extraCharges = scan.nextInt();
-				CarRental.confirmReturn(clientLogin, days, comments, extraCharges, login, password);
+				System.out.println("¿Existen cargos extra por algún motivo? (rayón, multa, tardía, etc...)");
+				System.out.println("1. Sí\n2. No\nIngrese el número de su respuesta: ");
+				int response = scan.nextInt();
+				CarRental.confirmReturn(clientLogin, days, response, login, password);
 				break;
 			case 5:
 				scan.nextLine();

@@ -236,7 +236,7 @@ public class CarRental {
 	}
 
 	public static void reserveCar(String renter, String category, String origin, String destination,
-		Calendar pickUpdateTime, Calendar returnDateTime, int n) throws ParseException {
+		Calendar pickUpDateTime, Calendar returnDateTime, int n) throws ParseException {
 
 		Store originStore = getStore(origin);
 		Store destinationStore = getStore(destination);
@@ -249,7 +249,7 @@ public class CarRental {
 			String plate = categoryList.get(i);
 			byte status = getCar(plate).getStatus();
 			Calendar availableIn = getCar(plate).getAvailableDate();
-			if (status == (byte) 0 && availableIn.before(pickUpdateTime)) {
+			if (status == (byte) 0 && availableIn.before(pickUpDateTime)) {
 				found = true;
 				reservation = getCar(plate);
 				reservation.setStatus((byte)1);
@@ -266,7 +266,7 @@ public class CarRental {
 		if (storeExists(origin) && storeExists(destination) && clientExists(renter)) {
 			int base = categories.get(category);
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
-				destinationStore, pickUpdateTime, returnDateTime, licences, new ArrayList<Extra>(), true);
+				destinationStore, pickUpDateTime, returnDateTime, licences, new ArrayList<Extra>(), true);
 			person.setActiveRental(newRental);
 			RentalWriter.newRental(newRental);
 			RentalWriter.changeCarInformation(reservation);
@@ -288,7 +288,7 @@ public class CarRental {
 
 	}
 
-	public static ArrayList<Licence> createLicences(int n) throws ParseException {
+	private static ArrayList<Licence> createLicences(int n) throws ParseException {
 
 		Scanner scan = new Scanner(System.in);
 		ArrayList<Licence> licences = new ArrayList<Licence>();
@@ -356,21 +356,43 @@ public class CarRental {
 		RentalWriter.changeRentalInformation(rental);
 	}
 
-	public static void confirmReturn(String login, int days, String comments, int extraCharges, String employeeLogin, 
+	public static ArrayList<Extra> registerExtras() {
+
+		boolean more = true;
+		ArrayList<Extra> extras = new ArrayList<Extra>();
+		Scanner scan = new Scanner(System.in);
+		while (more) {
+			System.out.println("Ingrese el tipo de recargo siendo lo más compacto posible: ");
+			String type = scan.nextLine();
+			System.out.println("Ingrese el costo de este recargo: ");
+			int cost = scan.nextInt();
+			System.out.println("Ingrese los comentarios del recargo (no use comas ','): ");
+			String specification = scan.nextLine();
+			extras.add(new Extra(type, cost, specification));
+			System.out.println("¿Existe algún otro recargo que desee ingresar?");
+			System.out.println("1. Sí\n2. No\nIngrese el número de su respuesta: ");
+			int response = scan.nextInt();
+			if (response == 2) more = false;
+		}
+		scan.close();
+		return extras;
+
+	}
+
+	public static void confirmReturn(String login, int days, int response, String employeeLogin, 
 		String employeePassword) {
 
 		Client person = getClient(login);
 		if (!person.getActiveRental().equals(null)) System.out.println("Este cliente no tiene una renta activa. ");
 		else {
 			Rental rental = person.getActiveRental();
+			ArrayList<Extra> extrasList = new ArrayList<Extra>();
+			if (response == 1) extrasList = registerExtras();
+			rental.setExtras(extrasList);
 			rental.setActive(false);
 			rental.setReturn(Calendar.getInstance());
 			int total = rental.getFinalCharge();
 			Store destination = getStore(Users.loadUser(employeeLogin, employeePassword).getWorkplace());
-			if (!destination.equals(rental.getDestination())) 
-				rental.addExtra("Devuelto a tienda distinta", 
-				30,
-				"El carro fue devuelto a una tienda distinta de la que fue inicialmente planeada.");
 			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
 			ArrayList<Extra> extras = rental.getExtras();
 			for (Extra extra: extras) resultingString += String.format(" + %-20s %d/día", 
