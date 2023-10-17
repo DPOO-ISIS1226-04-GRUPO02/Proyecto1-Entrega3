@@ -37,7 +37,7 @@ public class CarRental {
 		stores = RentalLoader.loadStores();
 		categories = RentalLoader.loadCategories();
 		insurances = RentalLoader.loadInsurances();
-		rentals = RentalLoader.loadRentals();
+		rentals = RentalLoader.loadRentals(clients);
 		secondaryLicences = RentalLoader.loadSecondaryLicence();
 
 	}
@@ -255,9 +255,14 @@ public class CarRental {
 			i += 1;
 		}
 		if (reservation == null) {
+			if (person.getActiveRental() != null){
+				System.out.println("Usted ya tiene una reserva activa en curso");
+			}
+			else{
 			System.out.println(String.format(
 				"No se ha encontrado un carro de esta categoría en la tienda %s. Seleccione otra, por favor.", 
 				origin));
+			}
 			return;
 		}
 		ArrayList<Licence> licences = createLicences(n, scan);

@@ -409,10 +409,9 @@ public class RentalLoader {
         return secondaryLicence;
     }
 
-    public static HashMap<Car, ArrayList<Rental>> loadRentals() throws IOException, ParseException {
+    public static HashMap<Car, ArrayList<Rental>> loadRentals(HashMap<String, Client> clients) throws IOException, ParseException {
 
         //HashMaps información
-        HashMap<String, Client> clients = loadClients();
         HashMap<Long, Licence> secondaryLicences = loadSecondaryLicence();
         HashMap<String, Car> cars = loadCars();
         HashMap<String, Insurance> insurances = loadInsurances();
