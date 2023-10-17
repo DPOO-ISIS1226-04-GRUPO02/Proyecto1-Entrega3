@@ -203,7 +203,7 @@ public class CarRental {
 				String cardOwner = scan.nextLine();
 				System.out.println("Ingrese la dirección de facturación de la tarjeta: ");
 				String cardAddress = scan.nextLine();
-				client.setPayment(cardNumber, cardExpiration, cardCode, cardOwner, cardAddress);
+				client.setPayment(new Payment(cardNumber, cardExpiration, cardCode, cardOwner, cardAddress));
 			case 6:
 				System.out.println("-- DATOS DE LA LICENCIA DE CONDUCCION --");
 				System.out.println("Ingrese el número de la licencia: ");

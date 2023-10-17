@@ -24,7 +24,7 @@ public class Client {
         this.dateBirth = dateBirth;
         this. nationality = nationality;
         this.idPhotoPath = idPhotoPath;
-        this.licence= licence;
+        this.licence = licence;
         this.payment = payment;
         this.login = login;
 
@@ -96,9 +96,9 @@ public class Client {
 
     }
 
-    public void setPayment(long cardNumber, Calendar expiration, short code, String cardOwner, String cardAddress) {
+    public void setPayment(Payment payment) {
 
-        this.payment = new Payment(cardNumber, expiration, code, cardOwner, cardAddress);
+        this.payment = payment;
 
     }
 

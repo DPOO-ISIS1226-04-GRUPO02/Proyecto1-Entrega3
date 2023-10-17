@@ -36,14 +36,23 @@ public class Store {
         return location;
 
     }
-    public Calendar getOpHour(){
+
+    public Calendar getOpHour() {
+
         return openingTime;
+
     }
-    public Calendar getCloseHour(){
+
+    public Calendar getCloseHour() {
+
         return closingTime;
+
     }
-    public byte opDays (){
+
+    public byte opDays() {
+
         return openingDays;
+        
     }
 
     public HashMap<String, ArrayList<String>> getInventory() {
