@@ -21,6 +21,7 @@ public class UserSelection {
 		try {
 			Users.loadUsers();
 			CarRental.loadCarRental();
+			System.out.println("Info cargada exitosamente");
 		} catch (ParseException pe) {
 			System.out.println("Se ha encontrado un error cargando los usuarios: " + pe);
 		} catch (IOException ioe) {
@@ -77,13 +78,7 @@ public class UserSelection {
 	
 	private static void initializeView(User current, Scanner scan) {
 		
-		try {
-			CarRental.loadCarRental();
-		} catch (ParseException pe) {
-			System.out.println("Se ha encontrado un problema con el formato de carga de los archivos: " + pe);
-		} catch (IOException ioe) {
-			System.out.println("Se ha encontrado un problema con el acceso al directorio de archivos: " + ioe);
-		}
+		
 		View initialized = new View(current.getAccess(), current.getUsername(), current.getPassword());
 		initialized.optionSelection(scan);
 		
