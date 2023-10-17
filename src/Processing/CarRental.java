@@ -271,6 +271,7 @@ public class CarRental {
 			Rental newRental = new Rental(person, reservation, base, new ArrayList<Insurance>(), originStore, 
 				destinationStore, pickUpDateTime, returnDateTime, licences, new ArrayList<Extra>(), true);
 			person.setActiveRental(newRental);
+			reservation.setStatus((byte)2);
 			RentalWriter.newRental(newRental);
 			RentalWriter.changeCarInformation(reservation);
 			System.out.println("Reserva creada exitosamente");
