@@ -384,6 +384,7 @@ public class CarRental {
 		boolean more = true;
 		ArrayList<Extra> extras = new ArrayList<Extra>();
 		while (more) {
+			scan.nextLine();
 			System.out.println("Ingrese el tipo de recargo siendo lo más compacto posible: ");
 			String type = scan.nextLine();
 			System.out.println("Ingrese el costo de este recargo: ");
@@ -404,7 +405,7 @@ public class CarRental {
 		String employeePassword, Scanner scan) {
 
 		Client person = getClient(login);
-		if (!person.getActiveRental().equals(null)) System.out.println("Este cliente no tiene una renta activa. ");
+		if (person.getActiveRental() == null) System.out.println("Este cliente no tiene una renta activa. ");
 		else {
 			Rental rental = person.getActiveRental();
 			ArrayList<Extra> extrasList = new ArrayList<Extra>();
@@ -413,7 +414,7 @@ public class CarRental {
 			rental.setActive(false);
 			rental.setReturn(Calendar.getInstance());
 			int total = rental.getFinalCharge();
-			Store destination = getStore(Users.loadUser(employeeLogin, employeePassword).getWorkplace());
+			Store destination = getStore(person.getActiveRental().getDestination().getName());
 			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
 			ArrayList<Extra> extras = rental.getExtras();
 			for (Extra extra: extras) resultingString += String.format(" + %-20s %d/día", 

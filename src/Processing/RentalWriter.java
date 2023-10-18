@@ -508,7 +508,7 @@ public class RentalWriter {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        filePath = folderPath + separator + "extra";
+        filePath = folderPath + separator + "extras";
         File directory = new File(filePath);
         File[] files = directory.listFiles();
         if (files != null && files.length>0){
