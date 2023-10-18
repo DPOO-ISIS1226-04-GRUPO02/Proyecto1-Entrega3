@@ -75,7 +75,7 @@ public class Rental {
         for (Insurance insurance: insurances) total += insurance.getCost();
     }
         int daysBetween = (int) ChronoUnit.DAYS.between(pickUpDateTime.toInstant(), returnDateTime.toInstant());
-        return total * daysBetween;
+        return total * (daysBetween + 1);
 
     }
 
