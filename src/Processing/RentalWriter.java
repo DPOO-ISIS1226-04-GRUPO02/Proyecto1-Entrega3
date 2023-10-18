@@ -118,7 +118,7 @@ public class RentalWriter {
         String filePath = "data" + separator + "cars.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM_dd");
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String formattedDate = dateFormat.format(car.getAvailableDate().getTime());
             byte aut = 0;
             if (car.isAutomatic()){
