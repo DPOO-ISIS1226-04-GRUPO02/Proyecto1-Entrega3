@@ -412,11 +412,12 @@ public class CarRental {
 			if (response == 1) extrasList = registerExtras(scan);
 			rental.setExtras(extrasList);
 			rental.setActive(false);
+			int total = 0;
 			if (Calendar.getInstance().after(rental.getReturn())) {
 				rental.setReturn(Calendar.getInstance());
-				int total = rental.getFinalCharge();
+				total = rental.getFinalCharge();
 			} else {
-				int total = rental.getFinalCharge();
+				total = rental.getFinalCharge();
 				rental.setReturn(Calendar.getInstance());
 			}
 			Store destination = getStore(person.getActiveRental().getDestination().getName());
