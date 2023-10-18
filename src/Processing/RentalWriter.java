@@ -573,6 +573,23 @@ public class RentalWriter {
             ex.printStackTrace();
         }
     }
+    public static void newSecondaryLicence (Licence licence){
+        String txtFileName = "data" +separator + "secondaryLicence" + separator + licence.getNumber() + ".txt";
+        try {
+        FileWriter fileWriter = new FileWriter(txtFileName);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+        String date = sdf.format(licence.getExpiration().getTime());
+        String information = licence.getNumber() + "," + licence.getCountry() + "," + date;
+        fileWriter.write(information);
+        fileWriter.close();
+        Path originalPath = Paths.get(licence.getPhotoPath());
+        byte[] photoData = Files.readAllBytes(originalPath);
+        Path destinyPath = Paths.get("data" +separator + "secondaryLicence" + separator + licence.getNumber() + ".jpg");
+        Files.write(destinyPath, photoData);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
 
 }
 

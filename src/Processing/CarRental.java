@@ -311,7 +311,7 @@ public class CarRental {
 			Licence licence = new Licence(licenceNumber, licenceCountry, licenceExpiration, licencePhotoPath);
 			licences.add(licence);
 			secondaryLicences.put(licenceNumber, licence);
-			// TODO: Add new licences to files with RentalWriter
+			RentalWriter.newSecondaryLicence(licence);
 		}
 		return licences;
 
