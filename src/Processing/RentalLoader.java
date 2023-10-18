@@ -409,7 +409,8 @@ public class RentalLoader {
         return secondaryLicence;
     }
 
-    public static HashMap<Car, ArrayList<Rental>> loadRentals(HashMap<String, Client> clients) throws IOException, ParseException {
+    public static HashMap<Car, ArrayList<Rental>> loadRentals(HashMap<String, Client> clients) throws IOException, 
+        ParseException {
 
         //HashMaps información
         HashMap<Long, Licence> secondaryLicences = loadSecondaryLicence();
@@ -563,7 +564,8 @@ public class RentalLoader {
                         Store rentedFrom= stores.get(rentedFromStr);
                         Store returnTo = stores.get(returnToStr);
 
-                            Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo, pickUpDateTime, returnDateTime, secondaryDriver, extras, active);
+                            Rental newRental = new Rental(renter, car, baseCharge,insurancesRental, rentedFrom, returnTo,
+                                pickUpDateTime, returnDateTime, secondaryDriver, extras, active);
                             if (rentals.get(car)==null)
                             {
                                 rentals.put(car, new ArrayList<Rental>()); 

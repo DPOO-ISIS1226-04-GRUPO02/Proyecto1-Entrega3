@@ -88,9 +88,10 @@ public class RentalWriter {
                     if (car.isAutomatic()){
                         aut = (byte) 1;
                     }
-                    stringBuilder.append(car.getBrand()).append(",").append(car.getPlate()).append(",").append(car.getModel()).append(",")
-                            .append(car.getColor()).append(",").append(formattedDate).append(",").append(String.valueOf(aut)).append(",")
-                            .append(car.getCategory()).append(",").append(String.valueOf(car.getStatus())).append(System.lineSeparator());
+                    stringBuilder.append(car.getBrand()).append(",").append(car.getPlate()).append(",").append(
+                        car.getModel()).append(",").append(car.getColor()).append(",").append(formattedDate)
+                        .append(",").append(String.valueOf(aut)).append(",").append(car.getCategory()).append(
+                        ",").append(String.valueOf(car.getStatus())).append(System.lineSeparator());
                 } else {
                     // La línea no corresponde a la placa, se agrega sin cambios
                     stringBuilder.append(linea).append(System.lineSeparator());
@@ -124,8 +125,10 @@ public class RentalWriter {
                 aut = (byte) 1;
             }
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(car.getBrand()).append(",").append(car.getPlate()).append(",").append(car.getModel()).append(",").append(car.getColor()).append(",").append(formattedDate).append(",").append(String.valueOf(aut)).append(",")
-                            .append(car.getCategory()).append(",").append(String.valueOf(car.getStatus())).append(System.lineSeparator());
+            stringBuilder.append(car.getBrand()).append(",").append(car.getPlate()).append(",").append(
+                car.getModel()).append(",").append(car.getColor()).append(",").append(formattedDate).append(
+                ",").append(String.valueOf(aut)).append(",").append(car.getCategory()).append(",").append(
+                String.valueOf(car.getStatus())).append(System.lineSeparator());
 
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
@@ -147,8 +150,8 @@ public class RentalWriter {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
             String OpformattedDate = dateFormat.format(store.getOpHour().getTime());
             String ClformattedDate = dateFormat.format(store.getCloseHour().getTime());
-            stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(OpformattedDate).append(",").append(ClformattedDate).append(",")
-                    .append(String.valueOf(store.opDays()));
+            stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(
+                OpformattedDate).append(",").append(ClformattedDate).append(",").append(String.valueOf(store.opDays()));
 
             ArrayList<String> plates = new ArrayList<>();
             for (ArrayList<String> valueList : store.getInventory().values()) {
@@ -186,8 +189,8 @@ public class RentalWriter {
             SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
             String OpformattedDate = dateFormat.format(store.getOpHour().getTime());
             String ClformattedDate = dateFormat.format(store.getCloseHour().getTime());
-            stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(OpformattedDate).append(",").append(ClformattedDate).append(",")
-                    .append(String.valueOf(store.opDays()));
+            stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(
+                OpformattedDate).append(",").append(ClformattedDate).append(",").append(String.valueOf(store.opDays()));
 
             ArrayList<String> plates = new ArrayList<>();
             for (ArrayList<String> valueList : store.getInventory().values()) {
@@ -219,7 +222,8 @@ public class RentalWriter {
                 String filePath = folderPath + "clientInfo.txt";
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String dateString = dateFormat.format(client.getDateBirth().getTime());
-                String content = client.getName() + ',' + client.getPhone() + ',' + client.getEmail() + ',' + dateString + ',' + client.getNationality() + ',' + client.getLogin();
+                String content = client.getName() + ',' + client.getPhone() + ',' + client.getEmail() + ',' + 
+                    dateString + ',' + client.getNationality() + ',' + client.getLogin();
                 try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
                     bufferedWriter.append(content);
                     bufferedWriter.newLine();
@@ -263,7 +267,8 @@ public class RentalWriter {
                 Payment payment = client.getPayment();
                 SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM");
                 String dateString3 = dateFormat3.format(payment.getExpiration().getTime());
-                String content3 = payment.getNumber() + ',' + dateString3 + ',' + String.valueOf(payment.getCode()) + ',' + payment.getOwner() + ',' + payment.getAddress();
+                String content3 = payment.getNumber() + ',' + dateString3 + ',' + String.valueOf(payment.getCode()) + 
+                    ',' + payment.getOwner() + ',' + payment.getAddress();
                 try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath3, true))) {
                     bufferedWriter.append(content3);
                     bufferedWriter.newLine();
@@ -296,7 +301,9 @@ public class RentalWriter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
         String dateReturnString = dateFormat.format(rental.getReturn().getTime());
-        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getName() + ',' + rental.getDestination().getName() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + 
+            String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getName() + ',' + 
+            rental.getDestination().getName() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.append(content);
             bufferedWriter.newLine();
@@ -351,7 +358,8 @@ public class RentalWriter {
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String dateString = dateFormat.format(person.getDateBirth().getTime());
-            String content = person.getName() + ',' + person.getPhone() + ',' + person.getEmail() + ',' + dateString + ',' + person.getNationality() + ',' + person.getLogin();
+            String content = person.getName() + ',' + person.getPhone() + ',' + person.getEmail() + ',' + 
+                dateString + ',' + person.getNationality() + ',' + person.getLogin();
             bufferedWriter.write(content);
             bufferedWriter.close();
 
@@ -367,7 +375,8 @@ public class RentalWriter {
             e.printStackTrace();
         }
         Path source = Paths.get(identification);
-        Path target = Paths.get("data" + separator + "clients" + separator + username + separator + "identification.jpg");
+        Path target = Paths.get("data" + separator + "clients" + separator + username + separator +
+            "identification.jpg");
 
         try {
             Files.copy(source, target);
@@ -429,7 +438,8 @@ public class RentalWriter {
             Payment payment = person.getPayment();
             SimpleDateFormat dateFormat3 = new SimpleDateFormat("yyyy-MM");
             String dateString3 = dateFormat3.format(payment.getExpiration().getTime());
-            String content3 = payment.getNumber() + ',' + dateString3 + ',' + String.valueOf(payment.getCode()) + ',' + payment.getOwner() + ',' + payment.getAddress();
+            String content3 = payment.getNumber() + ',' + dateString3 + ',' + String.valueOf(payment.getCode()) + 
+                ',' + payment.getOwner() + ',' + payment.getAddress();
             bufferedWriter.write(content3);
             bufferedWriter.close();
 
@@ -453,7 +463,9 @@ public class RentalWriter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
         String dateReturnString = dateFormat.format(rental.getReturn().getTime());
-        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getName() + ',' + rental.getDestination().getName() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + 
+            String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getName() + ',' + 
+            rental.getDestination().getName() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.append(content);
             bufferedWriter.newLine();
@@ -538,7 +550,8 @@ public class RentalWriter {
         String filePath = "data" + separator + "users.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
-            String userEntry = user.getUsername() + "," + user.getPassword() + "," + String.valueOf(user.getAccess()) + "," + user.getWorkplace() + System.lineSeparator();
+            String userEntry = user.getUsername() + "," + user.getPassword() + "," + String.valueOf(user.getAccess()) + 
+                "," + user.getWorkplace() + System.lineSeparator();
             fileWriter.write(userEntry);
             fileWriter.close();
             System.out.println("Nuevo usuario agregado con éxito.");
@@ -551,7 +564,8 @@ public class RentalWriter {
         String filePath = "data" +separator + "insurances.txt";
         try {
             FileWriter fileWriter = new FileWriter(filePath, true); // Modo adjunto al final del archivo
-            String insuranceEntry = insurance.getName() + "," + String.valueOf(insurance.getCost()) + "," + insurance.getSpecification() + "," + "0" + System.lineSeparator();
+            String insuranceEntry = insurance.getName() + "," + String.valueOf(insurance.getCost()) + "," + 
+                insurance.getSpecification() + "," + "0" + System.lineSeparator();
             fileWriter.write(insuranceEntry);
             fileWriter.close();
             System.out.println("Nuevo seguro agregado con éxito.");
