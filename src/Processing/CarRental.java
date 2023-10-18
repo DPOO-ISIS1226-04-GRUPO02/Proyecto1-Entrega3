@@ -335,13 +335,13 @@ public class CarRental {
 		if (person.getActiveRental()== null) {
 			System.out.println("Ingrese la categoría del vehículo que desea alquilar: ");
 			String category = scan.nextLine();
-			while (!categories.containsKey(category) && category != "stop") {
+			while (!categories.containsKey(category) && !category.equals("stop")) {
 				System.out.println("Esta categoría no existe en esta tienda. Intente de nuevo o escriba 'stop para salir: ");
 				category = scan.nextLine();
 			}
 			System.out.println("Ingrese el nombre de la tienda al que se va a devolver el carro: ");
 			String destination = scan.nextLine();
-			while (!storeExists(destination)) {
+			while (!storeExists(destination) && !destination.equals("stop")) {
 				System.out.println("Tienda no encontrada. Ingrese el nombre de nuevo o 'stop' para salir: ");
 				destination = scan.nextLine();
 			}
@@ -416,11 +416,11 @@ public class CarRental {
 			Store destination = getStore(person.getActiveRental().getDestination().getName());
 			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
 			ArrayList<Extra> extras = rental.getExtras();
-			for (Extra extra: extras) resultingString += String.format(" + %-20s %d/día", 
-				extra.getType() + ":", extra.getCost());
+			for (Extra extra: extras) resultingString += String.format(" + %-20s: %d/día", 
+				extra.getType(), extra.getCost());
 			ArrayList<Insurance> insurances = rental.getInsurances();
-			for (Insurance insurance: insurances) resultingString += String.format(" + %-20s %d/día", 
-				insurance.getName() + ":", insurance.getCost());
+			for (Insurance insurance: insurances) resultingString += String.format(" + %-20s: %d/día", 
+				insurance.getName(), insurance.getCost());
 			Car car = rental.getCar();
 			car.setAvailableTime(days);
 			car.setStatus((byte) 0);

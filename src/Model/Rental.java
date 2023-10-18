@@ -69,17 +69,13 @@ public class Rental {
 
         int total = baseCharge;
         if (extras != null && extras.size() > 0){
-        for (Extra extra: extras) {
-            total += extra.getCost();
+            for (Extra extra: extras) total += extra.getCost();
         }
-    }
         if (insurances != null &&insurances.size() > 0){
-        for (Insurance insurance: insurances) {
-            total += insurance.getCost();
-        }
+        for (Insurance insurance: insurances) total += insurance.getCost();
     }
         int daysBetween = (int) ChronoUnit.DAYS.between(pickUpDateTime.toInstant(), returnDateTime.toInstant());
-        return total * daysBetween;
+        return total * (daysBetween + 1);
 
     }
 
