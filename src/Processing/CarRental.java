@@ -358,6 +358,15 @@ public class CarRental {
 		Rental rental = person.getActiveRental();
 		if (workplace == rental.getOrigin().getName()){
 			rental.setActive(true);
+			ArrayList<String> seguros = new ArrayList<>(insurances.keySet());
+			int eleccion = 0;
+			for (String seguro : seguros){
+				System.out.println("Desea añadir el siguiente seguro: " + seguro +". Marque 1 para aceptarlo o 0 para rechazarlo");
+				eleccion = scan.nextInt();
+				if (eleccion == 1){
+					rental.getInsurances().add(insurances.get(seguro));
+				}
+			}
 			Car car = rental.getCar();
 			car.setStatus((byte)2);
 			RentalWriter.changeRentalInformation(rental);
@@ -418,6 +427,7 @@ public class CarRental {
 			resultingString += String.format("El total final del alquiler es de %8d", total);
 			System.out.println(resultingString);
 			RentalWriter.changeRentalInformation(rental);
+			RentalWriter.changeCarInformation(car);
 		}
 
 	}
