@@ -443,6 +443,7 @@ public class RentalWriter {
         String folderPath = "data" + separator + "rentals" + separator + plate;
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(rental.getPickUp().getTime());
+
         folderPath = folderPath + separator + date;
         String filePath = folderPath + separator + "info.txt";
         try{

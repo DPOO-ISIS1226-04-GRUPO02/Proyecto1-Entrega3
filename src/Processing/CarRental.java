@@ -325,6 +325,7 @@ public class CarRental {
 			int i = 1;
 			for (String sede : tiendas){
 				System.out.println(i + ". " + sede);
+				i += 1;
 			}
 			System.out.println("Ingrese el número de la sede desde la que está haciendo la reserva: ");
 			int ref = scan.nextInt();
@@ -356,7 +357,7 @@ public class CarRental {
 		}
 
 		Rental rental = person.getActiveRental();
-		if (workplace == rental.getOrigin().getName()){
+		if (workplace.equals(rental.getOrigin().getName())){
 			rental.setActive(true);
 			ArrayList<String> seguros = new ArrayList<>(insurances.keySet());
 			int eleccion = 0;
