@@ -53,3 +53,4 @@ Ferrari,FER002,812 Superfast,Amarillo,2023-10-17,1,Deportivo,0
 Ferrari,FER003,F8 Tributo,Blanco,2023-10-15,0,Deportivo,1
 Ferrari,FER004,Portofino,Azul,2023-10-19,1,Deportivo,0
 Ferrari,FER005,LaFerrari,Negro,2023-10-20,1,Superdeportivo,0
+Tesla,SIU777,Model Y,Verde,2023-10_17,1,Eléctrico,0

@@ -151,7 +151,7 @@ public class RentalWriter {
             String OpformattedDate = dateFormat.format(store.getOpHour().getTime());
             String ClformattedDate = dateFormat.format(store.getCloseHour().getTime());
             stringBuilder.append(store.getName()).append(",").append(store.getLocation()).append(",").append(
-                OpformattedDate).append(",").append(ClformattedDate).append(",").append(String.valueOf(store.opDays()));
+                OpformattedDate).append(",").append(ClformattedDate).append(",").append(store.opDays());
 
             ArrayList<String> plates = new ArrayList<>();
             for (ArrayList<String> valueList : store.getInventory().values()) {

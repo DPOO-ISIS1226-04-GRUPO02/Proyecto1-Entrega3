@@ -447,8 +447,15 @@ public class CarRental {
 		carro.setStatus((byte) 0);
 		cars.put(plate, carro);
 		Store st = stores.get(store);
+		if ((st.getInventory()).get(category) == null) {
+			st.getInventory().put(category, new ArrayList<String>());
+			((st.getInventory()).get(category)).add(plate);
+		}
+		else {
 		((st.getInventory()).get(category)).add(plate);
+		}
 		RentalWriter.addCar(carro);
+		RentalWriter.changeStoreInformation(st);
 
 	} 
 
