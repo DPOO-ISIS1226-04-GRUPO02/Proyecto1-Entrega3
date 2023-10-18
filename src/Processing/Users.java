@@ -27,22 +27,21 @@ public class Users {
 
 	}
 
-	public static User registerNewUser(String login, String password, int access, String login2, String password2) {
-		
-		Scanner scan = new Scanner(System.in);
+	public static User registerNewUser(String login, String password, int access, String login2, String password2, Scanner scan) {
+
 		User user = loadUser(login2, password2);
 		String workplace = user.getWorkplace();
-		if (workplace.equals(null)) {
+		if (workplace.equals("null")) {
 			System.out.println("Ingrese la tienda en la que va a trabajar esta persona: ");
-			while (CarRental.getStore(workplace).equals(null)) {
+			workplace = scan.nextLine();
+			while (CarRental.getStore(workplace) == null) {
 				System.out.println("Esta tienda no se ha encontrado. Ingrese el nombre nuevamente: ");
 				workplace = scan.nextLine();
 			}
 		}
 		User created = new User(login, password, access, workplace);
 		logins.put(login, created);
-		scan.close();
-		RentalWriter.newUser(user);
+		RentalWriter.newUser(created);
 		return created;
 		
 	}

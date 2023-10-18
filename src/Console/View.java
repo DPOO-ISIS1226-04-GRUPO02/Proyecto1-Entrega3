@@ -82,7 +82,9 @@ public class View {
 					if (0 <= selection && selection <= 14) runOptions(selection, scan);
 					break;
 			}
+			System.out.println("Presione enter para continuar...");
 			scan.nextLine();
+			
 		}
 		
 	}
@@ -265,7 +267,7 @@ public class View {
 				}
 				System.out.println("Ingrese la contraseña para el nuevo empleado: ");
 				String employeePassword = scan.nextLine();
-				Users.registerNewUser(employeeLogin, employeePassword, 1, login, password);
+				Users.registerNewUser(employeeLogin, employeePassword, 1, login, password, scan);
 				break;
 			case 6:
 				scan.nextLine();
