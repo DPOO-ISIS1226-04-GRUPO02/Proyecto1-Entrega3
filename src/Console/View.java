@@ -327,7 +327,7 @@ public class View {
 				scan.nextLine();
 				System.out.println("Ingrese el nombre para la nueva tienda: ");
 				String name = scan.nextLine();
-				while (!CarRental.getStores().contains(name)) {
+				while (CarRental.getStores().contains(name)) {
 					System.out.println("Ya existe una tienda por este nombre. Por favor ingrese otro: ");
 					name = scan.nextLine();
 				}
