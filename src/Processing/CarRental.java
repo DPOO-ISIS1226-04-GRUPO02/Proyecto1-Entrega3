@@ -412,7 +412,6 @@ public class CarRental {
 			if (response == 1) extrasList = registerExtras(scan);
 			rental.setExtras(extrasList);
 			rental.setActive(false);
-			rental.setReturn(Calendar.getInstance());
 			int total = rental.getFinalCharge();
 			Store destination = getStore(person.getActiveRental().getDestination().getName());
 			String resultingString = "Alquiler finalizado con éxito.\nDetalles:\n";
