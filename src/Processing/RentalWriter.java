@@ -296,7 +296,7 @@ public class RentalWriter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
         String dateReturnString = dateFormat.format(rental.getReturn().getTime());
-        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getLocation() + ',' + rental.getDestination().getLocation() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getName() + ',' + rental.getDestination().getName() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.append(content);
             bufferedWriter.newLine();
@@ -452,7 +452,7 @@ public class RentalWriter {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd:HH-mm");
         String datePickString = dateFormat.format(rental.getPickUp().getTime());
         String dateReturnString = dateFormat.format(rental.getReturn().getTime());
-        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin() + ',' + rental.getDestination() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
+        String content = rental.getClient().getLogin() + ',' + rental.getCar().getPlate() + ',' + String.valueOf(rental.getFinalCharge()) + ',' + rental.getOrigin().getName() + ',' + rental.getDestination().getName() + ',' + datePickString + ',' + dateReturnString + ',' + rental.getActive();
         try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(filePath, true))) {
             bufferedWriter.append(content);
             bufferedWriter.newLine();

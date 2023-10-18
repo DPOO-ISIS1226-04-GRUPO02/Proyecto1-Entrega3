@@ -320,7 +320,7 @@ public class CarRental {
 	public static void confirmPickUp(String login, String workplace, Scanner scan) throws ParseException {
 
 		Client person = getClient(login);
-		if (workplace == null){
+		if (workplace.equals("null")){
 			ArrayList<String> tiendas = new ArrayList<>(stores.keySet());
 			int i = 1;
 			for (String sede : tiendas){
